@@ -1,0 +1,11 @@
+Model Information:
+* title:	Wooden chair (low poly)
+* source:	https://sketchfab.com/3d-models/wooden-chair-low-poly-b92f0a9f34d7419bbd428e736297a1f2
+* author:	sergeilihandristov (https://sketchfab.com/sergeilihandristov)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Wooden chair (low poly)" (https://sketchfab.com/3d-models/wooden-chair-low-poly-b92f0a9f34d7419bbd428e736297a1f2) by sergeilihandristov (https://sketchfab.com/sergeilihandristov) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

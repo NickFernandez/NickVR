@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Babylon Template</title>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+
+        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
+        <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <!-- <script src="https://cdn.babylonjs.com/vr/vrexperiencehelper.js"></script> -->
+
+    </head>
+
+   <body>
+
+    <canvas id="renderCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("renderCanvas"); // Get the canvas element
+        const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+
+        const createScene = function () {
+            // Creates a basic Babylon Scene object
+            const scene = new BABYLON.Scene(engine);
+
+            // Creates and positions a free camera
+            const camera = new BABYLON.ArcRotateCamera(
+                "camera",
+                BABYLON.Tools.ToRadians(90),
+                BABYLON.Tools.ToRadians(65),
+                10,
+                BABYLON.Vector3.Zero(),
+                scene
+            );
+
+            // Set the starting position of the camera
+            camera.position = new BABYLON.Vector3(1, 1.6, 0);
+
+            // Targets the camera to scene origin
+            // camera.setTarget(BABYLON.Vector3.Zero());
+
+            // This attaches the camera to the canvas
+            camera.attachControl(canvas, true);
+
+            // Creates a directional light, aiming at the ground
+            const light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
+
+            // Set the position of the light to be far away from the scene
+            light.position = new BABYLON.Vector3(0, 100, 0);
+
+            // Set the intensity of the light to be high, simulating bright sunlight
+            light.intensity = 1.5;
+
+            // Set the color of the light to be a warm yellow-orange, simulating the color of sunlight
+            light.diffuse = new BABYLON.Color3(1, 0.95, 0.85);
+
+            // Set the shadow generator for the light to create shadows
+            const shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
+
+            // Our built-in 'ground' shape.
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
+
+            // Create a new StandardMaterial for the ground
+            const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
+            ground.material = groundMaterial;
+
+            // Load the grass texture
+            const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
+
+            // Apply the grass texture to the ground material
+            groundMaterial.diffuseTexture = grassTexture;
+            groundMaterial.diffuseTexture.uScale = 49;
+            groundMaterial.diffuseTexture.vScale = 50;
+
+            // Loads a glTF model
+            BABYLON.SceneLoader.ImportMesh("", "meshes/sports_balls_lowpoly_pack/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+                camera.setTarget(mesh.position);
+                // Scale the mesh down by a factor of 0.5
+                mesh.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(0, 0.09, 0);
+            });
+
+            BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+
+                // Scale the mesh down by a factor of 0.01
+                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(1, -0.1, 1);
+            });
+
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+
+                // Scale the mesh down by a factor of 0.01
+                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(0, 3.75, 15);
+            });
+
+            BABYLON.SceneLoader.ImportMesh("", "meshes/wooden_chair_low_poly/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+
+                // Scale the mesh down by a factor of 0.01
+                mesh.scaling = new BABYLON.Vector3(0, 0, 0);
+
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(0, 0, 5);
+            });
+
+            return scene;
+        };
+
+        async function initialize() {
+          const scene = createScene();
+          const defaultXRExperience = await BABYLON.WebXRDefaultExperience.CreateAsync(
+            scene
+          );
+          // defaultXRExperience.enableTeleportation({});
+          engine.runRenderLoop(function () {
+            scene.render();
+          });
+        }
+
+        initialize();
+        window.addEventListener("resize", function () {
+          engine.resize();
+        });
+    </script>
+
+   </body>
+
+</html>
