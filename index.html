@@ -107,9 +107,9 @@
                 const mesh = newMeshes[0];
                 // camera.setTarget(mesh.position);
                 // Scale the mesh down by a factor of 
-                mesh.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
+                mesh.scaling = new BABYLON.Vector3(0.15, 0.15, 0.15);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0.002, 0.5);
+                mesh.position = new BABYLON.Vector3(0, 0.0015, 0.5);
             });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
@@ -155,10 +155,14 @@
 
         async function initialize() {
           const scene = createScene();
-          const defaultXRExperience = await BABYLON.WebXRDefaultExperience.CreateAsync(
-            scene
-          );
+          const defaultXRExperience = await BABYLON.WebXRDefaultExperience.CreateAsync(scene);
+          defaultXRExperience.teleportation.attach();
+          defaultXRExperience.pointerSelection.attach();
           // defaultXRExperience.enableTeleportation({});
+          // defaultXRExperience.enableMovement();
+
+
+
           engine.runRenderLoop(function () {
             scene.render();
           });
