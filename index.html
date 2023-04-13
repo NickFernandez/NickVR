@@ -24,7 +24,6 @@
         <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
         <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
-        <!-- <script src="https://cdn.babylonjs.com/vr/vrexperiencehelper.js"></script> -->
 
     </head>
 
@@ -39,6 +38,8 @@
         const createScene = function () {
             // Creates a basic Babylon Scene object
             const scene = new BABYLON.Scene(engine);
+
+
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -53,12 +54,6 @@
             camera.position = new BABYLON.Vector3(1, 1.6, 0);
             // This attaches the camera to the canvas
             camera.attachControl(canvas, true);
-
-
-
-
-
-
 
             // Creates a directional light, aiming at the ground
             const light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
@@ -96,15 +91,43 @@
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
 
+
+            const vrHelper = scene.createDefaultVRExperience();
+            vrHelper.enableTeleportation({ floorMeshes: [ground] });
+            vrHelper.onAfterEnteringVRObservable.add(() => {
+                const leftController = vrHelper.leftController;
+                leftController.onMainButtonStateChangedObservable.add((stateObject) => {
+                    if (stateObject.pressed) {
+                        const direction = leftController.deviceRotationQuaternion.toEulerAngles().y + camera.rotation.y;
+                        const speed = 0.05;
+                        const xSpeed = speed * Math.sin(direction);
+                        const zSpeed = speed * Math.cos(direction);
+                        camera.cameraDirection = new BABYLON.Vector3(xSpeed, 0, zSpeed);
+                    } else {
+                        camera.cameraDirection = BABYLON.Vector3.Zero();
+                    }
+                });
+            });
+
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
                 camera.setTarget(mesh.position);
-                // Scale the mesh down by a factor of 0.003 (close for now)
-                mesh.scaling = new BABYLON.Vector3(0.003, 0.003, 0.003);
+                // Scale the mesh down by a factor of 0.002 (close for now)
+                mesh.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0.007, 0);
+                mesh.position = new BABYLON.Vector3(0, 0.026, 0);
+            });
+
+            BABYLON.SceneLoader.ImportMesh("", "meshes/baseball/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+                camera.setTarget(mesh.position);
+                // Scale the mesh down by a factor of 
+                mesh.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(0, 0.002, 0.5);
             });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
@@ -125,11 +148,13 @@
                 mesh.position = new BABYLON.Vector3(0, 3.75, 15);
             });
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/wooden_chair_low_poly/", "scene.gltf", scene, function (newMeshes) {
+            BABYLON.SceneLoader.ImportMesh("", "meshes/beach_blue_chair/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
+                mesh.scaling = new BABYLON.Vector3(1, 1, 1);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0.28, -1);
+                mesh.position = new BABYLON.Vector3(0, 0, -1);
+                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
             });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {

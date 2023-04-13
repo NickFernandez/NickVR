@@ -1,0 +1,11 @@
+Model Information:
+* title:	Beach blue chair
+* source:	https://sketchfab.com/3d-models/beach-blue-chair-d40c7295ae4845e79cef15c15f929db5
+* author:	assetfactory (https://sketchfab.com/assetfactory)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Beach blue chair" (https://sketchfab.com/3d-models/beach-blue-chair-d40c7295ae4845e79cef15c15f929db5) by assetfactory (https://sketchfab.com/assetfactory) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
