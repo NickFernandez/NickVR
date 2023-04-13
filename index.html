@@ -105,7 +105,7 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
-                camera.setTarget(mesh.position);
+                // camera.setTarget(mesh.position);
                 // Scale the mesh down by a factor of 
                 mesh.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
                 // Position the mesh
