@@ -91,24 +91,6 @@
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
 
-
-            const vrHelper = scene.createDefaultVRExperience();
-            vrHelper.enableTeleportation({ floorMeshes: [ground] });
-            vrHelper.onAfterEnteringVRObservable.add(() => {
-                const leftController = vrHelper.leftController;
-                leftController.onMainButtonStateChangedObservable.add((stateObject) => {
-                    if (stateObject.pressed) {
-                        const direction = leftController.deviceRotationQuaternion.toEulerAngles().y + camera.rotation.y;
-                        const speed = 0.05;
-                        const xSpeed = speed * Math.sin(direction);
-                        const zSpeed = speed * Math.cos(direction);
-                        camera.cameraDirection = new BABYLON.Vector3(xSpeed, 0, zSpeed);
-                    } else {
-                        camera.cameraDirection = BABYLON.Vector3.Zero();
-                    }
-                });
-            });
-
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
