@@ -101,8 +101,8 @@
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
                 camera.setTarget(mesh.position);
-                // Scale the mesh down by a factor of 0.5
-                mesh.scaling = new BABYLON.Vector3(0.001, 0.001, 0.001);
+                // Scale the mesh down by a factor of 0.003 (close for now)
+                mesh.scaling = new BABYLON.Vector3(0.003, 0.003, 0.003);
                 // Position the mesh
                 mesh.position = new BABYLON.Vector3(0, 0.007, 0);
             });
@@ -128,12 +128,8 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/wooden_chair_low_poly/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
-                // Scale the mesh down by a factor of 0.01
-                mesh.scaling = new BABYLON.Vector3(0.7, 0.7, 0.7);
                 // Position the mesh
                 mesh.position = new BABYLON.Vector3(0, 0.28, -1);
-                // Set the rotation of the chair mesh to face the opposite direction
-                mesh.rotate(new BABYLON.Vector3(0, 0, 0), Math.PI, BABYLON.Space.WORLD);
             });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
@@ -142,9 +138,9 @@
                 // Scale the mesh down by a factor of 0.01
                 mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0, -1);
+                mesh.position = new BABYLON.Vector3(3, 0, 6);
                 // Set the rotation of the chair mesh to face the opposite direction
-                // mesh.rotate(new BABYLON.Vector3(0, 0, 0), Math.PI, BABYLON.Space.WORLD);
+                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             });
 
             return scene;
