@@ -3,7 +3,7 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Babylon Template</title>
+        <title>Wiffle Ball VR</title>
 
         <style>
             html, body {
@@ -24,6 +24,7 @@
         <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
         <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://cdn.babylonjs.com/cannon.js"></script>
 
     </head>
 
@@ -32,6 +33,7 @@
     <canvas id="renderCanvas"></canvas>
 
     <script>
+        
         const canvas = document.getElementById("renderCanvas"); // Get the canvas element
         const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
@@ -39,6 +41,12 @@
             // Creates a basic Babylon Scene object
             const scene = new BABYLON.Scene(engine);
             scene.ambientColor = new BABYLON.Color3(1, 1, 0.5);
+            
+            // Enable physics in the scene
+            const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+            const physicsPlugin = new BABYLON.CannonJSPlugin();
+            
+            scene.enablePhysics(gravityVector, physicsPlugin);
 
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
@@ -99,7 +107,6 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
-                
                 // Scale the mesh down by a factor of 0.002 (close for now)
                 mesh.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
                 // Position the mesh
@@ -108,16 +115,22 @@
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
+                const ball = newMeshes[0];
                 // console.log(mesh.name);
-                camera.setTarget(mesh.position);
+                camera.setTarget(ball.position);
                 // Make sure the user can select this item
-                mesh.isPickable = true;
+                ball.isPickable = true;
                 // Scale the mesh down by a factor of 
-                mesh.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                ball.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0.039, 0);
+                ball.position = new BABYLON.Vector3(0, 0.039, 0);
             });
+
+            
+
+            
+
+
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -172,9 +185,15 @@
         async function initialize() {
           const scene = createScene();
           const defaultXRExperience = await scene.createDefaultXRExperienceAsync();
+          // enablePointerSelection must be set to true to enable picking objects in the scene
+          defaultXRExperience.enablePointerSelectionOnAllControllers = true
+          // defaultXRExperience.pointerSelection.attachPickUp();
+
+
 
           engine.runRenderLoop(function () {
             scene.render();
+
           });
         }
 
