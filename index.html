@@ -150,14 +150,14 @@
                 mesh.position = new BABYLON.Vector3(0, 3.75, 15);
             });
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/monobloc_plastic_garden_chair/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
-                mesh.scaling = new BABYLON.Vector3(1, 1, 1);
-                // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0, -1);
-                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
-            });
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/monobloc_plastic_garden_chair/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     const mesh = newMeshes[0];
+            //     mesh.scaling = new BABYLON.Vector3(1, 1, 1);
+            //     // Position the mesh
+            //     mesh.position = new BABYLON.Vector3(0, 0, -1);
+            //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+            // });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -188,6 +188,21 @@
           // enablePointerSelection must be set to true to enable picking objects in the scene
           defaultXRExperience.enablePointerSelectionOnAllControllers = true
           // defaultXRExperience.pointerSelection.attachPickUp();
+          scene.onPointerObservable.add((pointerInfo) => {
+        console.log('POINTER DOWN', pointerInfo)
+        if (pointerInfo.pickInfo.hit && pointerInfo.pickInfo.pickedMesh) {
+            // "Grab" it by attaching the picked mesh to the VR Controller
+            if (xrHelper.baseExperience.state === BABYLON.WebXRState.IN_XR) {
+                let xrInput = xrHelper.pointerSelection.getXRControllerByPointerId(pointerInfo.event.pointerId)
+                let motionController = xrInput.motionController
+                if (motionController) {
+                    pointerInfo.pickInfo.pickedMesh.setParent(motionController.rootMesh)
+                }
+            } else {
+                // here is the non-xr support
+            }
+        }
+    }, BABYLON.PointerEventTypes.POINTERDOWN);
 
 
 
