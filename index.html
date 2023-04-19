@@ -126,7 +126,7 @@
                 // Position the mesh
                 wiffleBall.position = new BABYLON.Vector3(0, 0.039, 0);
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  sphere, BABYLON.PhysicsImpostor.SphereImpostor,
+                  wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor,
                   { mass: 1, restitution: 0.9 },
                   scene
                 );
@@ -189,46 +189,33 @@
             // const teleportation = xr.teleportation;
 
             let mesh;
-            let dropped = false;
-            let ballInitialPosition;
 
             xr.input.onControllerAddedObservable.add((controller) => {
-              controller.onMotionControllerInitObservable.add((motionController) => {
-                if (motionController.handness === 'left') {
-                  const xr_ids = motionController.getComponentIds();
-                  let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                  triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.changes.pressed) {
-                      // is it pressed?
-                      if (triggerComponent.pressed) {
-                        mesh = scene.meshUnderPointer;
-                        console.log(mesh && mesh.name);
-                        if (xr.pointerSelection.getMeshUnderPointer) {
-                          mesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                        }
-                        console.log(mesh && mesh.name);
-                        if (mesh === ground) {
-                          return;
-                        }
-                        mesh && mesh.setParent(motionController.rootMesh);
-                        ballInitialPosition = mesh.position.clone();
-                        dropped = false;
-                      } else {
-                        if (mesh && !dropped) {
-                          let ray = new BABYLON.Ray(motionController.rootMesh.position, BABYLON.Axis.Y.scale(-1));
-                          let pickInfo = scene.pickWithRay(ray, (m) => {
-                            return m === ground;
-                          });
-                          if (pickInfo.hit) {
-                            dropped = true;
-                            let animation = BABYLON.Animation.CreateAndStartAnimation('ballAnimation', mesh, 'position.y', 60, 100, ballInitialPosition.y, pickInfo.pickedPoint.y, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-                          }
-                        }
-                      }
+                controller.onMotionControllerInitObservable.add((motionController) => {
+                    if (motionController.handness === 'left') {
+                        const xr_ids = motionController.getComponentIds();
+                        let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                        triggerComponent.onButtonStateChangedObservable.add(() => {
+                            if (triggerComponent.changes.pressed) {
+                                // is it pressed?
+                                if (triggerComponent.pressed) {
+                                    mesh = scene.meshUnderPointer;
+                                    console.log(mesh && mesh.name);
+                                    if (xr.pointerSelection.getMeshUnderPointer) {
+                                        mesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                                    }
+                                    console.log(mesh && mesh.name);
+                                    if (mesh === ground) {
+                                        return;
+                                    }
+                                    mesh && mesh.setParent(motionController.rootMesh);
+                                } else {
+                                    mesh && mesh.setParent(null);
+                                }
+                            }
+                        });
                     }
-                  });
-                }
-              });
+                })
             });
 
 
