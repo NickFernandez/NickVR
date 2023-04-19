@@ -185,6 +185,13 @@
               // add options here
               floorMeshes: [ground],
             });
+
+            featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "latest", {
+              xrInput: xrHelper.input,
+              jointMeshes: {
+                // disableDefaultHandMesh: true,
+              },
+            });
             // added if needed later
             // const teleportation = xr.teleportation;
 
