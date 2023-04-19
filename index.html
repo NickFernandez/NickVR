@@ -126,7 +126,7 @@
                 // Position the mesh
                 wiffleBall.position = new BABYLON.Vector3(0, 0.039, 0);
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor,
+                  sphere, BABYLON.PhysicsImpostor.SphereImpostor,
                   { mass: 1, restitution: 0.9 },
                   scene
                 );
@@ -188,33 +188,37 @@
             // added if needed later
             // const teleportation = xr.teleportation;
 
-            let mesh;
+            let meshLeft, meshRight;
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
-                    if (motionController.handness === 'left') {
-                        const xr_ids = motionController.getComponentIds();
-                        let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                        triggerComponent.onButtonStateChangedObservable.add(() => {
-                            if (triggerComponent.changes.pressed) {
-                                // is it pressed?
-                                if (triggerComponent.pressed) {
-                                    mesh = scene.meshUnderPointer;
-                                    console.log(mesh && mesh.name);
-                                    if (xr.pointerSelection.getMeshUnderPointer) {
-                                        mesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                    }
-                                    console.log(mesh && mesh.name);
-                                    if (mesh === ground) {
-                                        return;
-                                    }
-                                    mesh && mesh.setParent(motionController.rootMesh);
-                                } else {
-                                    mesh && mesh.setParent(null);
+                    const handness = motionController.handness;
+                    const xr_ids = motionController.getComponentIds();
+                    const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                    triggerComponent.onButtonStateChangedObservable.add(() => {
+                        if (triggerComponent.changes.pressed) {
+                            // is it pressed?
+                            if (triggerComponent.pressed) {
+                                const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                                if (meshUnderPointer === ground) {
+                                    return;
+                                }
+                                if (handness === 'left') {
+                                    meshLeft = meshUnderPointer;
+                                    meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                } else if (handness === 'right') {
+                                    meshRight = meshUnderPointer;
+                                    meshRight && meshRight.setParent(motionController.rootMesh);
+                                }
+                            } else {
+                                if (handness === 'left') {
+                                    meshLeft && meshLeft.setParent(null);
+                                } else if (handness === 'right') {
+                                    meshRight && meshRight.setParent(null);
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
                 })
             });
 
