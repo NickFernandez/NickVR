@@ -19,7 +19,7 @@
                 touch-action: none;
             }
         </style>
-
+        <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png" />
         <script src="https://cdn.babylonjs.com/babylon.js"></script>
         <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
@@ -106,6 +106,8 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 const mesh = newMeshes[0];
+                // Make sure the user can select this item
+                mesh.isPickable = true;
                 // Scale the mesh down by a factor of 0.002 (close for now)
                 mesh.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
                 // Position the mesh
@@ -114,16 +116,25 @@
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const ball = newMeshes[0];
+                let wiffleBall = newMeshes[0];
                 // console.log(mesh.name);
-                camera.setTarget(ball.position);
+                camera.setTarget(wiffleBall.position);
                 // Make sure the user can select this item
-                ball.isPickable = true;
+                wiffleBall.isPickable = true;
                 // Scale the mesh down by a factor of 
-                ball.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 // Position the mesh
-                ball.position = new BABYLON.Vector3(0, 0.039, 0);
+                wiffleBall.position = new BABYLON.Vector3(0, 0.039, 0);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  sphere, BABYLON.PhysicsImpostor.SphereImpostor,
+                  { mass: 1, restitution: 0.9 },
+                  scene
+                );
+
             });
+
+
+            
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -176,35 +187,48 @@
             });
             // added if needed later
             // const teleportation = xr.teleportation;
-            
+
             let mesh;
+            let dropped = false;
+            let ballInitialPosition;
 
             xr.input.onControllerAddedObservable.add((controller) => {
-                controller.onMotionControllerInitObservable.add((motionController) => {
-                    if (motionController.handness === 'left') {
-                        const xr_ids = motionController.getComponentIds();
-                        let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                        triggerComponent.onButtonStateChangedObservable.add(() => {
-                            if (triggerComponent.changes.pressed) {
-                                // is it pressed?
-                                if (triggerComponent.pressed) {
-                                    mesh = scene.meshUnderPointer;
-                                    console.log(mesh && mesh.name);
-                                    if (xr.pointerSelection.getMeshUnderPointer) {
-                                        mesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                    }
-                                    console.log(mesh && mesh.name);
-                                    if (mesh === ground) {
-                                        return;
-                                    }
-                                    mesh && mesh.setParent(motionController.rootMesh);
-                                } else {
-                                    mesh && mesh.setParent(null);
-                                }
-                            }
-                        });
+              controller.onMotionControllerInitObservable.add((motionController) => {
+                if (motionController.handness === 'right') {
+                  const xr_ids = motionController.getComponentIds();
+                  let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                  triggerComponent.onButtonStateChangedObservable.add(() => {
+                    if (triggerComponent.changes.pressed) {
+                      // is it pressed?
+                      if (triggerComponent.pressed) {
+                        mesh = scene.meshUnderPointer;
+                        console.log(mesh && mesh.name);
+                        if (xr.pointerSelection.getMeshUnderPointer) {
+                          mesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                        }
+                        console.log(mesh && mesh.name);
+                        if (mesh === ground) {
+                          return;
+                        }
+                        mesh && mesh.setParent(motionController.rootMesh);
+                        ballInitialPosition = mesh.position.clone();
+                        dropped = false;
+                      } else {
+                        if (mesh && !dropped) {
+                          let ray = new BABYLON.Ray(motionController.rootMesh.position, BABYLON.Axis.Y.scale(-1));
+                          let pickInfo = scene.pickWithRay(ray, (m) => {
+                            return m === ground;
+                          });
+                          if (pickInfo.hit) {
+                            dropped = true;
+                            let animation = BABYLON.Animation.CreateAndStartAnimation('ballAnimation', mesh, 'position.y', 60, 100, ballInitialPosition.y, pickInfo.pickedPoint.y, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                          }
+                        }
+                      }
                     }
-                })
+                  });
+                }
+              });
             });
 
 
