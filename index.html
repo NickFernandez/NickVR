@@ -44,7 +44,6 @@
             // Enable physics in the scene
             const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
             const physicsPlugin = new BABYLON.CannonJSPlugin();
-            
             scene.enablePhysics(gravityVector, physicsPlugin);
 
             // Creates and positions a free camera
@@ -57,29 +56,11 @@
                 scene
             );
 
-            // Our built-in 'ground' shape.
-            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25, subdivisions: 2 }, scene);
-            // Create our ground PhysicsImpostor
-            ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  ground, BABYLON.PhysicsImpostor.BoxImpostor,
-                  { mass: 0, restitution: 0.5 },
-                  scene
-                );
-            // Create a new StandardMaterial for the ground
-            const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
-            ground.material = groundMaterial;
-            // Load the grass texture
-            const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
-            // Apply the grass texture to the ground material
-            groundMaterial.diffuseTexture = grassTexture;
-            groundMaterial.diffuseTexture.uScale = 29;
-            groundMaterial.diffuseTexture.vScale = 30;
-
             // Set the starting position of the camera
             camera.position = new BABYLON.Vector3(1, 1.6, 0);
             // This attaches the camera to the canvas
             camera.attachControl(canvas, true);
-
+            camera.checkCollisions = true;
             // Creates a directional light, aiming at the ground
             const light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
             // Set the position of the light to be far away from the scene
@@ -108,7 +89,26 @@
             // Set the specular color of the fill light to be white
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
-            
+            // Our built-in 'ground' shape.
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25, subdivisions: 2 }, scene);
+            // Create our ground PhysicsImpostor
+            ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  ground, BABYLON.PhysicsImpostor.PlaneImpostor,
+                  { mass: 0, restitution: 0.2},
+                  scene
+                );
+            ground.checkCollisions = true;
+            // Create a new StandardMaterial for the ground
+            const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
+            ground.material = groundMaterial;
+            // Load the grass texture
+            const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
+            grassTexture.checkCollisions = true;
+            // Apply the grass texture to the ground material
+            groundMaterial.diffuseTexture = grassTexture;
+            groundMaterial.diffuseTexture.uScale = 49;
+            groundMaterial.diffuseTexture.vScale = 50;
+            groundMaterial.checkCollisions = true;
 
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
@@ -131,14 +131,14 @@
                 mesh.position = new BABYLON.Vector3(1, -0.1, 1);
             });
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
-                // Scale the mesh down by a factor of 0.01
-                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-                // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 3.75, 15);
-            });
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     const mesh = newMeshes[0];
+            //     // Scale the mesh down by a factor of 0.01
+            //     mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+            //     // Position the mesh
+            //     mesh.position = new BABYLON.Vector3(0, 3.75, 15);
+            // });
 
             // BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
             //     // The loaded mesh is returned as an array
@@ -149,16 +149,16 @@
             //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
             // });
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
-                // Scale the mesh down by a factor of 0.01
-                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-                // Position the mesh
-                mesh.position = new BABYLON.Vector3(3, 0, 6);
-                // Set the rotation of the chair mesh to face the opposite direction
-                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
-            });
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     const mesh = newMeshes[0];
+            //     // Scale the mesh down by a factor of 0.01
+            //     mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+            //     // Position the mesh
+            //     mesh.position = new BABYLON.Vector3(3, 0, 6);
+            //     // Set the rotation of the chair mesh to face the opposite direction
+            //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            // });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -169,13 +169,15 @@
                 wiffleBall.isPickable = true;
                 // Scale the mesh down by a factor of 
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-                // Position the mesh
-                wiffleBall.position = new BABYLON.Vector3(0, 0.039, 0);
+                // Position the mesh (0.039 prev)
+                wiffleBall.position = new BABYLON.Vector3(0, 0.5, 0);
+                // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
                   wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor,
-                  { mass: 1, restitution: 0.9 },
+                  { mass: 0.01984165, restitution: 0.1 },
                   scene
                 );
+                wiffleBall.checkCollisions = true;
 
             });
 
@@ -237,14 +239,6 @@
                     });
                 })
             });
-
-
-
-
-
-
-
-
 
             return scene;
 
