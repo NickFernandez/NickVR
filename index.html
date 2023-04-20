@@ -20,11 +20,12 @@
             }
         </style>
         <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png" />
-        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script src="https://cdn.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
         <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
         <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
-        <script src="https://cdn.babylonjs.com/cannon.js"></script>
+        
 
     </head>
 
@@ -44,8 +45,9 @@
             // Enable physics in the scene
             const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
             const physicsPlugin = new BABYLON.CannonJSPlugin();
+            const physicsEngine = new BABYLON.PhysicsEngine(scene);
             scene.enablePhysics(gravityVector, physicsPlugin);
-
+            scene.registerBeforeRender(function() { physicsEngine._step(1 / 60); });
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -164,7 +166,7 @@
                 // The loaded mesh is returned as an array
                 let wiffleBall = newMeshes[0];
                 // console.log(mesh.name);
-                camera.setTarget(wiffleBall.position);
+                // camera.setTarget(wiffleBall.position);
                 // Make sure the user can select this item
                 wiffleBall.isPickable = true;
                 // Scale the mesh down by a factor of 
@@ -177,6 +179,7 @@
                   { mass: 0.01984165, restitution: 0.1 },
                   scene
                 );
+                wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
                 wiffleBall.checkCollisions = true;
 
             });
@@ -239,6 +242,8 @@
                     });
                 })
             });
+
+            
 
             return scene;
 
