@@ -57,6 +57,24 @@
                 scene
             );
 
+            // Our built-in 'ground' shape.
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25, subdivisions: 2 }, scene);
+            // Create our ground PhysicsImpostor
+            ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  ground, BABYLON.PhysicsImpostor.BoxImpostor,
+                  { mass: 0, restitution: 0.5 },
+                  scene
+                );
+            // Create a new StandardMaterial for the ground
+            const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
+            ground.material = groundMaterial;
+            // Load the grass texture
+            const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
+            // Apply the grass texture to the ground material
+            groundMaterial.diffuseTexture = grassTexture;
+            groundMaterial.diffuseTexture.uScale = 29;
+            groundMaterial.diffuseTexture.vScale = 30;
+
             // Set the starting position of the camera
             camera.position = new BABYLON.Vector3(1, 1.6, 0);
             // This attaches the camera to the canvas
@@ -90,17 +108,7 @@
             // Set the specular color of the fill light to be white
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
-            // Our built-in 'ground' shape.
-            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50, subdivisions: 2 }, scene);
-            // Create a new StandardMaterial for the ground
-            const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
-            ground.material = groundMaterial;
-            // Load the grass texture
-            const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
-            // Apply the grass texture to the ground material
-            groundMaterial.diffuseTexture = grassTexture;
-            groundMaterial.diffuseTexture.uScale = 49;
-            groundMaterial.diffuseTexture.vScale = 50;
+            
 
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
@@ -113,28 +121,6 @@
                 // Position the mesh
                 mesh.position = new BABYLON.Vector3(0, 0.026, 1);
             });
-
-            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                let wiffleBall = newMeshes[0];
-                // console.log(mesh.name);
-                camera.setTarget(wiffleBall.position);
-                // Make sure the user can select this item
-                wiffleBall.isPickable = true;
-                // Scale the mesh down by a factor of 
-                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-                // Position the mesh
-                wiffleBall.position = new BABYLON.Vector3(0, 0.039, 0);
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  sphere, BABYLON.PhysicsImpostor.SphereImpostor,
-                  { mass: 1, restitution: 0.9 },
-                  scene
-                );
-
-            });
-
-
-            
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -154,14 +140,14 @@
                 mesh.position = new BABYLON.Vector3(0, 3.75, 15);
             });
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
-                mesh.scaling = new BABYLON.Vector3(1, 1, 1);
-                // Position the mesh
-                mesh.position = new BABYLON.Vector3(4, 0, 2.75);
-                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
-            });
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     const mesh = newMeshes[0];
+            //     mesh.scaling = new BABYLON.Vector3(1, 1, 1);
+            //     // Position the mesh
+            //     mesh.position = new BABYLON.Vector3(4, 0, 2.75);
+            //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+            // });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -172,6 +158,25 @@
                 mesh.position = new BABYLON.Vector3(3, 0, 6);
                 // Set the rotation of the chair mesh to face the opposite direction
                 mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            });
+
+            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                let wiffleBall = newMeshes[0];
+                // console.log(mesh.name);
+                camera.setTarget(wiffleBall.position);
+                // Make sure the user can select this item
+                wiffleBall.isPickable = true;
+                // Scale the mesh down by a factor of 
+                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                // Position the mesh
+                wiffleBall.position = new BABYLON.Vector3(0, 0.039, 0);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor,
+                  { mass: 1, restitution: 0.9 },
+                  scene
+                );
+
             });
 
             // here we add XR support
@@ -186,12 +191,16 @@
               floorMeshes: [ground],
             });
 
-            featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "latest", {
-              xrInput: xr.input,
-              jointMeshes: {
-                // disableDefaultHandMesh: true,
-              },
-            });
+            try {
+                featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "latest", {
+                  xrInput: xr.input,
+                  jointMeshes: {
+                  },
+                });
+              } catch (error) {
+                console.log('Error enabling hand tracking feature:', error);
+              }
+
             // added if needed later
             // const teleportation = xr.teleportation;
 
