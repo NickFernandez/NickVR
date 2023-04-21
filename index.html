@@ -181,10 +181,10 @@
             // });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-              // var mesh = newMeshes[0];
-              // mesh.isPickable = true;
-              // mesh.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-              // mesh.position = new BABYLON.Vector3(0, 4, 0);
+              var mesh = newMeshes[0];
+              mesh.isPickable = true;
+              mesh.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+              mesh.position = new BABYLON.Vector3(0, 4, 0);
               // Loop through each sub-mesh of the mesh
               for (var i = 0; i < newMeshes.length; i++) {
                   var subMesh = newMeshes[i];
