@@ -20,6 +20,8 @@
         <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
         <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
         <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+        <!-- Load jQuery from the internet. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         
         <style>
             html, body {
@@ -112,6 +114,7 @@
             // Our built-in 'ground' shape.
             var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50, subdivisions: 2 }, scene);
             ground.checkCollisions = true;
+            ground.renderingGroupId = 1;
             // Create a new StandardMaterial for the ground
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
@@ -183,6 +186,7 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
               let meshParent = newMeshes[0];
               var mesh = meshParent.getChildMeshes()[0];
+              // newMeshes.forEach((m) => m.renderingGroupId = 4);
               mesh.setParent(null);
               meshParent.dispose();
               mesh.isPickable = true;
@@ -191,6 +195,7 @@
               mesh.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
               mesh.position = new BABYLON.Vector3(0, 0.5, 0);
               mesh.rotationQuaternion = null;
+              mesh.renderingGroupId = 2;
               
               
               // Create a sphere shape and the associated body. Size will be determined automatically.
@@ -223,6 +228,7 @@
           window.engine = await asyncEngineCreation();
             if (!engine) throw 'engine should not be null.';
             startRenderLoop(engine, canvas);
+            // engine.setDepthFunction(engine._gl.ALWAYS);
             window.scene = createScene();
             // Get the 'ground' mesh from the scene from window.scene 
             const groundMesh = window.scene.getMeshByName("ground");
