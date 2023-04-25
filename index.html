@@ -114,7 +114,7 @@
             // Our built-in 'ground' shape.
             var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50, subdivisions: 2 }, scene);
             ground.checkCollisions = true;
-            ground.renderingGroupId = 1;
+            // ground.renderingGroupId = 1;
             // Create a new StandardMaterial for the ground
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
@@ -186,20 +186,18 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
               let meshParent = newMeshes[0];
               var mesh = meshParent.getChildMeshes()[0];
-              // newMeshes.forEach((m) => m.renderingGroupId = 4);
-              mesh.setParent(null);
-              meshParent.dispose();
-              mesh.isPickable = true;
-              mesh.checkCollisions = true;
+              // mesh.setParent(null);
+              // meshParent.dispose();
+              meshParent.isPickable = true;
+              meshParent.checkCollisions = true;
               // mesh.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-              mesh.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-              mesh.position = new BABYLON.Vector3(0, 0.5, 0);
-              mesh.rotationQuaternion = null;
-              mesh.renderingGroupId = 2;
+              meshParent.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+              meshParent.position = new BABYLON.Vector3(0, 0.5, 0);
+            
               
               
               // Create a sphere shape and the associated body. Size will be determined automatically.
-            var sphereAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 0.1, restitution: 0.1 }, scene);
+            var sphereAggregate = new BABYLON.PhysicsAggregate(meshParent, BABYLON.PhysicsShapeType.SPHERE, { mass: 0.1, restitution: 0.1 }, scene);
             sphereAggregate.checkCollisions = true;
             
             });
