@@ -21,10 +21,15 @@
 			"mesh":0,
 			"name":"Wiffle_Ball_convert",
 			"rotation":[
-				0.22144988179206848,
-				0.8460811376571655,
-				0.10092426836490631,
-				0.4742583632469177
+				0.7071068286895752,
+				0,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				0,
+				0,
+				-0.03535941243171692
 			]
 		}
 	],
@@ -99,29 +104,29 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":9867,
+			"count":9981,
 			"max":[
-				2.0052099227905273,
-				4.010009765625,
-				2.0052199363708496
+				2.0052108764648438,
+				2.115713119506836,
+				2.005214214324951
 			],
 			"min":[
-				-2.0052099227905273,
-				-9.999999747378752e-06,
-				-2.005199909210205
+				-2.005208969116211,
+				-1.8943066596984863,
+				-2.0052056312561035
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":9867,
+			"count":9981,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":9867,
+			"count":9981,
 			"type":"VEC3"
 		},
 		{
@@ -134,26 +139,26 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":118404,
+			"byteLength":119772,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":78936,
-			"byteOffset":118404,
+			"byteLength":79848,
+			"byteOffset":119772,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":118404,
-			"byteOffset":197340,
+			"byteLength":119772,
+			"byteOffset":199620,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":75264,
-			"byteOffset":315744,
+			"byteOffset":319392,
 			"target":34963
 		}
 	],
@@ -165,8 +170,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":391008,
-			"uri":"SCALEDDOWNbottomRotatedWiffle.bin"
+			"byteLength":394656,
+			"uri":"final4.bin"
 		}
 	]
 }
