@@ -3,7 +3,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Wiffle Ball VR</title>
-
         <!-- Babylon.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
@@ -22,7 +21,7 @@
         <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
         <!-- Load jQuery from the internet. -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        
+
         <style>
             html, body {
                 overflow: hidden;
@@ -31,51 +30,38 @@
                 margin: 0;
                 padding: 0;
             }
-
             #renderCanvas {
                 width: 100%;
                 height: 100%;
                 touch-action: none;
             }
-            
-            #canvasZone {
-                width: 100%;
-                height: 100%;
-            }
         </style>
-        <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png" />
+        <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png"/>
     </head>
-   <body>
-    <div id="canvasZone"><canvas id="renderCanvas"></canvas></div>
-    <script>
-        var canvas = document.getElementById("renderCanvas");
-        var startRenderLoop = function (engine, canvas) {
-            engine.runRenderLoop(function () {
-                if (sceneToRender && sceneToRender.activeCamera) {
-                    sceneToRender.render();
-                }
-            });
-        }
-        var engine = null;
-        var scene = null;
-        var sceneToRender = null;
-        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false});
-        };
-        var createScene = function () {
+    <body>
+      <div id="canvasZone"><canvas id="renderCanvas"></canvas></div>
+      <script>
+        // Get the canvas element
+        const canvas = document.getElementById("renderCanvas");
+        // Generate the BABYLON 3D engine
+        const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,
+        disableWebGL2Support: false });
+        let HavokInstance;
+          HavokPhysics().then((havok) => {
+            // Havok is now available
+            havokInstance = havok;
+          });
+
+        const createScene = async function () {
             // Creates a basic Babylon Scene object
             var scene = new BABYLON.Scene(engine);
-            // initialize plugin
-            var hk = new BABYLON.HavokPlugin();
-            // enable physics in the scene with a gravity
-            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-            // scene.onBeforeRenderObservable.add(function() { scene.getPhysicsEngine().step(deltaTime, 10); });
-            // eliminate any trouble with importing gltfs. With this, you won’t have any negative scaling.
-            scene.useRightHandedSystem = true
-            // modify color
-            scene.ambientColor = new BABYLON.Color3(1, 1, 0.5);
-            scene.checkCollisions = true;
 
-            
+            const havokInstance = await HavokPhysics();
+            const hk = new BABYLON.HavokPlugin(true, havokInstance);
+            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
+            scene.ambientColor = new BABYLON.Color3(1, 1, 0.5);
+
             // Creates and positions a free camera
             camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -86,13 +72,12 @@
                 scene
             );
             // This targets the camera to scene origin
-            // camera.setTarget(BABYLON.Vector3.Zero());
+            camera.setTarget(BABYLON.Vector3.Zero());
             // This attaches the camera to the canvas
             camera.attachControl(canvas, true);
-            // Set the starting position of the camera
-            camera.position = new BABYLON.Vector3(1, 1.6, -1);
-
-            // modify lighting- creates a directional light, aiming at the ground
+            // camera.checkCollisions = true;
+            
+            // Creates a directional light, aiming at the ground
             var light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
             // Set the position of the light to be far away from the scene
             light.position = new BABYLON.Vector3(50, 100, 0);
@@ -119,81 +104,87 @@
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
             // Our built-in 'ground' shape.
-            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 10, height: 10, subdivisions: 2 }, scene);
-            
+            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25}, scene);
+            ground.checkCollisions = true;
+            ground.position = new BABYLON.Vector3(0, 0, 0);
+
             // Create a new StandardMaterial for the ground
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
-            
             // Load the grass texture
             var grassTexture = new BABYLON.Texture("textures/grass.png", scene);
-            
+            // grassTexture.checkCollisions = true;
             // Apply the grass texture to the ground material
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
+            // groundMaterial.checkCollisions = true;
+            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
             
 
             // Loads a glTF model
-            
+
+            // Declare wiffleBall variable outside of the ImportMesh function, 
+            // and assign its value inside the function. This way, the variable will be accessible outside the function.
+            // let wiffleBall;
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-              let meshParent = newMeshes[0];
-              // meshParent.position = new BABYLON.Vector3(0,2,0);
-              meshParent.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-              // meshParent.position = new BABYLON.Vector3(0,0,0);
-              
-              meshParent.isPickable = true;
- 
-              
-              
-              // Create a sphere shape and the associated body. Size will be determined automatically.
-            var sphereAggregate = new BABYLON.PhysicsAggregate(meshParent, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.1 }, scene);
-            scene.addPhysicsBody(sphereAggregate);
-            
-            
-            
+                // The loaded mesh is returned as an array
+                wiffleBall = newMeshes[0];
+                // wiffleBall.checkCollisions = true;
+                // wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
+                // wiffleBall.isPickable = true;
+                // wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
+                // Our built-in 'sphere' shape.
+                var ballPhysicsRoot = new BABYLON.MeshBuilder.CreateSphere("ballPhysicsRoot", scene);
+                ballPhysicsRoot.addChild(wiffleBall);
+                // ballPhysicsRoot Visibility Change to 0 to Hide
+                ballPhysicsRoot.visibility = 0;
+                // ballPhysicsRoot.position = new BABYLON.Vector3(0, 0, 0);
+
+                var ballAggregate = new BABYLON.PhysicsAggregate(ballPhysicsRoot, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
+                ballAggregate.checkCollisions = true;
+                // ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
+                ballAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+
+
+
+
+                // console.log(mesh.name);
+                // camera.setTarget(wiffleBall.position);
+                // Make sure the user can select this item
+                // wiffleBall.isPickable = true;
+                // Scale the mesh down by a factor of 
+                // wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                // Position the mesh (0.039 prev)
+                
+                // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
+                // Create a sphere shape and the associated body. Size will be determined automatically.
+                // const sphereAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 0.012, restitution: 0.1 }, scene);
+                // Create a static box shape.
+                // var ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 0.012, restitution:0.25}, scene);
             });
+            
+            // Our built-in 'sphere' shape.
+            // var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
 
-            // Create a static box shape.
-            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 , friction: 0.1,restitution: 0.1 }, scene);
+            // // Move the sphere upward at 4 units
+            // sphere.position.y = 6;
+
+            // var sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1 }, scene);
             
 
-            
-            return scene;
-        };
-
-        // Call our createScene function asynchronously and render it
-        window.initFunction = async function() {
-          globalThis.HK = await HavokPhysics();
-
-          var asyncEngineCreation = async function() {
-            try {
-            return createDefaultEngine();
-            } catch(e) {
-            console.log("the available createEngine function failed. Creating the default engine instead");
-            return createDefaultEngine();
-            }
-          }
-
-          window.engine = await asyncEngineCreation();
-            if (!engine) throw 'engine should not be null.';
-            startRenderLoop(engine, canvas);
-            // engine.setDepthFunction(engine._gl.ALWAYS);
-            window.scene = createScene();
-            // Get the 'ground' mesh from the scene from window.scene 
-            const groundMesh = window.scene.getMeshByName("ground");
             // here we add XR support
-            const xr = await window.scene.createDefaultXRExperienceAsync({
-              floorMeshes: [groundMesh],
+            var xr = await scene.createDefaultXRExperienceAsync({
+              floorMeshes: [ground],
             });
             // add features such as teleportation
-            const featuresManager = xr.baseExperience.featuresManager; // or any other way to get a features manager
+            var featuresManager = xr.baseExperience.featuresManager; // or any other way to get a features manager
             featuresManager.enableFeature(BABYLON.WebXRFeatureName.TELEPORTATION, "stable" /* or latest */, {
               xrInput: xr.input,
               // add options here
-              floorMeshes: [groundMesh],
+              floorMeshes: [ground],
             });
 
             try {
@@ -221,8 +212,8 @@
                             // is it pressed?
                             if (triggerComponent.pressed) {
                                 const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                if (meshUnderPointer === groundMesh) {
-                                    return;Z
+                                if (meshUnderPointer === ground) {
+                                    return;
                                 }
                                 if (handness === 'left') {
                                     meshLeft = meshUnderPointer;
@@ -242,17 +233,25 @@
                     });
                 })
             });
+
+            
+
+            return scene;
+
         };
 
-
-        initFunction().then(() => {sceneToRender = scene});
+        createScene().then((scene) => {
+          engine.runRenderLoop(function () {
+            if (scene) {
+              scene.render();
+            }
+          });
+        });
 
         // Watch for window adjustments/resizing
         window.addEventListener("resize", function () {
           engine.resize();
         });
     </script>
-
    </body>
-
 </html>
