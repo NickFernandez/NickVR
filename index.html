@@ -129,24 +129,31 @@
             // and assign its value inside the function. This way, the variable will be accessible outside the function.
             // let wiffleBall;
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+
+            var ballPhysicsRoot = new BABYLON.MeshBuilder.CreateSphere("ballPhysicsRoot", scene);
+                ballPhysicsRoot.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                ballPhysicsRoot.isPickable = true
+
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                wiffleBall = newMeshes[0];
+                // wiffleBall = newMeshes[0];
                 // wiffleBall.checkCollisions = true;
                 // wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
                 // wiffleBall.isPickable = true;
+                // wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 // wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
                 // Our built-in 'sphere' shape.
-                var ballPhysicsRoot = new BABYLON.MeshBuilder.CreateSphere("ballPhysicsRoot", scene);
-                ballPhysicsRoot.addChild(wiffleBall);
+                
+                // ballPhysicsRoot.addChild(wiffleBall);
                 // ballPhysicsRoot Visibility Change to 0 to Hide
-                ballPhysicsRoot.visibility = 0;
+                // ballPhysicsRoot.visibility = 1;
                 // ballPhysicsRoot.position = new BABYLON.Vector3(0, 0, 0);
 
-                var ballAggregate = new BABYLON.PhysicsAggregate(ballPhysicsRoot, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
-                ballAggregate.checkCollisions = true;
+            var ballAggregate = new BABYLON.PhysicsAggregate(ballPhysicsRoot, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
+            ballAggregate.checkCollisions = true;
+            ballAggregate.isPickable = true;
                 // ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
-                ballAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+            ballAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
 
 
@@ -156,7 +163,7 @@
                 // Make sure the user can select this item
                 // wiffleBall.isPickable = true;
                 // Scale the mesh down by a factor of 
-                // wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+               
                 // Position the mesh (0.039 prev)
                 
                 // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
@@ -164,7 +171,7 @@
                 // const sphereAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 0.012, restitution: 0.1 }, scene);
                 // Create a static box shape.
                 // var ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 0.012, restitution:0.25}, scene);
-            });
+            // });
             
             // Our built-in 'sphere' shape.
             // var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
