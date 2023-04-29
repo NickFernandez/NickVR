@@ -20,11 +20,24 @@
             }
         </style>
         <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png" />
-        <script src="https://cdn.babylonjs.com/cannon.js"></script>
-        <script src="https://preview.babylonjs.com/babylon.js"></script>
-        <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
+        <!-- Babylon.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
         <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+        <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+        <!-- Load jQuery from the internet. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         
 
     </head>
@@ -34,20 +47,24 @@
     <canvas id="renderCanvas"></canvas>
 
     <script>
-        const canvas = document.getElementById("renderCanvas"); // Get the canvas element
-        const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+        // Get the canvas element
+        const canvas = document.getElementById("renderCanvas");
+        // Generate the BABYLON 3D engine
+        const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,
+        disableWebGL2Support: false });
+        let HavokInstance;
+          HavokPhysics().then((havok) => {
+            // Havok is now available
+            havokInstance = havok;
+          });
 
         const createScene = async function () {
             // Creates a basic Babylon Scene object
-            const scene = new BABYLON.Scene(engine);
-            scene.ambientColor = new BABYLON.Color3(1, 1, 0.5);
-            
-            // Enable physics in the scene
-            const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-            const physicsPlugin = new BABYLON.CannonJSPlugin();
-            const physicsEngine = new BABYLON.PhysicsEngine(scene);
-            scene.enablePhysics(gravityVector, physicsPlugin);
-            scene.registerBeforeRender(function() { physicsEngine._step(1 / 60); });
+            var scene = new BABYLON.Scene(engine);
+
+            const havokInstance = await HavokPhysics();
+            const hk = new BABYLON.HavokPlugin(true, havokInstance);
+            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -93,12 +110,7 @@
 
             // Our built-in 'ground' shape.
             const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25, subdivisions: 2 }, scene);
-            // Create our ground PhysicsImpostor
-            ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  ground, BABYLON.PhysicsImpostor.PlaneImpostor,
-                  { mass: 0, restitution: 0.2},
-                  scene
-                );
+            
             ground.checkCollisions = true;
             // Create a new StandardMaterial for the ground
             const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
@@ -111,6 +123,8 @@
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
             groundMaterial.checkCollisions = true;
+            // Create our ground PhysicsImpostor
+            groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
@@ -169,18 +183,15 @@
                 // camera.setTarget(wiffleBall.position);
                 // Make sure the user can select this item
                 wiffleBall.isPickable = true;
+                wiffleBall.checkCollisions = true;
                 // Scale the mesh down by a factor of 
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 // Position the mesh (0.039 prev)
                 wiffleBall.position = new BABYLON.Vector3(0, 0.5, 0);
                 // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor,
-                  { mass: 0.01984165, restitution: 0.1 },
-                  scene
-                );
-                wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
-                wiffleBall.checkCollisions = true;
+                ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
+                // wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
+                ballAggregate.checkCollisions = true;
 
             });
 
