@@ -52,11 +52,11 @@
         // Generate the BABYLON 3D engine
         const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,
         disableWebGL2Support: false });
-        let HavokInstance;
-          HavokPhysics().then((havok) => {
-            // Havok is now available
-            havokInstance = havok;
-          });
+        // let HavokInstance;
+        //   HavokPhysics().then((havok) => {
+        //     // Havok is now available
+        //     HavokInstance = havok;
+        //   });
 
         const createScene = async function () {
             // Creates a basic Babylon Scene object
@@ -176,25 +176,39 @@
             //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             // });
 
-            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+            var ballPhysicsRoot = new BABYLON.MeshBuilder.CreateSphere("ballPhysicsRoot", scene);
+                // ballPhysicsRoot.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                ballPhysicsRoot.isPickable = true
+
+            // let wiffleBall;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                let wiffleBall = newMeshes[0];
+                // wiffleBall = newMeshes[0];
                 // console.log(mesh.name);
                 // camera.setTarget(wiffleBall.position);
                 // Make sure the user can select this item
-                wiffleBall.isPickable = true;
-                wiffleBall.checkCollisions = true;
+                // wiffleBall.isPickable = true;
+                // wiffleBall.checkCollisions = true;
                 // Scale the mesh down by a factor of 
-                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                // wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 // Position the mesh (0.039 prev)
-                wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
+                // wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
                 // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
-                ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
+                // ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
                 // wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
-                ballAggregate.checkCollisions = true;
-                ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
-
-            });
+                // ballAggregate.checkCollisions = true;
+                // ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
+                // ballPhysicsRoot.addChild(wiffleBall);
+                // ballPhysicsRoot.parent = null;
+            // });
+            
+            ballPhysicsRoot.visibility = 1;
+            var ballAggregate = new BABYLON.PhysicsAggregate(ballPhysicsRoot, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
+            ballAggregate.checkCollisions = true;
+            ballAggregate.isPickable = true;
+            // ballAggregate.enablePhysics();
+                // ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
+            ballAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
