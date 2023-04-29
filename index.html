@@ -187,11 +187,12 @@
                 // Scale the mesh down by a factor of 
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 // Position the mesh (0.039 prev)
-                wiffleBall.position = new BABYLON.Vector3(0, 0.5, 0);
+                wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
                 // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
                 ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
                 // wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
                 ballAggregate.checkCollisions = true;
+                ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
 
             });
 
