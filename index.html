@@ -186,65 +186,26 @@
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
                 sphere.isVisible = false;
                 sphere.isPickable = true;
-                // sphere.subMeshes[0]._mesh.dispose();
+                // scene.registerBeforeRender(function() {
+                //     var gravity = new BABYLON.Vector3(0, -9.8, 0);
+                //     sphere.applyGravity(gravity);
+                // });
                 // The loaded mesh is returned as an array
                 var wiffleBall = newMeshes[0];
-                // wiffleBall.position = sphere.position;
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-                // wiffleBall.setPivotMatrix(BABYLON.Matrix.Identity());
                 wiffleBall.position.y = -0.001
                 wiffleBall.position.z = 0.03
-                // wiffleBall.rotationQuaternion = sphere.rotationQuaternion;
-                // sphere.setParent(wiffleBall);
-                // sphere.addChild(wiffleBall);
-                
-                // Calculate the scale factor to match the wiffle size with the sphere diameter
-                // var scaleFactor = sphere.scaling.x / wiffleBall.scaling.x;
-                // wiffleBall.scaling.scaleInPlace(scaleFactor);
-
-                // Set the position of the wiffle ball relative to the sphere
-                // var offset = new BABYLON.Vector3(0, sphere.scaling.y/2 + wiffleBall.scaling.y/2, 0);
-                
-
                 wiffleBall.parent = sphere;
-                // wiffleBall.position.y = 0;
+                // apply gravity to the wiffle ball mesh
                 
-                // console.log(sphere);
+
                 var aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+
+                
                 
                 var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
-
-                // wiffleBall.scaling = new BABYLON.Vector3(0.075, 0.075, 0.075);
-                // wiffleBall.position = new BABYLON.Vector3(0, 1, 0);
-                // console.log(sphere);
-                // Remove the default sphere mesh from the aggregate object
-                // scene.addMesh(wiffleBall);
-                
-                
-                // sphere.checkCollisions = true;
-                
-
-                
-                
-                
-                // console.log(aggregate);
-                // aggregate.checkCollisions = true;
-                
-                // aggregate.transformNode.subMesh = wiffleBall;
-                // wiffleBall.parent = aggregate;
-                // aggregate.transformNode.subMeshes.addMesh(wiffleBall);
-
-                // Add the wiffle ball mesh to the aggregate object
-                // aggregate.addMesh(wiffleBall, null, { mass: 1, friction: 0.2, restitution: 0.3 });
-                // Remove the default sphere mesh from the sphere aggregate
-                // aggregate.childList.forEach(function (part) {
-                //     var childMesh = child.impostor.getMesh();
-                //     childMesh.dispose();
-                // });
-                // sphere.addMesh(wiffleBall);
-
-                // wiffleBall.setMass(aggregate.mass);
-                // wiffleBall.setPhysicsImpostor(BABYLON.PhysicsImpostor.SphereImpostor, { mass: aggregate.mass }, scene);
+                // Apply gravity to the sphere
+                aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
             });
 
             // here we add XR support
@@ -268,9 +229,6 @@
               } catch (error) {
                 console.log('Error enabling hand tracking feature:', error);
               }
-
-            // added if needed later
-            // const teleportation = xr.teleportation;
 
             let meshLeft, meshRight;
 
