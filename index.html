@@ -64,7 +64,8 @@
 
             const havokInstance = await HavokPhysics();
             const hk = new BABYLON.HavokPlugin(true, havokInstance);
-            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+            // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk)
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -176,39 +177,39 @@
             //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             // });
 
-            var ballPhysicsRoot = new BABYLON.MeshBuilder.CreateSphere("ballPhysicsRoot", scene);
-                // ballPhysicsRoot.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-                ballPhysicsRoot.isPickable = true
+            var sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
+            sphere.position = new BABYLON.Vector3(0, 2, 0);
+            sphere.isVisible = true;
+            sphere.isPickable = true;
+           
+            var aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+            console.log(aggregate);
 
-            // let wiffleBall;
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                // wiffleBall = newMeshes[0];
-                // console.log(mesh.name);
-                // camera.setTarget(wiffleBall.position);
-                // Make sure the user can select this item
-                // wiffleBall.isPickable = true;
-                // wiffleBall.checkCollisions = true;
-                // Scale the mesh down by a factor of 
-                // wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-                // Position the mesh (0.039 prev)
-                // wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
-                // a wiffle ball weighs 0.70 ounces would have a mass of approximately 0.01984165 kilograms
-                // ballAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
-                // wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 0, 0));
-                // ballAggregate.checkCollisions = true;
-                // ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
-                // ballPhysicsRoot.addChild(wiffleBall);
-                // ballPhysicsRoot.parent = null;
-            // });
-            
-            ballPhysicsRoot.visibility = 1;
-            var ballAggregate = new BABYLON.PhysicsAggregate(ballPhysicsRoot, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.01}, scene);
-            ballAggregate.checkCollisions = true;
-            ballAggregate.isPickable = true;
-            // ballAggregate.enablePhysics();
-                // ballAggregate.position = new BABYLON.Vector3(0, 0, 0);
-            ballAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+                var wiffleBall = newMeshes[0];
+                // wiffleBall.position = new BABYLON.Vector3(0,1,0);
+                wiffleBall.scaling = new BABYLON.Vector3(0.075, 0.075, 0.075);
+                wiffleBall.position = new BABYLON.Vector3(0, 2, 0);
+
+                // Remove the default sphere mesh from the aggregate object
+                aggregate.transformNode.subMeshes.forEach(function (childMesh) {
+                    childMesh.dispose();
+                });
+                aggregate.transformNode.subMeshes.add(wiffleBall);
+
+                // Add the wiffle ball mesh to the aggregate object
+                // aggregate.addMesh(wiffleBall, null, { mass: 1, friction: 0.2, restitution: 0.3 });
+                // Remove the default sphere mesh from the sphere aggregate
+                // aggregate.childList.forEach(function (part) {
+                //     var childMesh = child.impostor.getMesh();
+                //     childMesh.dispose();
+                // });
+                // sphere.addMesh(wiffleBall);
+
+                // wiffleBall.setMass(aggregate.mass);
+                // wiffleBall.setPhysicsImpostor(BABYLON.PhysicsImpostor.SphereImpostor, { mass: aggregate.mass }, scene);
+            });
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -275,6 +276,7 @@
 
         };
 
+
         // Call our createScene function asynchronously and render it
         async function initialize() {
           var scene = await createScene()
@@ -282,6 +284,7 @@
             scene.render();
           });
         }
+        
         // Call the initialize function to actually produce the world
         initialize();
         // Watch for window adjustments/resizing
