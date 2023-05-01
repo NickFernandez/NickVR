@@ -110,22 +110,23 @@
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
             // Our built-in 'ground' shape.
-            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25, subdivisions: 2 }, scene);
+            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25}, scene);
+            ground.position.y = 0;
             
-            ground.checkCollisions = true;
+            // ground.checkCollisions = true;
             // Create a new StandardMaterial for the ground
             const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
             // Load the grass texture
             const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
-            grassTexture.checkCollisions = true;
+            // grassTexture.checkCollisions = true;
             // Apply the grass texture to the ground material
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
-            groundMaterial.checkCollisions = true;
+            
             // Create our ground PhysicsImpostor
-            groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+            
 
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
@@ -177,26 +178,63 @@
             //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             // });
 
-            var sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
-            sphere.position = new BABYLON.Vector3(0, 2, 0);
-            sphere.isVisible = true;
-            sphere.isPickable = true;
-           
-            var aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-            console.log(aggregate);
+            
+            
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+                var sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
+                sphere.position = new BABYLON.Vector3(0, 1, 0);
+                sphere.isVisible = false;
+                sphere.isPickable = true;
+                // sphere.subMeshes[0]._mesh.dispose();
                 // The loaded mesh is returned as an array
                 var wiffleBall = newMeshes[0];
-                // wiffleBall.position = new BABYLON.Vector3(0,1,0);
-                wiffleBall.scaling = new BABYLON.Vector3(0.075, 0.075, 0.075);
-                wiffleBall.position = new BABYLON.Vector3(0, 2, 0);
+                wiffleBall.scaling = new BABYLON.Vector3(1, 1, 1);
+                // wiffleBall.setPivotMatrix(BABYLON.Matrix.Identity());
+                wiffleBall.position.y = -0.04
+                wiffleBall.rotationQuaternion = sphere.rotationQuaternion;
 
+                var whiteMaterial = new BABYLON.StandardMaterial("whiteMaterial", scene);
+                whiteMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                wiffleBall.material = whiteMaterial;
+                // sphere.setParent(wiffleBall);
+                // sphere.addChild(wiffleBall);
+                
+                // Calculate the scale factor to match the wiffle size with the sphere diameter
+                // var scaleFactor = sphere.scaling.x / wiffleBall.scaling.x;
+                // wiffleBall.scaling.scaleInPlace(scaleFactor);
+
+                // Set the position of the wiffle ball relative to the sphere
+                // var offset = new BABYLON.Vector3(0, sphere.scaling.y/2 + wiffleBall.scaling.y/2, 0);
+                // wiffleBall.position = sphere.position;
+
+                wiffleBall.parent = sphere;
+                // wiffleBall.position.y = 0;
+                
+                // console.log(sphere);
+                var aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+                
+                var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+
+                // wiffleBall.scaling = new BABYLON.Vector3(0.075, 0.075, 0.075);
+                // wiffleBall.position = new BABYLON.Vector3(0, 1, 0);
+                // console.log(sphere);
                 // Remove the default sphere mesh from the aggregate object
-                aggregate.transformNode.subMeshes.forEach(function (childMesh) {
-                    childMesh.dispose();
-                });
-                aggregate.transformNode.subMeshes.add(wiffleBall);
+                // scene.addMesh(wiffleBall);
+                
+                
+                // sphere.checkCollisions = true;
+                
+
+                
+                
+                
+                // console.log(aggregate);
+                // aggregate.checkCollisions = true;
+                
+                // aggregate.transformNode.subMesh = wiffleBall;
+                // wiffleBall.parent = aggregate;
+                // aggregate.transformNode.subMeshes.addMesh(wiffleBall);
 
                 // Add the wiffle ball mesh to the aggregate object
                 // aggregate.addMesh(wiffleBall, null, { mass: 1, friction: 0.2, restitution: 0.3 });
