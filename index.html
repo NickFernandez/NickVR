@@ -136,15 +136,17 @@
                 mesh.checkCollisions = true;
             });
 
+            let tree;
+
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
+                tree = newMeshes[0];
                 // Scale the mesh down by a factor of 0.01
-                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+                tree.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(1, -0.1, 1);
-                mesh.checkCollisions = true;
-                mesh.isPickable = false;
+                tree.position = new BABYLON.Vector3(1, -0.1, 1);
+                tree.checkCollisions = true;
+                tree.isPickable = false;
             });
 
             // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
@@ -237,6 +239,9 @@
                             if (triggerComponent.pressed) {
                                 const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                                 if (meshUnderPointer === ground) {
+                                    return;
+                                }
+                                if (meshUnderPointer === tree) {
                                     return;
                                 }
                                 if (handness === 'left') {
