@@ -61,10 +61,8 @@
         const createScene = async function () {
             // Creates a basic Babylon Scene object
             var scene = new BABYLON.Scene(engine);
-
             const havokInstance = await HavokPhysics();
             const hk = new BABYLON.HavokPlugin(true, havokInstance);
-            // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
             scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk)
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
@@ -179,30 +177,29 @@
             // });
 
             
-            let wiffleBall;
-            let sphere;
-            let aggregate;
-            let groundAggregate;
+            
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-                sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
+                var sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
                 sphere.isVisible = false;
                 sphere.isPickable = true;
 
                 // The loaded mesh is returned as an array
-                wiffleBall = newMeshes[0];
+                var wiffleBall = newMeshes[0];
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 wiffleBall.position.y = -0.001;
                 wiffleBall.position.z = 0.03;
-                // wiffleBall.isHeld = false;
+                wiffleBall.isHeld = false;
                 wiffleBall.parent = sphere;
 
-                aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+                var aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
 
-                groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+                
+                
+                var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
                 // Apply gravity to the sphere
-                // aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
+                aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
             });
 
             // here we add XR support
@@ -227,17 +224,13 @@
                 console.log('Error enabling hand tracking feature:', error);
               }
 
-            // Controller support
             let meshLeft, meshRight;
-            let isHoldingBall = false;
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
                     const handness = motionController.handness;
                     const xr_ids = motionController.getComponentIds();
                     const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                    let meshUnderPointer;
-
                     triggerComponent.onButtonStateChangedObservable.add(() => {
                         if (triggerComponent.changes.pressed) {
                             // is it pressed?
@@ -246,18 +239,18 @@
                                 if (meshUnderPointer === ground) {
                                     return;
                                 }
-
-                                if (meshUnderPointer === wiffleBall) {
-                                    wiffleBall.setParent(motionController.rootMesh);
-                                    isHoldingBall = true;
+                                if (handness === 'left') {
+                                    meshLeft = meshUnderPointer;
+                                    meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                } else if (handness === 'right') {
+                                    meshRight = meshUnderPointer;
+                                    meshRight && meshRight.setParent(motionController.rootMesh);
                                 }
-
                             } else {
-                                if (wiffleBall.parent && wiffleBall.parent === motionController.rootMesh) {
-                                    wiffleBall.setParent(sphere);
-                                    // aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
-                                    // aggregate.setAngularVelocity(new BABYLON.Vector3(0, -9.81, 0));
-                                    isHoldingBall = false;
+                                if (handness === 'left') {
+                                    meshLeft && meshLeft.setParent(null);
+                                } else if (handness === 'right') {
+                                    meshRight && meshRight.setParent(null);
                                 }
                             }
                         }
@@ -275,17 +268,7 @@
         // Call our createScene function asynchronously and render it
         async function initialize() {
           var scene = await createScene()
-          let isHoldingBall = false;
           engine.runRenderLoop(function () {
-            if (isHoldingBall) {
-                // Move the ball along with the controller
-                const controllerMesh = meshLeft || meshRight;
-                wiffleBall.position.copyFrom(controllerMesh.absolutePosition);
-                wiffleBall.rotationQuaternion.copyFrom(controllerMesh.absoluteRotationQuaternion);
-            } else {
-                // Apply physics to the ball when it's not being held
-                scene.onBeforeRenderObservable.notifyObservers();
-            }
             scene.render();
           });
         }
