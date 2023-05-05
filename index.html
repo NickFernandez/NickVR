@@ -108,7 +108,7 @@
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
             // Our built-in 'ground' shape.
-            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 25, height: 25}, scene);
+            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50}, scene);
             ground.position.y = 0;
             
             // ground.checkCollisions = true;
@@ -121,7 +121,32 @@
             // Apply the grass texture to the ground material
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
-            groundMaterial.diffuseTexture.vScale = 50;    
+            groundMaterial.diffuseTexture.vScale = 50;
+
+            // var hdrTexture = new BABYLON.CubeTexture("/textures/environmentSpecular.dds", scene);
+            // scene.createDefaultSkybox(hdrTexture, true, 10000);
+            
+
+            // Sky mesh (box)
+            var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
+            // Sky material
+            var skyMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+            skyMaterial.backFaceCulling = false;
+            skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
+            skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+            skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+            skybox.material = skyMaterial;
+
+            // Set sky properties for a blue sky
+            skyMaterial.luminance = 1.5;
+            skyMaterial.turbidity = 2;
+            skyMaterial.rayleigh = 2;
+            skyMaterial.mieCoefficient = 0.005;
+            skyMaterial.mieDirectionalG = 0.8;
+
+            // Load the sound and play it automatically once ready
+            var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
 
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
@@ -136,11 +161,12 @@
                 mesh.checkCollisions = true;
             });
 
-            let tree;
+            // let tree;
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                tree = newMeshes[0];
+                var tree = newMeshes[0];
+                // tree.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 tree.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
@@ -149,34 +175,37 @@
                 tree.isPickable = false;
             });
 
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     const mesh = newMeshes[0];
-            //     // Scale the mesh down by a factor of 0.01
-            //     mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-            //     // Position the mesh
-            //     mesh.position = new BABYLON.Vector3(0, 3.75, 15);
-            // });
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+                // mesh.material.freeze()
+                // Scale the mesh down by a factor of 0.01
+                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(0, 3.75, 15);
+            });
 
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     const mesh = newMeshes[0];
-            //     mesh.scaling = new BABYLON.Vector3(1, 1, 1);
-            //     // Position the mesh
-            //     mesh.position = new BABYLON.Vector3(4, 0, 2.75);
-            //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
-            // });
+            BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+                // mesh.material.freeze()
+                mesh.scaling = new BABYLON.Vector3(1, 1, 1);
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(4, 0, 2.75);
+                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+            });
 
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     const mesh = newMeshes[0];
-            //     // Scale the mesh down by a factor of 0.01
-            //     mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-            //     // Position the mesh
-            //     mesh.position = new BABYLON.Vector3(3, 0, 6);
-            //     // Set the rotation of the chair mesh to face the opposite direction
-            //     mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
-            // });
+            BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const mesh = newMeshes[0];
+                // mesh.material.freeze()
+                // Scale the mesh down by a factor of 0.01
+                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+                // Position the mesh
+                mesh.position = new BABYLON.Vector3(3, 0, 6);
+                // Set the rotation of the chair mesh to face the opposite direction
+                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            });
 
             
             
@@ -189,6 +218,7 @@
 
                 // The loaded mesh is returned as an array
                 var wiffleBall = newMeshes[0];
+                camera.setTarget(wiffleBall);
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 wiffleBall.position.y = -0.001;
                 wiffleBall.position.z = 0.03;
@@ -201,7 +231,7 @@
                 
                 var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
                 // Apply gravity to the sphere
-                aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
+                // aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
             });
 
             // here we add XR support
@@ -253,9 +283,13 @@
                                 }
                             } else {
                                 if (handness === 'left') {
-                                    meshLeft && meshLeft.setParent(null);
+                                    if (meshLeft && meshLeft.parent === motionController.rootMesh) {
+                                        meshLeft.setParent(null);
+                                    }
                                 } else if (handness === 'right') {
-                                    meshRight && meshRight.setParent(null);
+                                    if (meshRight && meshRight.parent === motionController.rootMesh) {
+                                        meshRight.setParent(null);
+                                    }
                                 }
                             }
                         }
