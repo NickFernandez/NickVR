@@ -269,7 +269,7 @@
                             // is it pressed?
                             if (squeezeComponent.pressed) {
                                 const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                if (meshUnderPointer === ground) {
+                                if (meshUnderPointer === ground || meshUnderPointer === skybox ) {
                                     return;
                                 }
                                 if (handness === 'left') {
