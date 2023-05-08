@@ -263,10 +263,11 @@
                     const handness = motionController.handedness;
                     const xr_ids = motionController.getComponentIds();
                     const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                    triggerComponent.onButtonStateChangedObservable.add(() => {
-                        if (triggerComponent.changes.pressed) {
+                    const squeezeComponent = motionController.getComponentOfType('squeeze');
+                    squeezeComponent.onButtonStateChangedObservable.add(() => {
+                        if (squeezeComponent.changes.pressed) {
                             // is it pressed?
-                            if (triggerComponent.pressed) {
+                            if (squeezeComponent.pressed) {
                                 const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                                 if (meshUnderPointer === ground) {
                                     return;
@@ -282,36 +283,13 @@
                                     meshRight && meshRight.setParent(motionController.rootMesh);
                                 }
                             } else {
-                                // drop the wiffle ball mesh
                                 if (handness === 'left') {
                                     if (meshLeft && meshLeft.parent === motionController.rootMesh) {
-                                        meshLeft.setParent(null);
-                                        var wiffleBall = meshLeft.getChildMeshes()[0];
-                                        var aggregate = wiffleBall.physicsImpostor.getPhysicsParent();
-                                        if (aggregate) {
-                                            aggregate.removeImpostor(wiffleBall.physicsImpostor);
-                                            wiffleBall.physicsImpostor = null;
-                                            wiffleBall.isHeld = false;
-                                            // set the linear and angular velocities of the wiffle ball
-                                            var velocity = controller.getForwardRay().direction.scale(2);
-                                            wiffleBall.physicsAggregate.setLinearVelocity(velocity);
-                                            wiffleBall.physicsAggregate.setAngularVelocity(new BABYLON.Vector3(Math.random(), Math.random(), Math.random()));
-                                        }
+                                        meshLeft.setParent(sphere);
                                     }
                                 } else if (handness === 'right') {
                                     if (meshRight && meshRight.parent === motionController.rootMesh) {
-                                        meshRight.setParent(null);
-                                        var wiffleBall = meshRight.getChildMeshes()[0];
-                                        var aggregate = wiffleBall.physicsImpostor.getPhysicsParent();
-                                        if (aggregate) {
-                                            aggregate.removeImpostor(wiffleBall.physicsImpostor);
-                                            wiffleBall.physicsImpostor = null;
-                                            wiffleBall.isHeld = false;
-                                            // set the linear and angular velocities of the wiffle ball
-                                            var velocity = controller.getForwardRay().direction.scale(2);
-                                            wiffleBall.physicsAggregate.setLinearVelocity(velocity);
-                                            wiffleBall.physicsAggregate.setAngularVelocity(new BABYLON.Vector3(Math.random(), Math.random(), Math.random()));
-                                        }
+                                        meshRight.setParent(sphere);
                                     }
                                 }
                             }
