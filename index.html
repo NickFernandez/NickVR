@@ -132,7 +132,7 @@
             // Sky material
             var skyMaterial = new BABYLON.StandardMaterial("skyBox", scene);
             skyMaterial.backFaceCulling = false;
-            skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/Daylight-Box", scene);
+            skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
             skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
             skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
             skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -260,7 +260,7 @@
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
-                    const handness = motionController.handness;
+                    const handness = motionController.handedness;
                     const xr_ids = motionController.getComponentIds();
                     const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                     triggerComponent.onButtonStateChangedObservable.add(() => {
