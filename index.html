@@ -282,13 +282,36 @@
                                     meshRight && meshRight.setParent(motionController.rootMesh);
                                 }
                             } else {
+                                // drop the wiffle ball mesh
                                 if (handness === 'left') {
                                     if (meshLeft && meshLeft.parent === motionController.rootMesh) {
                                         meshLeft.setParent(null);
+                                        var wiffleBall = meshLeft.getChildMeshes()[0];
+                                        var aggregate = wiffleBall.physicsImpostor.getPhysicsParent();
+                                        if (aggregate) {
+                                            aggregate.removeImpostor(wiffleBall.physicsImpostor);
+                                            wiffleBall.physicsImpostor = null;
+                                            wiffleBall.isHeld = false;
+                                            // set the linear and angular velocities of the wiffle ball
+                                            var velocity = controller.getForwardRay().direction.scale(2);
+                                            wiffleBall.physicsAggregate.setLinearVelocity(velocity);
+                                            wiffleBall.physicsAggregate.setAngularVelocity(new BABYLON.Vector3(Math.random(), Math.random(), Math.random()));
+                                        }
                                     }
                                 } else if (handness === 'right') {
                                     if (meshRight && meshRight.parent === motionController.rootMesh) {
                                         meshRight.setParent(null);
+                                        var wiffleBall = meshRight.getChildMeshes()[0];
+                                        var aggregate = wiffleBall.physicsImpostor.getPhysicsParent();
+                                        if (aggregate) {
+                                            aggregate.removeImpostor(wiffleBall.physicsImpostor);
+                                            wiffleBall.physicsImpostor = null;
+                                            wiffleBall.isHeld = false;
+                                            // set the linear and angular velocities of the wiffle ball
+                                            var velocity = controller.getForwardRay().direction.scale(2);
+                                            wiffleBall.physicsAggregate.setLinearVelocity(velocity);
+                                            wiffleBall.physicsAggregate.setAngularVelocity(new BABYLON.Vector3(Math.random(), Math.random(), Math.random()));
+                                        }
                                     }
                                 }
                             }
