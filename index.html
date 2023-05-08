@@ -161,11 +161,11 @@
                 mesh.checkCollisions = true;
             });
 
-            // let tree;
+            var tree;
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                var tree = newMeshes[0];
+                tree = newMeshes[0];
                 // tree.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 tree.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
@@ -175,36 +175,41 @@
                 tree.isPickable = false;
             });
 
+            var fenceVinyl;
+
             BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
+                fenceVinyl = newMeshes[0];
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
-                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+                fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 3.75, 15);
+                fenceVinyl.position = new BABYLON.Vector3(0, 3.75, 15);
             });
+
+            var picnicTable;
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
+                picnicTable = newMeshes[0];
                 // mesh.material.freeze()
-                mesh.scaling = new BABYLON.Vector3(1, 1, 1);
+                picnicTable.scaling = new BABYLON.Vector3(1, 1, 1);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(4, 0, 2.75);
-                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+                picnicTable.position = new BABYLON.Vector3(4, 0, 2.75);
+                picnicTable.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
             });
 
+            var fenceHedge;
             BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
+                fenceHedge = newMeshes[0];
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
-                mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+                fenceHedge.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(3, 0, 6);
+                fenceHedge.position = new BABYLON.Vector3(3, 0, 6);
                 // Set the rotation of the chair mesh to face the opposite direction
-                mesh.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+                fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             });
 
             
@@ -269,7 +274,7 @@
                             // is it pressed?
                             if (squeezeComponent.pressed) {
                                 const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                if (meshUnderPointer === ground || meshUnderPointer === skybox ) {
+                                if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                     return;
                                 }
                                 if (handness === 'left') {
