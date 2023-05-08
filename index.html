@@ -272,9 +272,6 @@
                                 if (meshUnderPointer === ground) {
                                     return;
                                 }
-                                if (meshUnderPointer === tree) {
-                                    return;
-                                }
                                 if (handness === 'left') {
                                     meshLeft = meshUnderPointer;
                                     meshLeft && meshLeft.setParent(motionController.rootMesh);
@@ -284,13 +281,9 @@
                                 }
                             } else {
                                 if (handness === 'left') {
-                                    if (meshLeft && meshLeft.parent === motionController.rootMesh) {
-                                        meshLeft.setParent(sphere);
-                                    }
+                                    meshLeft && meshLeft.setParent(null);
                                 } else if (handness === 'right') {
-                                    if (meshRight && meshRight.parent === motionController.rootMesh) {
-                                        meshRight.setParent(sphere);
-                                    }
+                                    meshRight && meshRight.setParent(null);
                                 }
                             }
                         }
