@@ -147,7 +147,7 @@
 
             // Load the sound and play it automatically once ready
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
-
+            var tree;
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -161,7 +161,7 @@
                 mesh.checkCollisions = true;
             });
 
-            var tree;
+            
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
