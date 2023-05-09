@@ -202,6 +202,10 @@
             var picnicTable;
             BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
+                newMeshes[0].checkCollisions = true;
+                newMeshes.forEach(mesh => {
+                    mesh.checkCollisions = true;
+                })
                 picnicTable = newMeshes[0];
                 // mesh.material.freeze()
                 picnicTable.scaling = new BABYLON.Vector3(1, 1, 1);
@@ -211,7 +215,6 @@
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 picnicTable.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
-                    mesh.checkCollisions = true;
                   });
             });
 
