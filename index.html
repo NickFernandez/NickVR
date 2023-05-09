@@ -172,7 +172,10 @@
                 // Position the mesh
                 tree.position = new BABYLON.Vector3(1, -0.1, 1);
                 tree.checkCollisions = true;
-                tree.isPickable = false;
+                tree.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                  });
+                // tree.isPickable = false;
             });
 
             var fenceVinyl;
@@ -274,6 +277,7 @@
                             // is it pressed?
                             if (squeezeComponent.pressed) {
                                 const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                                console.log(meshUnderPointer);
                                 if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                     return;
                                 }
