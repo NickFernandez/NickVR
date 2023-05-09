@@ -153,6 +153,13 @@
             
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
+                var capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {radius:0.1, radiusBottom:0.02, capSubdivisions: 1, height:2, tessellation:10, topCapSubdivisions:12});
+
+                capsule.position = new BABYLON.Vector3(0, 2, 1);
+                capsule.isVisible = true;
+                capsule.isPickable = true;
+                capsule.checkCollisions = true;
+
                 // The loaded mesh is returned as an array
                 const bat = newMeshes[0];
                 // Make sure the user can select this item
@@ -162,7 +169,7 @@
                 // Position the mesh
                 bat.position = new BABYLON.Vector3(0, 0.026, 1);
                 bat.checkCollisions = true;
-                // Gotta do this on each mesh to make sure it isn't Pickable
+                // Gotta do this on each mesh to try and get collisions workig
                 bat.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
                   });
@@ -306,9 +313,11 @@
                                 if (handness === 'left') {
                                     meshLeft = meshUnderPointer;
                                     meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                    meshLeft.checkCollisions = true;
                                 } else if (handness === 'right') {
                                     meshRight = meshUnderPointer;
                                     meshRight && meshRight.setParent(motionController.rootMesh);
+                                    meshRight.checkCollisions = true;
                                 }
                             } else {
                                 if (handness === 'left') {
