@@ -163,6 +163,7 @@
                 bat.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
                   });
+                bat.ellipsoid.set(10,10,10);
             });
 
             
@@ -217,6 +218,7 @@
                 picnicTable.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
                   });
+                picnicTable.ellipsoid.set(10,10,10);
             });
 
             var fenceHedge;
@@ -323,7 +325,7 @@
             });
 
             
-            scene.collisionsEnabled = true;
+            // scene.collisionsEnabled = true;
             return scene;
 
         };
