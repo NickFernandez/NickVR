@@ -151,6 +151,7 @@
             // Load the sound and play it automatically once ready
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
             
+            var bat;
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 var capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {radius:0.1, radiusBottom:0.02, capSubdivisions: 1, height:2, tessellation:10, topCapSubdivisions:12});
@@ -161,7 +162,7 @@
                 capsule.checkCollisions = true;
 
                 // The loaded mesh is returned as an array
-                const bat = newMeshes[0];
+                bat = newMeshes[0];
                 // Make sure the user can select this item
                 bat.isPickable = true;
                 // Scale the mesh down by a factor of 0.002 (close for now)
@@ -170,12 +171,17 @@
                 bat.position = new BABYLON.Vector3(0, 0.026, 1);
                 bat.checkCollisions = true;
                 // Gotta do this on each mesh to try and get collisions workig
-                bat.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                  });
+                // bat.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //   });
+                if (bat.intersectsMesh(ground, true)) {
+                        // The bat is intersecting with the ground, so move it up to the surface of the ground
+                        var distance = bat.position.y - ground.position.y;
+                        bat.position.y -= distance;
+                }
+                
             });
 
-            
             var tree;
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
