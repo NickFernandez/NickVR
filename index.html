@@ -147,22 +147,26 @@
 
             // Load the sound and play it automatically once ready
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
-            var tree;
+            
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                const mesh = newMeshes[0];
+                const bat = newMeshes[0];
                 // Make sure the user can select this item
-                mesh.isPickable = true;
+                bat.isPickable = true;
                 // Scale the mesh down by a factor of 0.002 (close for now)
-                mesh.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
+                bat.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
                 // Position the mesh
-                mesh.position = new BABYLON.Vector3(0, 0.026, 1);
-                mesh.checkCollisions = true;
+                bat.position = new BABYLON.Vector3(0, 0.026, 1);
+                bat.checkCollisions = true;
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                bat.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                  });
             });
 
             
-
+            var tree;
             BABYLON.SceneLoader.ImportMesh("", "meshes/low_poly_tree_concept/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 tree = newMeshes[0];
@@ -172,14 +176,14 @@
                 // Position the mesh
                 tree.position = new BABYLON.Vector3(1, -0.1, 1);
                 tree.checkCollisions = true;
+                // Gotta do this on each mesh to make sure it isn't Pickable
                 tree.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
+                    mesh.checkCollisions = true;
                   });
-                // tree.isPickable = false;
             });
 
             var fenceVinyl;
-
             BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 fenceVinyl = newMeshes[0];
@@ -188,10 +192,14 @@
                 fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
                 fenceVinyl.position = new BABYLON.Vector3(0, 3.75, 15);
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                fenceVinyl.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
             });
 
             var picnicTable;
-
             BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 picnicTable = newMeshes[0];
@@ -200,6 +208,11 @@
                 // Position the mesh
                 picnicTable.position = new BABYLON.Vector3(4, 0, 2.75);
                 picnicTable.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                picnicTable.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
             });
 
             var fenceHedge;
@@ -213,19 +226,27 @@
                 fenceHedge.position = new BABYLON.Vector3(3, 0, 6);
                 // Set the rotation of the chair mesh to face the opposite direction
                 fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
-            });
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                fenceHedge.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
 
-            
-            
+            });
 
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 var sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
                 sphere.isVisible = false;
                 sphere.isPickable = true;
+                sphere.checkCollisions = true;
 
                 // The loaded mesh is returned as an array
                 var wiffleBall = newMeshes[0];
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                wiffleBall.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                  });
                 camera.setTarget(wiffleBall);
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 wiffleBall.position.y = -0.001;
@@ -234,9 +255,6 @@
                 wiffleBall.parent = sphere;
 
                 var aggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-
-                
-                
                 var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
                 // Apply gravity to the sphere
                 // aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
