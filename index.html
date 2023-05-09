@@ -150,7 +150,9 @@
 
             // Load the sound and play it automatically once ready
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
-            
+            var nowSelected = new BABYLON.StandardMaterial("nowSelected", scene);
+            nowSelected.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.9);
+            nowSelected.alpha = 1;
             var bat;
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
@@ -175,9 +177,9 @@
                 //     mesh.checkCollisions = true;
                 //   });
                 if (bat.intersectsMesh(ground, true)) {
-                        // The bat is intersecting with the ground, so move it up to the surface of the ground
-                        var distance = bat.position.y - ground.position.y;
-                        bat.position.y -= distance;
+                    bat.material = nowSelected;
+                } else {
+                    bat.material = new BABYLON.Color3(1, 1, 1);
                 }
                 
             });
@@ -249,6 +251,7 @@
 
             });
 
+            var wiffleBall;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 var sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
@@ -257,7 +260,7 @@
                 sphere.checkCollisions = true;
 
                 // The loaded mesh is returned as an array
-                var wiffleBall = newMeshes[0];
+                wiffleBall = newMeshes[0];
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 wiffleBall.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
@@ -336,6 +339,36 @@
                     });
                 })
             });
+
+
+        // scene.registerBeforeRender(function () {
+
+        //     //Balloon 1 intersection -- Precise = false
+        //     if (bat.intersectsMesh(ground, true)) {
+        //         bat.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        //     } else {
+        //         bat.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+        //     }
+
+        //     //Balloon 2 intersection -- Precise = true
+        //     if (wiffleBall.intersectsMesh(picnicTable, true)) {
+        //         wiffleBall.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        //     } else {
+        //         wiffleBall.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+        //     }
+
+            // //balloon 3 intersection on single point
+            // if (balloon3.intersectsPoint(pointToIntersect)) {
+            //     balloon3.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+            // } else {
+            //     balloon3.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+            // }
+
+            // alpha += 0.01;
+            // balloon1.position.y += Math.cos(alpha) / 10;
+            // balloon2.position.y = balloon1.position.y;
+            // balloon3.position.y = balloon1.position.y;
+        // });
 
             
 
