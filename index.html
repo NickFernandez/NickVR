@@ -172,7 +172,7 @@
                 bat.setParent(null);
                 batParent.dispose();
                 // Make sure the user can select this item
-                bat.isPickable = true;
+                // bat.isPickable = true;
                 bat.isVisible = false;
                 // Scale the mesh down by a factor of 0.002 (close for now)
                 bat.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
@@ -189,6 +189,7 @@
                 // var flatShadedCapsule = capsule.convertToFlatShadedMesh();
 
                 var capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
+                // capAggregate.isPickable = true;
                 
                 capAggregate.onCollide = function (collidedMesh) {
                     if (collidedMesh === ground) {
