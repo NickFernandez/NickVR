@@ -191,21 +191,38 @@
                 capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
                 // capAggregate.isPickable = true;
                 capAggregate.onCollide = function (collidedMesh) {
-                if (collidedMesh === ground) {
-                    // Handle collision between the bat and the ball
-                    // Example: Apply force or change velocity of the ball
-                    // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                    // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                    return;
-                }
-                if (collidedMesh === wiffleBall || collidedMesh === sphereAggregate) {
-                    // Handle collision between the bat and the ball
-                    // Example: Apply force or change velocity of the ball
-                    // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                    // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                    capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                }
-            };
+                    if (collidedMesh === ground) {
+                        // Handle collision between the bat and the ball
+                        // Example: Apply force or change velocity of the ball
+                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
+                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                        return;
+                    }
+                    if (collidedMesh === wiffleBall || collidedMesh === sphereAggregate) {
+                        // Handle collision between the bat and the ball
+                        // Example: Apply force or change velocity of the ball
+                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
+                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                        capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                    }
+                };
+
+                capsule.onCollide = function (collidedMesh) {
+                    if (collidedMesh === ground) {
+                        // Handle collision between the bat and the ball
+                        // Example: Apply force or change velocity of the ball
+                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
+                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                        return;
+                    }
+                    if (collidedMesh === wiffleBall || collidedMesh === sphereAggregate) {
+                        // Handle collision between the bat and the ball
+                        // Example: Apply force or change velocity of the ball
+                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
+                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                        capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                    }
+                };
                 
                 
 
@@ -397,7 +414,7 @@
                                 }
                                 
                                 const batMesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                if (batMesh === capAggregate) {
+                                if (batMesh === capAggregate || batmesh === capsule) {
                                     capAggregate.setParent(motionController.rootMesh);
                                     capAggregate.checkCollisions = true;
                                 }
