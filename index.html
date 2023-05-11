@@ -284,9 +284,9 @@
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
               floorMeshes: [ground],
-              inputOptions: {
-                doNotLoadControllerMeshes: true
-              }
+              // inputOptions: {
+              //   doNotLoadControllerMeshes: true;
+              // }
             });
             // add features such as teleportation
             const featuresManager = xr.baseExperience.featuresManager; // or any other way to get a features manager
