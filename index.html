@@ -52,11 +52,6 @@
         // Generate the BABYLON 3D engine
         const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,
         disableWebGL2Support: false });
-        // let HavokInstance;
-        //   HavokPhysics().then((havok) => {
-        //     // Havok is now available
-        //     HavokInstance = havok;
-        //   });
 
         const createScene = async function () {
             // Creates a basic Babylon Scene object
@@ -64,7 +59,7 @@
 
             const havokInstance = await HavokPhysics();
             const hk = new BABYLON.HavokPlugin(true, havokInstance);
-            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk)
+            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -162,6 +157,7 @@
                 capsule.isVisible = false;
                 capsule.isPickable = true;
                 capsule.checkCollisions = true;
+                // capsule.physicsBody.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
                 // This is how the babylon.js staff suggest
                 // how to import custom mesh from the forums
@@ -288,6 +284,9 @@
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
               floorMeshes: [ground],
+              inputOptions: {
+                doNotLoadControllerMeshes: true
+              }
             });
             // add features such as teleportation
             const featuresManager = xr.baseExperience.featuresManager; // or any other way to get a features manager
@@ -304,10 +303,11 @@
                   },
                 });
               } catch (error) {
-                console.log('Error enabling hand tracking feature:', error);
+                console.log('Error enabling hand tracking feature: ', error);
               }
 
             let meshLeft, meshRight;
+            var pickedCapAggregate = null;
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
@@ -324,6 +324,10 @@
                                 if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                     return;
                                 }
+                                if (meshUnderPointer === capAggregate) {
+                                  pickedCapAggregate = meshUnderPointer.pickedMesh;
+                                  pickedCapAggregate.body.setMassProperties({mass: 0});
+                                }
          
                                 if (handness === 'left') {
                                     meshLeft = meshUnderPointer;
@@ -339,8 +343,11 @@
                                     meshLeft && meshLeft.setParent(null);
                                 } else if (handness === 'right') {
                                     meshRight && meshRight.setParent(null);
-                                } else if (capAggregate.parent === motionController.rootMesh) {
-                                    capAggregate.setParent(null);
+                                } else if (!squeezeComponent.pressed && pickedCapAggregate) {
+                                    pickedCapAggregate.body.setMassProperties({mass: 1});
+                                    pickedCapAggregate.setParent(null);
+                                    pickedCapAggregate = null;
+                                    // meshRight && meshRight.setParent(null);
                                 }
                             }
                         }
@@ -353,7 +360,6 @@
 
         };
 
-
         // Call our createScene function asynchronously and render it
         async function initialize() {
           var scene = await createScene()
@@ -361,7 +367,7 @@
             scene.render();
           });
         }
-        
+
         // Call the initialize function to actually produce the world
         initialize();
         // Watch for window adjustments/resizing
