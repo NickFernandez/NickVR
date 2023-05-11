@@ -153,95 +153,40 @@
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
 
             var bat;
-            var capsule;
             var capAggregate;
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
-                capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {radius:0.03, radiusBottom:0.01, capSubdivisions: 1, height:0.7, tessellation:10, topCapSubdivisions:12});
+                var capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {radius:0.03, radiusBottom:0.01, capSubdivisions: 1, height:0.7, tessellation:10, topCapSubdivisions:12});
 
                 capsule.position = new BABYLON.Vector3(0, 4, 1);
-                capsule.isVisible = true;
+                capsule.isVisible = false;
                 capsule.isPickable = true;
                 capsule.checkCollisions = true;
 
-                var centerOfRotation = capsule.position;
-
+                // This is how the babylon.js staff suggest
+                // how to import custom mesh from the forums
                 // The loaded mesh is returned as an array
-                let batParent = newMeshes[0];
-                bat = batParent.getChildMeshes()[0];
-                bat.setParent(null);
-                batParent.dispose();
-                // Make sure the user can select this item
-                // bat.isPickable = true;
-                bat.isVisible = false;
+                // let batParent = newMeshes[0];
+                // bat = batParent.getChildMeshes()[0];
+                // bat.setParent(null);
+                // batParent.dispose();
+
+                bat = newMeshes[0];
+
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                bat.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                });
+
                 // Scale the mesh down by a factor of 0.002 (close for now)
                 bat.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
-                // Position the mesh
-                // bat.position = new BABYLON.Vector3(0, 2, 1);
-                // bat.position = new BABYLON.Vector3(0, 0.35, 0);
-                bat.checkCollisions = true;
-                capsule.material = bat.material;
-                
-                // bat.parent = capsule;
-                // bat.rotateAround(centerOfRotation, BABYLON.Axis.Y, Math.PI / 2);
+                bat.position.y = -0.3;
+                bat.position.z = 0.03;
+                bat.isHeld = false;
+                bat.parent = capsule;
 
-                // Convert the capsule mesh to a flat-shaded mesh
-                // var flatShadedCapsule = capsule.convertToFlatShadedMesh();
-
-                capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
-                // capAggregate.isPickable = true;
-                capAggregate.onCollide = function (collidedMesh) {
-                    if (collidedMesh === ground) {
-                        // Handle collision between the bat and the ball
-                        // Example: Apply force or change velocity of the ball
-                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                        return;
-                    }
-                    if (collidedMesh === wiffleBall || collidedMesh === sphereAggregate) {
-                        // Handle collision between the bat and the ball
-                        // Example: Apply force or change velocity of the ball
-                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                        capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                    }
-                };
-
-                capsule.onCollide = function (collidedMesh) {
-                    if (collidedMesh === ground) {
-                        // Handle collision between the bat and the ball
-                        // Example: Apply force or change velocity of the ball
-                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                        return;
-                    }
-                    if (collidedMesh === wiffleBall || collidedMesh === sphereAggregate) {
-                        // Handle collision between the bat and the ball
-                        // Example: Apply force or change velocity of the ball
-                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                        capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                    }
-                };
-                
-                
-
-
-                // var aggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
-                // Add the child meshes of the bat to the aggregate
-                // var batChildMeshes = bat.getChildMeshes();
-                // batChildMeshes.forEach(function(childMesh) {
-                //     aggregate.addMesh(childMesh, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 });
-                // });
-                // bat.parent = capsule;
-                // const body = bat.aggregate.body;
-                // body.setLinearVelocity(new BABYLON.Vector3(0,0,0));
-                // body.setAngularVelocity(new BABYLON.Vector3(0,0,0));
-                // Gotta do this on each mesh to try and get collisions workig
-                // bat.getChildMeshes().forEach((mesh) => {
-                //     mesh.checkCollisions = true;
-                //   });
-                
+                capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.CAPSULE, { mass: 1, friction:0.4, restitution:0.1 }, scene);
+                capAggregate.checkCollisions = true;
                 
             });
 
@@ -333,45 +278,12 @@
                 wiffleBall.position.z = 0.03;
                 wiffleBall.isHeld = false;
                 wiffleBall.parent = sphere;
-                // test
 
                 sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
                 
                 sphereAggregate.checkCollisions = true;
 
-                sphereAggregate.onCollide = function (collidedMesh) {
-                if (collidedMesh === capsule || collidedMesh === capAggregate) {
-                    // Handle collision between the ball and the bat
-                    // Example: Apply force or change velocity of the ball
-                    // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                    // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                    sphereAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-
-                }
-            };
-
-                
-                
-                // Apply gravity to the sphere
-                // aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
             });
-
-            // var ballPhysicsBody = capAggregate.getBodyByMesh(capsule);
-            // Set up collision handling for the bat
-            
-
-            // var capsulePhysicsBody = aggregate.getBodyByMesh(capsule);
-            // Set up collision handling for the ball
-            
-
-
-
-
-
-
-
-
-
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -412,12 +324,6 @@
                                 if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                     return;
                                 }
-                                
-                                const batMesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                if (batMesh === capAggregate || batmesh === capsule) {
-                                    capAggregate.setParent(motionController.rootMesh);
-                                    capAggregate.checkCollisions = true;
-                                }
          
                                 if (handness === 'left') {
                                     meshLeft = meshUnderPointer;
@@ -442,15 +348,6 @@
                 })
             });
 
-            
-
-
-
-            
-
-            
-
-            
 
             return scene;
 
