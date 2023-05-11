@@ -308,6 +308,9 @@
 
             let meshLeft, meshRight;
             var pickedCapAggregate = null;
+            var pickedBat = null;
+            var pickedBall = null;
+            var pickedSA = null;
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
@@ -328,8 +331,23 @@
                               }
                               if (meshUnderPointer === capAggregate) {
                                 // pickedCapAggregate = meshUnderPointer.pickedMesh;
-                                pickedCapAggregate = true;
+                                pickedCapAggregate = meshUnderPointer;
                                 capAggregate.body.setMassProperties({mass: 0});
+                              }
+                              if (meshUnderPointer === bat) {
+                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                                pickedBat = meshUnderPointer;
+                                bat.body.setMassProperties({mass: 0});
+                              }
+                              if (meshUnderPointer === wiffleBall) {
+                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                                pickedBall = meshUnderPointer;
+                                wiffleBall.body.setMassProperties({mass: 0});
+                              }
+                              if (meshUnderPointer === sphereAggregate) {
+                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                                pickedSA = meshUnderPointer;
+                                sphereAggregate.body.setMassProperties({mass: 0});
                               }
        
                               if (handness === 'left') {
@@ -350,6 +368,31 @@
                                     capAggregate.body.setMassProperties({mass: 1});
                                     capAggregate.setParent(null);
                                     capAggregate = null;
+                                    meshRight && meshRight.setParent(null);
+                                } else if (!squeezeComponent.pressed && pickedBat) {
+                                    bat.body.setMassProperties({mass: 1});
+                                    bat.setParent(null);
+                                    
+                                    meshRight && meshRight.setParent(null);
+                                } else if (!squeezeComponent.pressed && pickedBall) {
+                                    wiffleBall.body.setMassProperties({mass: 1});
+                                    wiffleBall.setParent(null);
+                                    
+                                    meshRight && meshRight.setParent(null);
+                                } else if (!squeezeComponent.pressed && meshUnderPointer===wiffleBall) {
+                                    wiffleBall.body.setMassProperties({mass: 1});
+                                    wiffleBall.setParent(null);
+                                    
+                                    meshRight && meshRight.setParent(null);
+                                } else if (!squeezeComponent.pressed && pickedSA) {
+                                    sphereAggregate.body.setMassProperties({mass: 1});
+                                    sphereAggregate.setParent(null);
+                                    
+                                    meshRight && meshRight.setParent(null);
+                                } else if (!squeezeComponent.pressed && meshUnderPointer===sphereAggregate) {
+                                    sphereAggregate.body.setMassProperties({mass: 1});
+                                    sphereAggregate.setParent(null);
+                                    
                                     meshRight && meshRight.setParent(null);
                                 }
                             }
