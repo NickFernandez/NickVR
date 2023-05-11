@@ -157,6 +157,7 @@
                 capsule.isVisible = false;
                 capsule.isPickable = true;
                 capsule.checkCollisions = true;
+                capsule.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
                 // capsule.physicsBody.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
                 // This is how the babylon.js staff suggest
@@ -183,6 +184,7 @@
 
                 capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.CAPSULE, { mass: 1, friction:0.4, restitution:0.1 }, scene);
                 capAggregate.checkCollisions = true;
+                // capAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
                 
             });
 
@@ -261,6 +263,7 @@
                 sphere.isVisible = false;
                 sphere.isPickable = true;
                 sphere.checkCollisions = true;
+                // sphere.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
                 // The loaded mesh is returned as an array
                 wiffleBall = newMeshes[0];
@@ -278,6 +281,7 @@
                 sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
                 
                 sphereAggregate.checkCollisions = true;
+                // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
             });
 
@@ -318,6 +322,7 @@
                     const xr_ids = motionController.getComponentIds();
                     const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                     const squeezeComponent = motionController.getComponentOfType('squeeze');
+                    let velocity = new BABYLON.Vector3(0, -9.8, 0);
                     squeezeComponent.onButtonStateChangedObservable.add(() => {
                         if (squeezeComponent.changes.pressed) {
                           console.log('1st test');
@@ -366,31 +371,37 @@
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && pickedCapAggregate) {
                                     capAggregate.body.setMassProperties({mass: 1});
+                                    capAggregate.body.setLinearVelocity(velocity);
                                     capAggregate.setParent(null);
                                     capAggregate = null;
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && pickedBat) {
                                     bat.body.setMassProperties({mass: 1});
+                                    bat.body.setLinearVelocity(velocity);
                                     bat.setParent(null);
                                     
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && pickedBall) {
                                     wiffleBall.body.setMassProperties({mass: 1});
+                                    wiffleBall.body.setLinearVelocity(velocity);
                                     wiffleBall.setParent(null);
                                     
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && meshUnderPointer===wiffleBall) {
                                     wiffleBall.body.setMassProperties({mass: 1});
+                                    wiffleBall.body.setLinearVelocity(velocity);
                                     wiffleBall.setParent(null);
                                     
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && pickedSA) {
                                     sphereAggregate.body.setMassProperties({mass: 1});
+                                    sphereAggregate.body.setLinearVelocity(velocity);
                                     sphereAggregate.setParent(null);
                                     
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && meshUnderPointer===sphereAggregate) {
                                     sphereAggregate.body.setMassProperties({mass: 1});
+                                    sphereAggregate.body.setLinearVelocity(velocity);
                                     sphereAggregate.setParent(null);
                                     
                                     meshRight && meshRight.setParent(null);
