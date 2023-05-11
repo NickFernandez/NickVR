@@ -395,6 +395,13 @@
                                 if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                     return;
                                 }
+                                
+                                const batMesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                                if (batMesh === capAggregate) {
+                                    capAggregate.setParent(motionController.rootMesh);
+                                    capAggregate.checkCollisions = true;
+                                }
+         
                                 if (handness === 'left') {
                                     meshLeft = meshUnderPointer;
                                     meshLeft && meshLeft.setParent(motionController.rootMesh);
@@ -409,32 +416,12 @@
                                     meshLeft && meshLeft.setParent(null);
                                 } else if (handness === 'right') {
                                     meshRight && meshRight.setParent(null);
+                                } else if (capAggregate.parent === motionController.rootMesh) {
+                                    capAggregate.setParent(null);
                                 }
                             }
                         }
                     });
-
-
-                    // Add picking up logic for the bat (capsule)
-                    if (triggerComponent) {
-                      triggerComponent.onButtonStateChangedObservable.add(() => {
-                        if (triggerComponent.pressed) {
-                          const batMesh = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                          if (batMesh === capAggregate) {
-                            capAggregate.setParent(motionController.rootMesh);
-                            capAggregate.checkCollisions = true;
-                          }
-                        } else {
-                          if (capAggregate.parent === motionController.rootMesh) {
-                            capAggregate.setParent(null);
-                          }
-                        }
-                      });
-                    }
-
-
-
-                    
                 })
             });
 
