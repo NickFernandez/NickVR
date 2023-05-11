@@ -188,25 +188,26 @@
                 // Convert the capsule mesh to a flat-shaded mesh
                 // var flatShadedCapsule = capsule.convertToFlatShadedMesh();
 
-                var capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
+                capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
                 // capAggregate.isPickable = true;
-                
                 capAggregate.onCollide = function (collidedMesh) {
-                    if (collidedMesh === ground) {
-                        // Handle collision between the bat and the ball
-                        // Example: Apply force or change velocity of the ball
-                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                        return;
-                    }
-                    if (collidedMesh === wiffleBall) {
-                        // Handle collision between the bat and the ball
-                        // Example: Apply force or change velocity of the ball
-                        // You can access the ball's physics impostor using wiffleBall.physicsImpostor
-                        // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                        capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
-                    }
-                };
+                if (collidedMesh === ground) {
+                    // Handle collision between the bat and the ball
+                    // Example: Apply force or change velocity of the ball
+                    // You can access the ball's physics impostor using wiffleBall.physicsImpostor
+                    // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                    return;
+                }
+                if (collidedMesh === wiffleBall || collidedMesh === sphereAggregate) {
+                    // Handle collision between the bat and the ball
+                    // Example: Apply force or change velocity of the ball
+                    // You can access the ball's physics impostor using wiffleBall.physicsImpostor
+                    // Example: wiffleBall.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                    capAggregate.body.setLinearVelocity(new BABYLON.Vector3(0, 5, 0));
+                }
+            };
+                
+                
 
 
                 // var aggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.MESH, { mass: 1, friction:0.4, restitution:0.1 }, scene);
@@ -322,7 +323,7 @@
                 sphereAggregate.checkCollisions = true;
 
                 sphereAggregate.onCollide = function (collidedMesh) {
-                if (collidedMesh === capsule) {
+                if (collidedMesh === capsule || collidedMesh === capAggregate) {
                     // Handle collision between the ball and the bat
                     // Example: Apply force or change velocity of the ball
                     // You can access the ball's physics impostor using wiffleBall.physicsImpostor
@@ -331,6 +332,8 @@
 
                 }
             };
+
+                
                 
                 // Apply gravity to the sphere
                 // aggregate.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
@@ -414,34 +417,9 @@
             });
 
 
-        // scene.registerBeforeRender(function () {
+            
 
-        //     //Balloon 1 intersection -- Precise = false
-        //     if (bat.intersectsMesh(ground, true)) {
-        //         bat.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
-        //     } else {
-        //         bat.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
-        //     }
-
-        //     //Balloon 2 intersection -- Precise = true
-        //     if (wiffleBall.intersectsMesh(picnicTable, true)) {
-        //         wiffleBall.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
-        //     } else {
-        //         wiffleBall.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
-        //     }
-
-            // //balloon 3 intersection on single point
-            // if (balloon3.intersectsPoint(pointToIntersect)) {
-            //     balloon3.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
-            // } else {
-            //     balloon3.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
-            // }
-
-            // alpha += 0.01;
-            // balloon1.position.y += Math.cos(alpha) / 10;
-            // balloon2.position.y = balloon1.position.y;
-            // balloon3.position.y = balloon1.position.y;
-        // });
+            
 
             
 
