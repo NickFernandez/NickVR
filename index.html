@@ -317,37 +317,40 @@
                     const squeezeComponent = motionController.getComponentOfType('squeeze');
                     squeezeComponent.onButtonStateChangedObservable.add(() => {
                         if (squeezeComponent.changes.pressed) {
+                          console.log('1st test');
                             // is it pressed?
                             if (squeezeComponent.pressed) {
-                                const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                                console.log(meshUnderPointer);
-                                if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
-                                    return;
-                                }
-                                if (meshUnderPointer === capAggregate) {
-                                  pickedCapAggregate = meshUnderPointer.pickedMesh;
-                                  pickedCapAggregate.body.setMassProperties({mass: 0});
-                                }
-         
-                                if (handness === 'left') {
-                                    meshLeft = meshUnderPointer;
-                                    meshLeft && meshLeft.setParent(motionController.rootMesh);
-                                    meshLeft.checkCollisions = true;
-                                } else if (handness === 'right') {
-                                    meshRight = meshUnderPointer;
-                                    meshRight && meshRight.setParent(motionController.rootMesh);
-                                    meshRight.checkCollisions = true;
-                                }
+                              console.log('1st test');
+                              const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                              console.log(meshUnderPointer);
+                              if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
+                                  return;
+                              }
+                              if (meshUnderPointer === capAggregate) {
+                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                                pickedCapAggregate = true;
+                                capAggregate.body.setMassProperties({mass: 0});
+                              }
+       
+                              if (handness === 'left') {
+                                  meshLeft = meshUnderPointer;
+                                  meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                  meshLeft.checkCollisions = true;
+                              } else if (handness === 'right') {
+                                  meshRight = meshUnderPointer;
+                                  meshRight && meshRight.setParent(motionController.rootMesh);
+                                  meshRight.checkCollisions = true;
+                              }
                             } else {
                                 if (handness === 'left') {
                                     meshLeft && meshLeft.setParent(null);
                                 } else if (handness === 'right') {
                                     meshRight && meshRight.setParent(null);
                                 } else if (!squeezeComponent.pressed && pickedCapAggregate) {
-                                    pickedCapAggregate.body.setMassProperties({mass: 1});
-                                    pickedCapAggregate.setParent(null);
-                                    pickedCapAggregate = null;
-                                    // meshRight && meshRight.setParent(null);
+                                    capAggregate.body.setMassProperties({mass: 1});
+                                    capAggregate.setParent(null);
+                                    capAggregate = null;
+                                    meshRight && meshRight.setParent(null);
                                 }
                             }
                         }
