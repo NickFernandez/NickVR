@@ -387,7 +387,8 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
-                                    meshLeft.physicsImpostor.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    meshLeft.physicsImpostor.setLinearVelocity(velocity);
+                                    // meshLeft.physicsImpostor.setAngularVelocity(velocity);
                                     meshLeft.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
                                               // Handle collision events if needed
                                           });
