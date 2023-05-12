@@ -385,7 +385,7 @@
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
-                                  if (meshLeft.physicsBody) {
+                                  if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
                                   }
                                   // if (meshLeft) {
@@ -400,7 +400,7 @@
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
-                                  if (meshRight.physicsBody) {
+                                  if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
                                   }
 
