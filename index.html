@@ -320,6 +320,9 @@
 
             });
 
+            var box = BABYLON.MeshBuilder.CreateBox("myBox", {}, scene);
+            box.position = new BABYLON.Vector3(4, 0, 2.75);
+
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
               floorMeshes: [ground],
