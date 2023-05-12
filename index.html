@@ -382,22 +382,32 @@
                           } else {
                               if (handness === 'left') {
                                   meshLeft && meshLeft.setParent(null);
-                                  if (meshLeft) {
-                                          // meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
-                                          meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
-                                          meshLeft.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
-                                              // Handle collision events if needed
-                                          });
-                                  }
+                                  const newColor = new BABYLON.Color3(2, 0, 0); //  color
+                                  const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                                  newMaterial.diffuseColor = newColor;
+                                  meshLeft.material = newMaterial;
+                                  // if (meshLeft) {
+                                  //         // meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
+                                  //         meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                  //         meshLeft.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                  //             // Handle collision events if needed
+                                  //         });
+                                  // }
                               } else if (handness === 'right') {
                                   meshRight && meshRight.setParent(null);
-                                  if (meshRight) {
-                                          // meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
-                                          meshRight.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
-                                          meshRight.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
-                                              // Handle collision events if needed
-                                          });
-                                  }
+                                  const newColor = new BABYLON.Color3(1, 0, 0); // Red color
+                                  const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                                  newMaterial.diffuseColor = newColor;
+                                  meshRight.material = newMaterial;
+
+
+                                  // if (meshRight) {
+                                  //         // meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
+                                  //         meshRight.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
+                                  //         meshRight.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                  //             // Handle collision events if needed
+                                  //         });
+                                  // }
                               }
                           }
                         }
