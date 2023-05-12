@@ -362,85 +362,45 @@
                         if (squeezeComponent.changes.pressed) {
                           // is it pressed?
                           if (squeezeComponent.pressed) {
-                            console.log('1st test');
                             const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                            console.log(meshUnderPointer);
                             if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                 return;
                             }
-                            if (meshUnderPointer === capAggregate) {
-                              pickedCapAggregate = meshUnderPointer.pickedMesh;
-                              pickedCapAggregate = meshUnderPointer;
-                              capAggregate.body.setMassProperties({mass: 0});
-                            }
-                            if (meshUnderPointer === bat) {
-                              pickedCapAggregate = meshUnderPointer.pickedMesh;
-                              pickedBat = meshUnderPointer;
-                              bat.body.setMassProperties({mass: 0});
-                            }
-                            if (meshUnderPointer === wiffleBall) {
-                              pickedCapAggregate = meshUnderPointer.pickedMesh;
-                              pickedBall = meshUnderPointer;
-                              wiffleBall.body.setMassProperties({mass: 0});
-                            }
-                            if (meshUnderPointer === sphereAggregate) {
-                              pickedCapAggregate = meshUnderPointer.pickedMesh;
-                              pickedSA = meshUnderPointer;
-                              sphereAggregate.body.setMassProperties({mass: 0});
-                            }
-     
+
                             if (handness === 'left') {
                                 meshLeft = meshUnderPointer;
                                 meshLeft && meshLeft.setParent(motionController.rootMesh);
-                                meshLeft.checkCollisions = true;
+
                             } else if (handness === 'right') {
                                 meshRight = meshUnderPointer;
                                 meshRight && meshRight.setParent(motionController.rootMesh);
-                                meshRight.checkCollisions = true;
+
                             }
                           } else {
-                                if (handness === 'left') {
-                                    meshLeft && meshLeft.setParent(null);
-                                } else if (handness === 'right') {
-                                    meshRight && meshRight.setParent(null);
-                                } else if (!squeezeComponent.pressed && pickedCapAggregate) {
-                                    capAggregate.body.setMassProperties({mass: 1});
-                                    capAggregate.body.setLinearVelocity(velocity);
-                                    capAggregate.setParent(null);
-                                    capAggregate = null;
-                                    meshRight && meshRight.setParent(null);
-                                } else if (!squeezeComponent.pressed && pickedBat) {
-                                    bat.body.setMassProperties({mass: 1});
-                                    bat.body.setLinearVelocity(velocity);
-                                    bat.setParent(null);
-                                    
-                                    meshRight && meshRight.setParent(null);
-                                } else if (!squeezeComponent.pressed && pickedBall) {
-                                    wiffleBall.body.setMassProperties({mass: 1});
-                                    wiffleBall.body.setLinearVelocity(velocity);
-                                    wiffleBall.setParent(null);
-                                    
-                                    meshRight && meshRight.setParent(null);
-                                } else if (!squeezeComponent.pressed && meshUnderPointer===wiffleBall) {
-                                    wiffleBall.body.setMassProperties({mass: 1});
-                                    wiffleBall.body.setLinearVelocity(velocity);
-                                    wiffleBall.setParent(null);
-                                    
-                                    meshRight && meshRight.setParent(null);
-                                } else if (!squeezeComponent.pressed && pickedSA) {
-                                    sphereAggregate.body.setMassProperties({mass: 1});
-                                    sphereAggregate.body.setLinearVelocity(velocity);
-                                    sphereAggregate.setParent(null);
-                                    
-                                    meshRight && meshRight.setParent(null);
-                                } else if (!squeezeComponent.pressed && meshUnderPointer===sphereAggregate) {
-                                    sphereAggregate.body.setMassProperties({mass: 1});
-                                    sphereAggregate.body.setLinearVelocity(velocity);
-                                    sphereAggregate.setParent(null);
-                                    
-                                    meshRight && meshRight.setParent(null);
-                                }
-                            }
+                              if (handness === 'left') {
+                                  meshLeft && meshLeft.setParent(null);
+                                  if (meshLeft) {
+                                      if (!meshLeft.physicsAggregate) {
+                                          meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
+                                          meshLeft.physicsImpostor.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                          meshLeft.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                              // Handle collision events if needed
+                                          });
+                                      }
+                                  }
+                              } else if (handness === 'right') {
+                                  meshRight && meshRight.setParent(null);
+                                  if (meshRight) {
+                                      if (!meshRight.physicsAggregate) {
+                                          meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
+                                          meshRight.physicsImpostor.applyImpulse(velocity, meshRight.getAbsolutePosition());
+                                          meshRight.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                              // Handle collision events if needed
+                                          });
+                                      }
+                                  }
+                              }
+                          }
                         }
                     });
                 })
