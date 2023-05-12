@@ -381,7 +381,7 @@
                             }
                           } else {
                               if (handness === 'left') {
-                                  meshLeft && meshLeft.setParent(null);
+                                  // meshLeft && meshLeft.setParent(null);
                                   if (meshLeft) {
                                           meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
                                           meshLeft.physicsImpostor.applyImpulse(velocity, meshLeft.getAbsolutePosition());
@@ -390,7 +390,7 @@
                                           });
                                   }
                               } else if (handness === 'right') {
-                                  meshRight && meshRight.setParent(null);
+                                  // meshRight && meshRight.setParent(null);
                                   if (meshRight) {
                                           meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
                                           meshRight.physicsImpostor.applyImpulse(velocity, meshRight.getAbsolutePosition());
