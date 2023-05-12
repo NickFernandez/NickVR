@@ -161,6 +161,7 @@
                 body.setMassProperties({
                   mass: 0.85,
                 });
+                // body.getCollisionObservable().add(bodyCollideCB);
 
                 // center of the sphere in local space, radius of sphere, containing scene.
                 const shape = new BABYLON.PhysicsShapeCapsule(new BABYLON.Vector3(0, -0.1, 0), new BABYLON.Vector3(0, 0.1, 0), 0.03, scene);
@@ -186,13 +187,21 @@
 
                 // Scale the mesh down by a factor of 0.002 (close for now)
                 bat.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
-                bat.position.y = -0.3;
+                bat.position.y = -0.2;
                 bat.position.z = 0.03;
-                // bat.isHeld = false;
+                bat.checkCollisions = true;
                 bat.parent = capsule;
 
                 capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.CAPSULE, { mass: 1, friction:0.4, restitution:0.1 }, scene);
-                capAggregate.checkCollisions = true;
+                capAggregate.body.setCollisionCallbackEnabled(true);
+                // var ballPosition = sphere.position;
+                const observable = capAggregate.body.getCollisionObservable();
+                const observer = observable.add((collissionEvent) => {
+                  if (collissionEvent.collidedAgainst.transformNode === sphere) {
+                    collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
+                  }
+
+                });
                 
             });
 
@@ -265,6 +274,7 @@
 
             var wiffleBall;
             var sphereAggregate;
+            var sphere;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
@@ -298,7 +308,7 @@
                 wiffleBall.parent = sphere;
 
                 sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-                
+                sphereAggregate.body.setCollisionCallbackEnabled(true);
                 sphereAggregate.checkCollisions = true;
                 // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
