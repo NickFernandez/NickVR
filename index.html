@@ -387,11 +387,11 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
-                                    meshLeft.physicsImpostor.setLinearVelocity(velocity);
-                                    // meshLeft.physicsImpostor.setAngularVelocity(velocity);
-                                    meshLeft.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
-                                              // Handle collision events if needed
-                                          });
+                                    // meshLeft.physicsImpostor.setLinearVelocity(velocity);
+                                    meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    // meshLeft.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                    //           // Handle collision events if needed
+                                    //       });
                                     
                                   }
                                   // if (meshLeft) {
