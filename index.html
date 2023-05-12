@@ -408,6 +408,7 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
+                                    meshRight.body.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
                                   }
 
 
