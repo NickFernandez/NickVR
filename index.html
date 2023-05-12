@@ -387,13 +387,18 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
+                                    meshLeft.physicsImpostor.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    meshLeft.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                              // Handle collision events if needed
+                                          });
+                                    
                                   }
                                   // if (meshLeft) {
                                   //         // meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
                                   //         meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
-                                  //         meshLeft.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
-                                  //             // Handle collision events if needed
-                                  //         });
+                                          meshLeft.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
+                                              // Handle collision events if needed
+                                          });
                                   // }
                               } else if (handness === 'right') {
                                   meshRight && meshRight.setParent(null);
