@@ -197,7 +197,13 @@
                 // var ballPosition = sphere.position;
                 const observable = capAggregate.body.getCollisionObservable();
                 const observer = observable.add((collissionEvent) => {
-                  if (collissionEvent.collidedAgainst.transformNode === sphere) {
+                  if (collissionEvent.collidedAgainst.transformNode.name === sphere) {
+                    collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
+                  }
+                  if (collissionEvent.collidedAgainst.transformNode.name === sphereAggregate) {
+                    collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
+                  }
+                  if (collissionEvent.collidedAgainst.transformNode.name === wiffleBall) {
                     collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
                   }
 
