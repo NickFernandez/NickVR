@@ -119,7 +119,7 @@
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
 
-            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.75, restitution: 0.1 }, scene);
             groundAggregate.checkCollisions = true;
 
             // var hdrTexture = new BABYLON.CubeTexture("/textures/environmentSpecular.dds", scene);
@@ -152,13 +152,22 @@
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 var capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {radius:0.03, radiusBottom:0.01, capSubdivisions: 1, height:0.7, tessellation:10, topCapSubdivisions:12});
-
                 capsule.position = new BABYLON.Vector3(0, 4, 1);
                 capsule.isVisible = false;
                 capsule.isPickable = true;
                 capsule.checkCollisions = true;
-                // capsule.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
-                // capsule.physicsBody.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+
+                const body = new BABYLON.PhysicsBody(capsule, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                body.setMassProperties({
+                  mass: 0.85,
+                });
+
+                // center of the sphere in local space, radius of sphere, containing scene.
+                const shape = new BABYLON.PhysicsShapeCapsule(new BABYLON.Vector3(0, -0.1, 0), new BABYLON.Vector3(0, 0.1, 0), 0.03, scene);
+                body.shape = shape;
+
+                const material = {friction: 0.6, restitution: 0.15};
+                shape.material = material;
 
                 // This is how the babylon.js staff suggest
                 // how to import custom mesh from the forums
@@ -179,12 +188,11 @@
                 bat.scaling = new BABYLON.Vector3(0.002, 0.002, 0.002);
                 bat.position.y = -0.3;
                 bat.position.z = 0.03;
-                bat.isHeld = false;
+                // bat.isHeld = false;
                 bat.parent = capsule;
 
                 capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.CAPSULE, { mass: 1, friction:0.4, restitution:0.1 }, scene);
                 capAggregate.checkCollisions = true;
-                // capAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
                 
             });
 
@@ -263,7 +271,18 @@
                 sphere.isVisible = false;
                 sphere.isPickable = true;
                 sphere.checkCollisions = true;
-                // sphere.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+                // 0.01984165,
+                const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                body.setMassProperties({
+                  mass: 0.5,
+                });
+
+                // center of the sphere in local space, radius of sphere, containing scene.
+                const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
+                body.shape = shape;
+
+                const material = {friction: 0.5, restitution: 0.3};
+                shape.material = material;
 
                 // The loaded mesh is returned as an array
                 wiffleBall = newMeshes[0];
@@ -325,46 +344,45 @@
                     let velocity = new BABYLON.Vector3(0, -9.8, 0);
                     squeezeComponent.onButtonStateChangedObservable.add(() => {
                         if (squeezeComponent.changes.pressed) {
-                          console.log('1st test');
-                            // is it pressed?
-                            if (squeezeComponent.pressed) {
-                              console.log('1st test');
-                              const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                              console.log(meshUnderPointer);
-                              if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
-                                  return;
-                              }
-                              if (meshUnderPointer === capAggregate) {
-                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
-                                pickedCapAggregate = meshUnderPointer;
-                                capAggregate.body.setMassProperties({mass: 0});
-                              }
-                              if (meshUnderPointer === bat) {
-                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
-                                pickedBat = meshUnderPointer;
-                                bat.body.setMassProperties({mass: 0});
-                              }
-                              if (meshUnderPointer === wiffleBall) {
-                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
-                                pickedBall = meshUnderPointer;
-                                wiffleBall.body.setMassProperties({mass: 0});
-                              }
-                              if (meshUnderPointer === sphereAggregate) {
-                                // pickedCapAggregate = meshUnderPointer.pickedMesh;
-                                pickedSA = meshUnderPointer;
-                                sphereAggregate.body.setMassProperties({mass: 0});
-                              }
-       
-                              if (handness === 'left') {
-                                  meshLeft = meshUnderPointer;
-                                  meshLeft && meshLeft.setParent(motionController.rootMesh);
-                                  meshLeft.checkCollisions = true;
-                              } else if (handness === 'right') {
-                                  meshRight = meshUnderPointer;
-                                  meshRight && meshRight.setParent(motionController.rootMesh);
-                                  meshRight.checkCollisions = true;
-                              }
-                            } else {
+                          // is it pressed?
+                          if (squeezeComponent.pressed) {
+                            console.log('1st test');
+                            const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                            console.log(meshUnderPointer);
+                            if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
+                                return;
+                            }
+                            if (meshUnderPointer === capAggregate) {
+                              // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                              pickedCapAggregate = meshUnderPointer;
+                              capAggregate.body.setMassProperties({mass: 0});
+                            }
+                            if (meshUnderPointer === bat) {
+                              // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                              pickedBat = meshUnderPointer;
+                              bat.body.setMassProperties({mass: 0});
+                            }
+                            if (meshUnderPointer === wiffleBall) {
+                              // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                              pickedBall = meshUnderPointer;
+                              wiffleBall.body.setMassProperties({mass: 0});
+                            }
+                            if (meshUnderPointer === sphereAggregate) {
+                              // pickedCapAggregate = meshUnderPointer.pickedMesh;
+                              pickedSA = meshUnderPointer;
+                              sphereAggregate.body.setMassProperties({mass: 0});
+                            }
+     
+                            if (handness === 'left') {
+                                meshLeft = meshUnderPointer;
+                                meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                meshLeft.checkCollisions = true;
+                            } else if (handness === 'right') {
+                                meshRight = meshUnderPointer;
+                                meshRight && meshRight.setParent(motionController.rootMesh);
+                                meshRight.checkCollisions = true;
+                            }
+                          } else {
                                 if (handness === 'left') {
                                     meshLeft && meshLeft.setParent(null);
                                 } else if (handness === 'right') {
@@ -411,7 +429,6 @@
                     });
                 })
             });
-
 
             return scene;
 
