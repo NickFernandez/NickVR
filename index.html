@@ -380,7 +380,7 @@
 
                             }
                           } else {
-                              if (handness === 'left') {
+                              if (handness === 'left' && meshUnderPointer === wiffleBall || meshUnderPointer === bat) {
                                   meshLeft && meshLeft.setParent(null);
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
@@ -401,7 +401,7 @@
                                               // Handle collision events if needed
                                           // });
                                   // }
-                              } else if (handness === 'right') {
+                              } else if (handness === 'right' && meshUnderPointer === wiffleBall || meshUnderPointer === bat) {
                                   meshRight && meshRight.setParent(null);
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
