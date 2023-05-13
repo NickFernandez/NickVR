@@ -385,7 +385,7 @@
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
-                                  if (meshLeft.body.physicsAggregate !== null) {
+                                  if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
                                     // meshLeft.physicsImpostor.setLinearVelocity(velocity);
                                     // meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
@@ -406,12 +406,11 @@
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
-                                  if (meshRight.physicsBody !== null) {
+                                  if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
-                                    meshRight.physicsBody.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
                                     // meshRight.aggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction:0.4, restitution:0.8 }, scene);
-                                    // const newBody = meshRight.body.aggregate.b;
-                                    // newBody.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
+                                    // const newBody = meshRight.aggregate.body;
+                                    meshRight.body.aggregate.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
                                     // meshRight.body.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
                                   }
 
