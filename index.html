@@ -385,7 +385,7 @@
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
-                                  if (meshLeft.physicsImpostor !== null) {
+                                  if (meshLeft.body.physicsAggregate !== null) {
                                     meshLeft.material = newMaterial;
                                     // meshLeft.physicsImpostor.setLinearVelocity(velocity);
                                     // meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
@@ -406,11 +406,12 @@
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
-                                  if (meshRight.physicsImpostor !== null) {
+                                  if (meshRight.physicsBody !== null) {
                                     meshRight.material = newMaterial;
-                                    meshRight.aggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction:0.4, restitution:0.8 }, scene);
-                                    const newBody = meshRight.aggregate.body;
-                                    newBody.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
+                                    meshRight.physicsBody.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
+                                    // meshRight.aggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction:0.4, restitution:0.8 }, scene);
+                                    // const newBody = meshRight.body.aggregate.b;
+                                    // newBody.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
                                     // meshRight.body.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
                                   }
 
