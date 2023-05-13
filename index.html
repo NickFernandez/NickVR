@@ -386,6 +386,7 @@
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
+                                    meshLeft.physicsImpostor.setLinearVelocity(velocity);
                                     meshLeft.material = newMaterial;
                                     // meshLeft.physicsImpostor.setLinearVelocity(velocity);
                                     // meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
@@ -401,17 +402,18 @@
                                               // Handle collision events if needed
                                           // });
                                   // }
-                              } else if (handness === 'right' && meshUnderPointer === sphereAggregate || meshUnderPointer === capAggregate) {
+                              } else if (handness === 'right') {
                                   meshRight && meshRight.setParent(null);
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
+                                    const physicsAggregateBody = meshRight.physicsImpostor.physicsBody;
                                     meshRight.material = newMaterial;
                                     // meshRight.aggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction:0.4, restitution:0.8 }, scene);
                                     // const newBody = meshRight.aggregate.body;
                                     // meshRight.body.aggregate.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
-                                    // meshRight.body.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
+                                    physicsAggregateBody.applyImpulse(velocity, meshRight.getAbsolutePosition());
                                   }
 
                               }
