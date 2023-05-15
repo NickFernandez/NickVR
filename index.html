@@ -119,7 +119,7 @@
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
 
-            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.75, restitution: 0.1 }, scene);
+            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.88, restitution: 0.05 }, scene);
             groundAggregate.checkCollisions = true;
 
             // var hdrTexture = new BABYLON.CubeTexture("/textures/environmentSpecular.dds", scene);
@@ -381,13 +381,14 @@
                             }
                           } else {
                               if (handness === 'left') {
-                                  meshLeft && meshLeft.setParent(null);
+                                  
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
-                                    meshLeft.physicsImpostor.setLinearVelocity(velocity);
                                     meshLeft.material = newMaterial;
+                                    meshLeft.body.applyImpulse(new BABYLON.Vector3(0, 10, 0), meshLeft.position);
+                                    // meshLeft && meshLeft.setParent(null);
                                     // meshLeft.physicsImpostor.setLinearVelocity(velocity);
                                     // meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
                                     // meshLeft.physicsImpostor.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
@@ -403,17 +404,19 @@
                                           // });
                                   // }
                               } else if (handness === 'right') {
-                                  meshRight && meshRight.setParent(null);
+                                  
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
-                                    const physicsAggregateBody = meshRight.physicsImpostor.physicsBody;
                                     meshRight.material = newMaterial;
+                                    meshRight.setParent(null);
+                                    // meshRight.body.applyForce(new BABYLON.Vector3(0, 10, 0),new BABYLON.Vector3(1, 0, 1)
+                                    
                                     // meshRight.aggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction:0.4, restitution:0.8 }, scene);
                                     // const newBody = meshRight.aggregate.body;
                                     // meshRight.body.aggregate.setLinearVelocity(new BABYLON.Vector3(0,-9.81,0));
-                                    physicsAggregateBody.applyImpulse(velocity, meshRight.getAbsolutePosition());
+                                    // physicsAggregateBody.applyImpulse(velocity, meshRight.getAbsolutePosition());
                                   }
 
                               }
