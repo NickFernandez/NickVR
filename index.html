@@ -384,14 +384,10 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
+                                    meshLeft.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+
                                   }
-                                  // if (meshLeft) {
-                                  //         // meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
-                                  //         meshLeft.physicsAggregate.applyImpulse(velocity, meshLeft.getAbsolutePosition());
-                                  //         meshLeft.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
-                                  //             // Handle collision events if needed
-                                  //         });
-                                  // }
+                                  
                               } else if (handness === 'right') {
                                   meshRight && meshRight.setParent(null);
                                   const newColor = new BABYLON.Color3(1, 0, 0); // Red color
@@ -399,22 +395,12 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
+                                    meshRight.parent.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+
                                   }
 
 
-                                  // const physicsViewer = new BABYLON.PhysicsViewer(scene);
-                                  //   scene.meshes.forEach(mesh => {
-                                  //       console.log(mesh)
-                                  //       if (mesh.physicsBody) physicsViewer.showBody(mesh.physicsBody);
-                                  //   })
-
-                                  // if (meshRight) {
-                                  //         // meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
-                                  //         meshRight.physicsAggregate.applyImpulse(velocity, meshRight.getAbsolutePosition());
-                                  //         meshRight.physicsAggregate.registerOnPhysicsCollide(ground.physicsImpostor, (main, collided) => {
-                                  //             // Handle collision events if needed
-                                  //         });
-                                  // }
+                              
                               }
                           }
                         }
