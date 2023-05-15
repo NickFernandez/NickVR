@@ -386,7 +386,7 @@
                                   meshLeft.material = newMaterial;
                                 }
 
-                            } else if (handness === 'right') {
+                            if (handness === 'right') {
                                 const newColor = new BABYLON.Color3(1, 0, 0); // Red color
                                 const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                 newMaterial.diffuseColor = newColor;
@@ -396,9 +396,10 @@
                                 }
                       }
                       
-                    });
+                    };
                 });
-            });  
+            });
+          });  
 
             return scene;
 }
