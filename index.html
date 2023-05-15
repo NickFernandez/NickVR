@@ -321,6 +321,18 @@
             });
 
             var box = BABYLON.MeshBuilder.CreateBox("myBox", {}, scene);
+            // center of the sphere in local space, radius of sphere, containing scene.
+            
+            const body1 = new BABYLON.PhysicsBody(myBox, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                body.setMassProperties({
+                  mass: 0.85,
+                });
+            const shape1 = new BABYLON.PhysicsShapeBox(new BABYLON.Vector3(0,0,0), 0.5, scene);
+            body1.shape = shape1;
+            boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.box, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+            
+
+            
             box.position = new BABYLON.Vector3(4, 0, 2.75);
 
             // here we add XR support
@@ -384,7 +396,7 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
-                                    meshLeft.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    // meshLeft.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
 
                                   }
                                   
@@ -395,7 +407,7 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
-                                    meshRight.parent.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    // meshRight.parent.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
 
                                   }
 
