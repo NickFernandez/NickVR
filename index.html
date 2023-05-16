@@ -321,6 +321,7 @@
                 wiffleBall.parent = sphere;
                 
                 sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+                sphereAggregate.material = newMaterial;
                 sphereAggregate.body.setCollisionCallbackEnabled(true);
                 sphereAggregate.checkCollisions = true;
                 // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
@@ -382,7 +383,7 @@
 
                             } else if (handness === 'right') {
                                 meshRight = meshUnderPointer;
-                                meshRight && meshRight.setParent(controller.grip);
+                                meshRight && meshRight.aggregate && meshRight.setParent(motionController.rootMesh);
 
                             }
                           } else {
