@@ -280,7 +280,7 @@
 
             var wiffleBall;
             var sphereAggregate;
-            let sphere;
+            var sphere;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
@@ -320,8 +320,9 @@
 
             });
 
-            var box = BABYLON.MeshBuilder.CreateBox("myBox", {}, scene);
+            var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0, 2.75);
+            boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, friction: 0.2, restitution: 0.5 }, scene);
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -348,15 +349,8 @@
                 console.log('Error enabling hand tracking feature: ', error);
               }
 
-
-            const tmpVec = new BABYLON.Vector3();
-            const tmpRay = new BABYLON.Ray();
-            tmpRay.origin = new BABYLON.Vector3();
-            tmpRay.direction = new BABYLON.Vector3();
-            let lastTimestamp = 0;
-            const oldPos = new BABYLON.Vector3();
-
             let meshLeft, meshRight;
+
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
@@ -369,22 +363,6 @@
                         if (squeezeComponent.changes.pressed) {
                           // is it pressed?
                           if (squeezeComponent.pressed) {
-
-                            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                             if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                 return;
@@ -393,23 +371,7 @@
                             if (handness === 'left') {
                                 meshLeft = meshUnderPointer;
                                 meshLeft && meshLeft.setParent(motionController.rootMesh);
-                                observer = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
-                                  const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
-                                  lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
-                                  controller.getWorldPointerRayToRef(tmpRay, true);
-                                  tmpRay.direction.scaleInPlace(1.2);
-                                  const position = controller.grip ? controller.grip.position : controller.pointer.position;
-                                  tmpVec.copyFrom(position);
-                                  tmpVec.addInPlace(tmpRay.direction);
-                                  tmpVec.subtractToRef(oldPos, tmpVec);
-                                  tmpVec.scaleInPlace(1000 / delta);
-                                  sphere.position.copyFrom(position);
-                                  sphere.position.addInPlace(tmpRay.direction);
-                                  oldPos.copyFrom(sphere.position);
-                                  sphere.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
-                                  sphere.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
-                                })
-
+                                const meshLPos = meshLeft.position;
 
                             } else if (handness === 'right') {
                                 meshRight = meshUnderPointer;
@@ -421,10 +383,13 @@
                                   meshLeft && meshLeft.setParent(null);
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                                  const body = mesh.aggregate.body;
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
-                                    meshLeft.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    body.transformNode.position = meshLPos;
+                                    body.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
+                                    body.setAngularVelocity(new BABYLON.Vector3(0,0,0));
 
                                   }
                                   
@@ -435,7 +400,7 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
-                                    meshRight.parent.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    meshRight.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
 
                                   }
 
