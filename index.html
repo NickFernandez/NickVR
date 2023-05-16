@@ -283,6 +283,7 @@
             var sphere;
 
             sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
+            sphere.isPickable = true;
             sphere.position = new BABYLON.Vector3(0, 1, 0);
 
             sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
@@ -318,7 +319,7 @@
                 // wiffleBall.isHeld = false;
                 // wiffleBall.parent = sphere;
 
-                sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+                // sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
                 // sphereAggregate.body.setCollisionCallbackEnabled(true);
                 // sphereAggregate.checkCollisions = true;
                 // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
@@ -329,7 +330,7 @@
             box.isPickable = true;
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
             boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-            boxAggregate.isPickable = true;
+            // boxAggregate.isPickable = true;
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -382,13 +383,13 @@
 
                             } else if (handness === 'right') {
                                 meshRight = meshUnderPointer;
-                                meshRight && meshRight.setParent(controller.grip);
+                                meshRight && meshRight.setParent(motionController.rootMesh);
 
                             }
                           } else {
                               if (handness === 'left') {
                                   meshLeft && meshLeft.setParent(null);
-                                  const newColor = new BABYLON.Color3(1, 1, 1); //  color
+                                  const newColor = new BABYLON.Color3(1, 1, 1); //  colors
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
