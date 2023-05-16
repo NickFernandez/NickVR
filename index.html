@@ -322,7 +322,7 @@
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0, 2.75);
-            boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, friction: 0.2, restitution: 0.5 }, scene);
+            boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -371,11 +371,10 @@
                             if (handness === 'left') {
                                 meshLeft = meshUnderPointer;
                                 meshLeft && meshLeft.setParent(motionController.rootMesh);
-                                const meshLPos = meshLeft.position;
 
                             } else if (handness === 'right') {
                                 meshRight = meshUnderPointer;
-                                meshRight && meshRight.setParent(motionController.rootMesh);
+                                meshRight && meshRight.setParent(motionController.grip);
 
                             }
                           } else {
@@ -383,13 +382,10 @@
                                   meshLeft && meshLeft.setParent(null);
                                   const newColor = new BABYLON.Color3(1, 1, 1); //  color
                                   const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
-                                  const body = mesh.aggregate.body;
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
-                                    body.transformNode.position = meshLPos;
-                                    body.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
-                                    body.setAngularVelocity(new BABYLON.Vector3(0,0,0));
+
 
                                   }
                                   
@@ -400,7 +396,6 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
-                                    meshRight.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(0, -9.81, 0));
 
                                   }
 
