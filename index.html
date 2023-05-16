@@ -280,7 +280,7 @@
 
             var wiffleBall;
             var sphereAggregate;
-            var sphere;
+            let sphere;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
                 sphere.position = new BABYLON.Vector3(0, 1, 0);
@@ -321,18 +321,6 @@
             });
 
             var box = BABYLON.MeshBuilder.CreateBox("myBox", {}, scene);
-            // center of the sphere in local space, radius of sphere, containing scene.
-            
-            const body1 = new BABYLON.PhysicsBody(myBox, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-                body.setMassProperties({
-                  mass: 0.85,
-                });
-            const shape1 = new BABYLON.PhysicsShapeBox(new BABYLON.Vector3(0,0,0), 0.5, scene);
-            body1.shape = shape1;
-            boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.box, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-            
-
-            
             box.position = new BABYLON.Vector3(4, 0, 2.75);
 
             // here we add XR support
@@ -360,8 +348,15 @@
                 console.log('Error enabling hand tracking feature: ', error);
               }
 
-            let meshLeft, meshRight;
 
+            const tmpVec = new BABYLON.Vector3();
+            const tmpRay = new BABYLON.Ray();
+            tmpRay.origin = new BABYLON.Vector3();
+            tmpRay.direction = new BABYLON.Vector3();
+            let lastTimestamp = 0;
+            const oldPos = new BABYLON.Vector3();
+
+            let meshLeft, meshRight;
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
@@ -374,6 +369,22 @@
                         if (squeezeComponent.changes.pressed) {
                           // is it pressed?
                           if (squeezeComponent.pressed) {
+
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                             if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
                                 return;
@@ -382,6 +393,23 @@
                             if (handness === 'left') {
                                 meshLeft = meshUnderPointer;
                                 meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                observer = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
+                                  const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
+                                  lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
+                                  controller.getWorldPointerRayToRef(tmpRay, true);
+                                  tmpRay.direction.scaleInPlace(1.2);
+                                  const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                                  tmpVec.copyFrom(position);
+                                  tmpVec.addInPlace(tmpRay.direction);
+                                  tmpVec.subtractToRef(oldPos, tmpVec);
+                                  tmpVec.scaleInPlace(1000 / delta);
+                                  sphere.position.copyFrom(position);
+                                  sphere.position.addInPlace(tmpRay.direction);
+                                  oldPos.copyFrom(sphere.position);
+                                  sphere.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+                                  sphere.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+                                })
+
 
                             } else if (handness === 'right') {
                                 meshRight = meshUnderPointer;
@@ -396,7 +424,7 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshLeft.physicsImpostor !== null) {
                                     meshLeft.material = newMaterial;
-                                    // meshLeft.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    meshLeft.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
 
                                   }
                                   
@@ -407,7 +435,7 @@
                                   newMaterial.diffuseColor = newColor;
                                   if (meshRight.physicsImpostor !== null) {
                                     meshRight.material = newMaterial;
-                                    // meshRight.parent.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
+                                    meshRight.parent.body.applyImpulse(velocity, meshLeft.getAbsolutePosition());
 
                                   }
 
