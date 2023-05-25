@@ -55,11 +55,22 @@
 
         const createScene = async function () {
             // Creates a basic Babylon Scene object
+            await Ammo();
             var scene = new BABYLON.Scene(engine);
 
-            const havokInstance = await HavokPhysics();
-            const hk = new BABYLON.HavokPlugin(true, havokInstance);
-            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+            // Enable Havok physics in the scene.
+            // XR Physics needs to be upgraded to support Havok -
+            // https://github.com/BabylonJS/Babylon.js/issues/13852
+            // const havokInstance = await HavokPhysics();
+            // const hk = new BABYLON.HavokPlugin(true, havokInstance);
+            // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
+            //  gravity using AmmoJS
+            const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+            const physicsPlugin = new BABYLON.AmmoJSPlugin();
+            // await physicsPlugin.initPromise; // Wait for Ammo.js to finish loading
+            scene.enablePhysics(gravityVector, physicsPlugin);
+
             // Creates and positions a free camera
             const camera = new BABYLON.ArcRotateCamera(
                 "camera",
@@ -106,25 +117,19 @@
             // Our built-in 'ground' shape.
             var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50}, scene);
             ground.position.y = 0;
-            
+            ground.isPickable = false;
             ground.checkCollisions = true;
             // Create a new StandardMaterial for the ground
             const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
             // Load the grass texture
             const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
-            // grassTexture.checkCollisions = true;
             // Apply the grass texture to the ground material
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
-
-            var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.88, restitution: 0.05 }, scene);
-            groundAggregate.checkCollisions = true;
-
-            // var hdrTexture = new BABYLON.CubeTexture("/textures/environmentSpecular.dds", scene);
-            // scene.createDefaultSkybox(hdrTexture, true, 10000);
-            
+            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.88, restitution: 0.05}, scene);
+            groundImpostor.isPickable = false;            
 
             // Sky mesh (box)
             var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
@@ -136,6 +141,7 @@
             skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
             skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
             skybox.material = skyMaterial;
+            skybox.isPickable = false;
 
             // Set sky properties for a blue sky
             skyMaterial.luminance = 1.5;
@@ -148,27 +154,27 @@
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
 
             var bat;
-            var capAggregate;
+            var capPhysicsImpostor;
             // Loads a glTF model
             BABYLON.SceneLoader.ImportMesh("", "meshes/baseball_bat_from_poly_by_google/", "scene.gltf", scene, function (newMeshes) {
                 var capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {radius:0.03, radiusBottom:0.01, capSubdivisions: 1, height:0.7, tessellation:10, topCapSubdivisions:12});
-                capsule.position = new BABYLON.Vector3(0, 0.25, 1);
+                capsule.position = new BABYLON.Vector3(0, 0.25, 1.75);
                 capsule.isVisible = false;
-                capsule.isPickable = true;
+                // capsule.isPickable = true;
                 capsule.checkCollisions = true;
 
-                const body = new BABYLON.PhysicsBody(capsule, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-                body.setMassProperties({
-                  mass: 0.85,
-                });
+                // const body = new BABYLON.PhysicsBody(capsule, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                // body.setMassProperties({
+                //   mass: 0.85,
+                // });
                 // body.getCollisionObservable().add(bodyCollideCB);
 
                 // center of the sphere in local space, radius of sphere, containing scene.
-                const shape = new BABYLON.PhysicsShapeCapsule(new BABYLON.Vector3(0, -0.1, 0), new BABYLON.Vector3(0, 0.1, 0), 0.03, scene);
-                body.shape = shape;
+                // const shape = new BABYLON.PhysicsShapeCapsule(new BABYLON.Vector3(0, -0.1, 0), new BABYLON.Vector3(0, 0.1, 0), 0.03, scene);
+                // body.shape = shape;
 
-                const material = {friction: 0.6, restitution: 0.15};
-                shape.material = material;
+                // const material = {friction: 0.6, restitution: 0.15};
+                // capsule.material = material;
 
                 // This is how the babylon.js staff suggest
                 // how to import custom mesh from the forums
@@ -192,22 +198,23 @@
                 bat.checkCollisions = true;
                 bat.parent = capsule;
 
-                capAggregate = new BABYLON.PhysicsAggregate(capsule, BABYLON.PhysicsShapeType.CAPSULE, { mass: 1, friction:0.4, restitution:0.1 }, scene);
-                capAggregate.body.setCollisionCallbackEnabled(true);
-                // var ballPosition = sphere.position;
-                const observable = capAggregate.body.getCollisionObservable();
-                const observer = observable.add((collissionEvent) => {
-                  if (collissionEvent.collidedAgainst.transformNode.name === sphere) {
-                    collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
-                  }
-                  if (collissionEvent.collidedAgainst.transformNode.name === sphereAggregate) {
-                    collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
-                  }
-                  if (collissionEvent.collidedAgainst.transformNode.name === wiffleBall) {
-                    collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
-                  }
+                capPhysicsImpostor = new BABYLON.PhysicsImpostor(capsule, BABYLON.PhysicsImpostor.CapsuleImpostor, { mass: 1, friction:0.4, restitution:0.1 }, scene);
 
-                });
+                // capAggregate.body.setCollisionCallbackEnabled(true);
+                // // var ballPosition = sphere.position;
+                // const observable = capAggregate.body.getCollisionObservable();
+                // const observer = observable.add((collissionEvent) => {
+                //   if (collissionEvent.collidedAgainst.transformNode.name === sphere) {
+                //     collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
+                //   }
+                //   if (collissionEvent.collidedAgainst.transformNode.name === sphereAggregate) {
+                //     collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
+                //   }
+                //   if (collissionEvent.collidedAgainst.transformNode.name === wiffleBall) {
+                //     collissionEvent.collidedAgainst.applyImpulse(new BABYLON.Vector3(0, 10, 0), collissionEvent.collidedAgainst.transformNode.position);
+                //   }
+
+                // });
                 
             });
 
@@ -242,6 +249,7 @@
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
+                fenceVinylImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
             });
 
             var picnicTable;
@@ -279,7 +287,7 @@
             });
 
             var wiffleBall;
-            var sphereAggregate;
+            var sphereImpostor;
             var sphere;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
@@ -292,14 +300,14 @@
                 newMaterial.diffuseColor = newColor;
                 sphere.material = newMaterial;
                 // 0.01984165,
-                const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-                body.setMassProperties({
-                  mass: 0.5,
-                });
+                // const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                // body.setMassProperties({
+                //   mass: 0.5,
+                // });
 
-                // center of the sphere in local space, radius of sphere, containing scene.
-                const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
-                body.shape = shape;
+                // // center of the sphere in local space, radius of sphere, containing scene.
+                // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
+                // body.shape = shape;
 
                 // const material = {friction: 0.5, restitution: 0.3};
                 // shape.material = material;
@@ -308,6 +316,8 @@
                 wiffleBall = newMeshes[0];
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 wiffleBall.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.material = newMaterial;
                     mesh.checkCollisions = true;
                   });
                 camera.setTarget(wiffleBall);
@@ -320,17 +330,17 @@
                 // wiffleBall.material = newMaterial;
                 wiffleBall.parent = sphere;
                 
-                sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-                sphereAggregate.material = newMaterial;
-                sphereAggregate.body.setCollisionCallbackEnabled(true);
-                sphereAggregate.checkCollisions = true;
+                sphereImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+                sphereImpostor.material = newMaterial;
+                // sphereImpostor.body.setCollisionCallbackEnabled(true);
+                sphereImpostor.checkCollisions = true;
                 // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
             });
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
-            boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+            boxImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -348,73 +358,148 @@
               floorMeshes: [ground],
             });
 
-            try {
-                featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "latest", {
-                  xrInput: xr.input,
-                  jointMeshes: {
-                  },
-                });
-              } catch (error) {
-                console.log('Error enabling hand tracking feature: ', error);
-              }
+            // try {
+            //     featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "latest", {
+            //       xrInput: xr.input,
+            //       jointMeshes: {
+            //       },
+            //     });
+            //   } catch (error) {
+            //     console.log('Error enabling hand tracking feature: ', error);
+            //   }
 
-            let meshLeft, meshRight;
+            const xrPhysics = xr.baseExperience.featuresManager.enableFeature(
+                BABYLON.WebXRFeatureName.PHYSICS_CONTROLLERS,
+                "latest",
+                {
+                    xrInput: xr.input,
+                    physicsProperties: {
+                        restitution: 0.5,
+                        impostorSize: 0.1,
+                        impostorType: BABYLON.PhysicsImpostor.BoxImpostor
+                    },
+                }
+            );
+
+            // let meshLeft, meshRight;
+            let isMeshHeld = false; // Flag to track if a mesh item is held when squeezing
+
+            let observers = {};
+            let meshesUnderPointer = {};
+            const tmpVec = new BABYLON.Vector3();
+            const tmpRay = new BABYLON.Ray();
+            tmpRay.origin = new BABYLON.Vector3();
+            tmpRay.direction = new BABYLON.Vector3();
+            let lastTimestamp = 0;
+            const oldPos = new BABYLON.Vector3();
 
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
                     const handness = motionController.handness;
-                    const xr_ids = motionController.getComponentIds();
-                    const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                    // const xr_ids = motionController.getComponentIds();
+                    // const triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                     const squeezeComponent = motionController.getComponentOfType('squeeze');
                     let velocity = new BABYLON.Vector3(0, -9.8, 0);
                     squeezeComponent.onButtonStateChangedObservable.add(() => {
                         if (squeezeComponent.changes.pressed) {
                           // is it pressed?
                           if (squeezeComponent.pressed) {
+                            // animate position
+                            controller.getWorldPointerRayToRef(tmpRay, true);
+                            tmpRay.direction.scaleInPlace(1.5);
+                            const position = controller.grip ? controller.grip.position : controller.pointer.position;
+
                             const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                            if (meshUnderPointer === ground || meshUnderPointer === skybox || meshUnderPointer === tree || meshUnderPointer === fenceVinyl || meshUnderPointer === fenceHedge || meshUnderPointer === picnicTable ) {
+                            if (!meshUnderPointer || !meshUnderPointer === sphere ) {
+                                isMeshHeld = false; // No mesh item is being held when squeezing
                                 return;
                             }
 
                             if (handness === 'left') {
-                                meshLeft = meshUnderPointer;
-                                meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                // meshLeft = meshUnderPointer;
+                                // meshLeft && meshLeft.setParent(motionController.rootMesh);
+                                const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
+                                    meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
+                                    position.add(tmpRay.direction),
+                                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                                    new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
+                                        if (!meshUnderPointer) return;
+                                        meshesUnderPointer[controller.uniqueId] = meshUnderPointer;
+                                        observers[controller.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
+                                            const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
+                                            lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
+                                            controller.getWorldPointerRayToRef(tmpRay, true);
+                                            tmpRay.direction.scaleInPlace(1.5);
+                                            const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                                            position.y = -0.25;
+                                            tmpVec.copyFrom(position);
+                                            tmpVec.addInPlace(tmpRay.direction);
+                                            tmpVec.subtractToRef(oldPos, tmpVec);
+                                            tmpVec.scaleInPlace(1000 / delta);
+                                            meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
+                                            meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
+                                            oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
+                                            meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+                                            meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+                                        })
+                                    });
 
                             } else if (handness === 'right') {
-                                meshRight = meshUnderPointer;
-                                meshRight && meshRight.aggregate && meshRight.setParent(motionController.rootMesh);
-
+                                // meshRight = meshUnderPointer;
+                                // meshRight && meshRight.aggregate && meshRight.setParent(motionController.rootMesh);
+                                const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
+                                    meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
+                                    position.add(tmpRay.direction),
+                                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                                    new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
+                                        if (!meshUnderPointer) return;
+                                        meshesUnderPointer[controller.uniqueId] = meshUnderPointer;
+                                        observers[controller.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
+                                            const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
+                                            lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
+                                            controller.getWorldPointerRayToRef(tmpRay, true);
+                                            tmpRay.direction.scaleInPlace(1.5);
+                                            const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                                            position.y = -0.25;
+                                            tmpVec.copyFrom(position);
+                                            tmpVec.addInPlace(tmpRay.direction);
+                                            tmpVec.subtractToRef(oldPos, tmpVec);
+                                            tmpVec.scaleInPlace(1000 / delta);
+                                            meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
+                                            meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
+                                            oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
+                                            meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+                                            meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+                                        })
+                                    });
                             }
+                            isMeshHeld = true; // A mesh item is being held when squeezing
+
                           } else {
-                              if (handness === 'left') {
-                                  meshLeft && meshLeft.setParent(null);
-                                  const newColor = new BABYLON.Color3(1, 1, 1); //  color
-                                  const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
-                                  newMaterial.diffuseColor = newColor;
-                                  if (meshLeft.physicsImpostor !== null) {
-                                    meshLeft.material = newMaterial;
-                                    
-
-                                  }
-                                  
-                              } else if (handness === 'right') {
-                                  meshRight && meshRight.setParent(null);
-                                  const newColor = new BABYLON.Color3(1, 0, 0); // Red color
-                                  const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
-                                  newMaterial.diffuseColor = newColor;
-                                  if (meshRight.physicsImpostor !== null) {
-                                    meshRight.material = newMaterial;
-
-                                  }
-
-
-                              
-                              }
+                              if (isMeshHeld) {
+                                if (handness === 'left') {
+                                    // throw the object
+                                    if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
+                                        xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
+                                        observers[controller.uniqueId] = null;
+                                        meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec);
+                                    }
+                    
+                                } else if (handness === 'right') {
+                                    // throw the object
+                                    if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
+                                        xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
+                                        observers[controller.uniqueId] = null;
+                                        meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec);
+                                    }
+                                }
+                            }
+                            isMeshHeld = false; // Reset the flag after releasing the squeeze button
                           }
                         }
                     });
-                })
+                });
             }); 
 
             return scene;
