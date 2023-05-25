@@ -324,7 +324,7 @@
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 wiffleBall.position.y = -0.001;
                 wiffleBall.position.z = 0.03;
-                wiffleBall.isHeld = false;
+                // wiffleBall.isHeld = false;
                 
                 
                 // wiffleBall.material = newMaterial;
@@ -411,7 +411,7 @@
                             const position = controller.grip ? controller.grip.position : controller.pointer.position;
 
                             const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                            if (!meshUnderPointer || !meshUnderPointer === sphere ) {
+                            if (!meshUnderPointer) {
                                 isMeshHeld = false; // No mesh item is being held when squeezing
                                 return;
                             }
