@@ -152,6 +152,41 @@
 
             // Load the sound and play it automatically once ready
             var soundBackyard = new BABYLON.Sound("summerbackyard", "sounds/summerbackyard.mp3", scene, null, { loop: true, autoplay: true });
+            var soundLawnmower = new BABYLON.Sound("effect", "sounds/lawnmower.mp3", scene, null, { loop: false, autoplay: true });
+            var soundWindChimes = new BABYLON.Sound("effect", "sounds/windchimes.mp3", scene, null, { loop: false, autoplay: true });
+            var soundSprinkler = new BABYLON.Sound("effect", "sounds/sprinkler.mp3", scene, null, { loop: false, autoplay: false });
+            var soundIceCreamTruck = new BABYLON.Sound("effect", "sounds/icecreamtruck.mp3", scene, null, { loop: false, autoplay: false });
+            // Set the volume to a lower value (e.g., 0.5 for half volume)
+            soundLawnmower.setVolume(0.1);
+            soundWindChimes.setVolume(0.3);
+            soundSprinkler.setVolume(0.3);
+            soundIceCreamTruck.setVolume(0.2);
+            // Function to play the sound effect
+            function playSoundEffectLawnmower() {
+              soundLawnmower.play();
+            }
+            // Function to play the sound effect
+            function playSoundEffectWindChimes() {
+              soundWindChimes.play();
+            }
+            // Function to play the sound effect
+            function playSoundEffectSprinkler() {
+              soundSprinkler.play();
+            }
+            // Function to play the sound effect
+            function playSoundEffectIceCreamTruck() {
+              soundIceCreamTruck.play();
+            }
+            // Schedule the lawnmower sound effect (4 mins long) to play every 13 minutes (780,000 milliseconds)
+            setInterval(playSoundEffectLawnmower, 780000);
+            // Schedule the wind chimes sound effect (35 seconds) to play every 5 minutes (300,000 milliseconds)
+            setInterval(playSoundEffectWindChimes, 300000);
+            // Schedule the sprinkler sound effect (1:45) to play every 2 minutes (120,000 milliseconds)
+            setInterval(playSoundEffectSprinkler, 120000);
+            // Schedule the ice cream truck sound effect (15 seconds) to play every 20 minutes (1,200,000 milliseconds)
+            setInterval(playSoundEffectIceCreamTruck, 1200000);
+
+
 
             var bat;
             var capPhysicsImpostor;
