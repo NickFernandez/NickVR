@@ -81,7 +81,7 @@
             scene.enablePhysics(gravityVector, physicsPlugin);
 
             // Creates and positions a free camera
-            const camera = new BABYLON.ArcRotateCamera(
+            var camera = new BABYLON.ArcRotateCamera(
                 "camera",
                 BABYLON.Tools.ToRadians(90),
                 BABYLON.Tools.ToRadians(65),
@@ -96,7 +96,7 @@
             camera.attachControl(canvas, true);
             camera.checkCollisions = true;
             // Creates a directional light, aiming at the ground
-            const light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
+            var light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
             // Set the position of the light to be far away from the scene
             light.position = new BABYLON.Vector3(50, 100, 0);
             // Set the intensity of the light to be high, simulating bright sunlight
@@ -104,7 +104,7 @@
             // Set the color of the light to be a warm yellow-orange, simulating the color of sunlight
             light.diffuse = new BABYLON.Color3(1, 0.95, 0.85);
             // Set the shadow generator for the light to create shadows
-            const shadowGenerator = new BABYLON.ShadowGenerator(4096, light);
+            var shadowGenerator = new BABYLON.ShadowGenerator(4096, light);
             // Adjust the bias to avoid shadow acne
             shadowGenerator.bias = 0.01;
 
@@ -115,7 +115,7 @@
             light.position = new BABYLON.Vector3(50, 100, -50);
             light.direction = new BABYLON.Vector3(-1, -1, 1);
             // Add a second light to fill in any dark areas
-            const fillLight = new BABYLON.DirectionalLight("fillLight", new BABYLON.Vector3(1, 1, 0), scene);
+            var fillLight = new BABYLON.DirectionalLight("fillLight", new BABYLON.Vector3(1, 1, 0), scene);
             fillLight.position = new BABYLON.Vector3(-50, 50, 50);
             fillLight.intensity = 0.5;
             // Adjust the color of the fill light to be cooler
@@ -129,10 +129,10 @@
             ground.isPickable = false;
             ground.checkCollisions = true;
             // Create a new StandardMaterial for the ground
-            const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
+            var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
             // Load the grass texture
-            const grassTexture = new BABYLON.Texture("textures/grass.png", scene);
+            var grassTexture = new BABYLON.Texture("textures/grass.png", scene);
             // Apply the grass texture to the ground material
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
