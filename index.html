@@ -290,6 +290,7 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 fenceVinyl = newMeshes[0];
+                fenceVinyl.checkCollisions = true
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
@@ -335,6 +336,24 @@
                     mesh.checkCollisions = true;
                   });
 
+            });
+
+            var houseYellow;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/suburb_house_1/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                houseYellow = newMeshes[0];
+                houseYellow.checkCollisions = true;
+                // mesh.material.freeze()
+                // Scale the mesh down by a factor of 0.01
+                houseYellow.scaling = new BABYLON.Vector3(6, 6, 6);
+                // Position the mesh
+                houseYellow.position = new BABYLON.Vector3(-5, 0, 6);
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                houseYellow.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
+                houseYellowImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
             });
 
             // var wiffleBall;
@@ -391,10 +410,10 @@
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
-            box.isPickable = true;
             box.setParent(null);
-            boxImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-            boxImpostor.isPickable = false;
+            box.isPickable = true;
+            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+            box.physicsImpostor.isPickable = false;
 
             // Our built-in 'sphere' shape.
             var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1, segments: 32}, scene);
