@@ -157,10 +157,10 @@
             var soundSprinkler = new BABYLON.Sound("effect", "sounds/sprinkler.mp3", scene, null, { loop: false, autoplay: false });
             var soundIceCreamTruck = new BABYLON.Sound("effect", "sounds/icecreamtruck.mp3", scene, null, { loop: false, autoplay: false });
             // Set the volume to a lower value (e.g., 0.5 for half volume)
-            soundLawnmower.setVolume(0.1);
-            soundWindChimes.setVolume(0.3);
-            soundSprinkler.setVolume(0.3);
-            soundIceCreamTruck.setVolume(0.2);
+            soundLawnmower.setVolume(0.4);
+            soundWindChimes.setVolume(0.6);
+            soundSprinkler.setVolume(0.5);
+            soundIceCreamTruck.setVolume(0.5);
             // Function to play the sound effect
             function playSoundEffectLawnmower() {
               soundLawnmower.play();
@@ -181,8 +181,8 @@
             setInterval(playSoundEffectLawnmower, 780000);
             // Schedule the wind chimes sound effect (35 seconds) to play every 5 minutes (300,000 milliseconds)
             setInterval(playSoundEffectWindChimes, 300000);
-            // Schedule the sprinkler sound effect (1:45) to play every 2 minutes (120,000 milliseconds)
-            setInterval(playSoundEffectSprinkler, 120000);
+            // Schedule the sprinkler sound effect (1:45) to play every 8 minutes (480,000 milliseconds)
+            setInterval(playSoundEffectSprinkler, 480000);
             // Schedule the ice cream truck sound effect (15 seconds) to play every 20 minutes (1,200,000 milliseconds)
             setInterval(playSoundEffectIceCreamTruck, 1200000);
 
@@ -375,7 +375,10 @@
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
+            box.isPickable = true;
+            box.setParent(null);
             boxImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+            boxImpostor.isPickable = true;
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
