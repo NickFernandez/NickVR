@@ -124,7 +124,7 @@
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
             // Our built-in 'ground' shape.
-            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50}, scene);
+            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100}, scene);
             ground.position.y = 0;
             ground.isPickable = false;
             ground.checkCollisions = true;
@@ -277,7 +277,7 @@
                 // Scale the mesh down by a factor of 0.01
                 tree.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
-                tree.position = new BABYLON.Vector3(1, -0.17, 1);
+                tree.position = new BABYLON.Vector3(-2, -0.17, 2);
                 tree.checkCollisions = true;
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 tree.getChildMeshes().forEach((mesh) => {
@@ -347,13 +347,32 @@
                 // Scale the mesh down by a factor of 0.01
                 houseYellow.scaling = new BABYLON.Vector3(6, 6, 6);
                 // Position the mesh
-                houseYellow.position = new BABYLON.Vector3(-5, 0, 6);
+                houseYellow.position = new BABYLON.Vector3(-10, 0, 6);
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 houseYellow.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
-                houseYellowImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                houseYellowImpostor = new BABYLON.PhysicsImpostor(houseYellow, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            });
+
+            var houseFarm;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/farmhouse__low-poly/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                houseFarm = newMeshes[0];
+                houseFarm.checkCollisions = true;
+                // mesh.material.freeze()
+                // Scale the mesh down by a factor of 0.01
+                houseFarm.scaling = new BABYLON.Vector3(1, 1, 1);
+                // Position the mesh
+                houseFarm.position = new BABYLON.Vector3(25, 2, 20);
+                houseFarm.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                houseFarm.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
+                houseFarmImpostor = new BABYLON.PhysicsImpostor(houseFarm, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
             });
 
             // var wiffleBall;
