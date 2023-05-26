@@ -337,64 +337,85 @@
 
             });
 
-            var wiffleBall;
-            var sphereImpostor;
-            var sphere;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-                sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
-                sphere.position = new BABYLON.Vector3(0, 0, 0.5);
-                sphere.isVisible = false;
-                sphere.isPickable = true;
-                sphere.checkCollisions = true;
-                const newColor = new BABYLON.Color3(1, 1, 1); //  color
-                const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
-                newMaterial.diffuseColor = newColor;
-                sphere.material = newMaterial;
-                // 0.01984165,
-                // const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-                // body.setMassProperties({
-                //   mass: 0.5,
-                // });
+            // var wiffleBall;
+            // var sphereImpostor;
+            // var sphere;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+            //     sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
+            //     sphere.position = new BABYLON.Vector3(0, 0, 0.5);
+            //     sphere.isVisible = false;
+            //     sphere.isPickable = true;
+            //     sphere.checkCollisions = true;
+            //     const newColor = new BABYLON.Color3(1, 1, 1); //  color
+            //     const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+            //     newMaterial.diffuseColor = newColor;
+            //     sphere.material = newMaterial;
+            //     // 0.01984165,
+            //     // const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+            //     // body.setMassProperties({
+            //     //   mass: 0.5,
+            //     // });
 
-                // // center of the sphere in local space, radius of sphere, containing scene.
-                // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
-                // body.shape = shape;
+            //     // // center of the sphere in local space, radius of sphere, containing scene.
+            //     // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
+            //     // body.shape = shape;
 
-                // const material = {friction: 0.5, restitution: 0.3};
-                // shape.material = material;
+            //     // const material = {friction: 0.5, restitution: 0.3};
+            //     // shape.material = material;
 
-                // The loaded mesh is returned as an array
-                wiffleBall = newMeshes[0];
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                wiffleBall.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.material = newMaterial;
-                    mesh.checkCollisions = true;
-                  });
-                // camera.setTarget(wiffleBall);
-                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-                wiffleBall.position.y = -0.001;
-                wiffleBall.position.z = 0.03;
-                // wiffleBall.isHeld = false;
+            //     // The loaded mesh is returned as an array
+            //     wiffleBall = newMeshes[0];
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     wiffleBall.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.material = newMaterial;
+            //         mesh.checkCollisions = true;
+            //       });
+            //     // camera.setTarget(wiffleBall);
+            //     wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+            //     wiffleBall.position.y = -0.001;
+            //     wiffleBall.position.z = 0.03;
+            //     // wiffleBall.isHeld = false;
                 
                 
-                // wiffleBall.material = newMaterial;
-                wiffleBall.parent = sphere;
+            //     // wiffleBall.material = newMaterial;
+            //     wiffleBall.parent = sphere;
                 
-                sphereImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-                sphereImpostor.material = newMaterial;
-                // sphereImpostor.body.setCollisionCallbackEnabled(true);
-                sphereImpostor.checkCollisions = true;
-                // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
+            //     sphereImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+            //     sphereImpostor.material = newMaterial;
+            //     // sphereImpostor.body.setCollisionCallbackEnabled(true);
+            //     sphereImpostor.checkCollisions = true;
+            //     // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
 
-            });
+            // });
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
             box.isPickable = true;
             box.setParent(null);
             boxImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-            boxImpostor.isPickable = true;
+            boxImpostor.isPickable = false;
+
+            // Our built-in 'sphere' shape.
+            var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1, segments: 32}, scene);
+            sphere.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
+            // Create a white material
+            var whiteMaterial = new BABYLON.StandardMaterial("whiteMaterial", scene);
+            whiteMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1); // Set diffuse color to white
+            // Assign the white material to the sphere mesh
+            sphere.setParent(null);
+            sphere.isPickable = true;
+            // drop from a height
+            sphere.position.y = 1;
+            sphere.position.z = 3;
+            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
+            sphere.physicsImpostor.isPickable = false;
+            sphere.material = whiteMaterial;
+            sphere.physicsImpostor.material = whiteMaterial;
+
+
+
+
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
