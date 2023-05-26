@@ -284,6 +284,8 @@
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
+                tree.physicsImpostor = new BABYLON.PhysicsImpostor(tree, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.05 }, scene);
+                tree.physicsImpostor.isPickable = false;
             });
 
             var fenceVinyl;
@@ -301,7 +303,8 @@
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
-                fenceVinylImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+                fenceVinyl.physicsImpostor.isPickable = false;
             });
 
             var picnicTable;
@@ -335,6 +338,8 @@
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
+                fenceHedge.physicsImpostor = new BABYLON.PhysicsImpostor(fenceHedge, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+                fenceHedge.physicsImpostor.isPickable = false;
 
             });
 
@@ -353,79 +358,98 @@
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
-                houseYellowImpostor = new BABYLON.PhysicsImpostor(houseYellow, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
-            });
+                houseYellow.physicsImpostor = new BABYLON.PhysicsImpostor(houseYellow, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                });
+                // houseYellow.physicsImpostor.isPickable = false;
 
-            var houseFarm;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/farmhouse__low-poly/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                houseFarm = newMeshes[0];
-                houseFarm.checkCollisions = true;
-                // mesh.material.freeze()
-                // Scale the mesh down by a factor of 0.01
-                houseFarm.scaling = new BABYLON.Vector3(1, 1, 1);
-                // Position the mesh
-                houseFarm.position = new BABYLON.Vector3(25, 2, 20);
-                houseFarm.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                houseFarm.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.checkCollisions = true;
-                  });
-                houseFarmImpostor = new BABYLON.PhysicsImpostor(houseFarm, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
-            });
-
-            // var wiffleBall;
-            // var sphereImpostor;
-            // var sphere;
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-            //     sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
-            //     sphere.position = new BABYLON.Vector3(0, 0, 0.5);
-            //     sphere.isVisible = false;
-            //     sphere.isPickable = true;
-            //     sphere.checkCollisions = true;
-            //     const newColor = new BABYLON.Color3(1, 1, 1); //  color
-            //     const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
-            //     newMaterial.diffuseColor = newColor;
-            //     sphere.material = newMaterial;
-            //     // 0.01984165,
-            //     // const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-            //     // body.setMassProperties({
-            //     //   mass: 0.5,
-            //     // });
-
-            //     // // center of the sphere in local space, radius of sphere, containing scene.
-            //     // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
-            //     // body.shape = shape;
-
-            //     // const material = {friction: 0.5, restitution: 0.3};
-            //     // shape.material = material;
-
+            // var houseFarm;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/farmhouse__low-poly/", "scene.gltf", scene, function (newMeshes) {
             //     // The loaded mesh is returned as an array
-            //     wiffleBall = newMeshes[0];
+            //     houseFarm = newMeshes[0];
+            //     houseFarm.checkCollisions = true;
+            //     // mesh.material.freeze()
+            //     // Scale the mesh down by a factor of 0.01
+            //     houseFarm.scaling = new BABYLON.Vector3(1, 1, 1);
+            //     // Position the mesh
+            //     houseFarm.position = new BABYLON.Vector3(25, 2, 20);
+            //     houseFarm.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
             //     // Gotta do this on each mesh to make sure it isn't Pickable
-            //     wiffleBall.getChildMeshes().forEach((mesh) => {
-            //         mesh.checkCollisions = true;
-            //         mesh.material = newMaterial;
+            //     houseFarm.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
             //         mesh.checkCollisions = true;
             //       });
-            //     // camera.setTarget(wiffleBall);
-            //     wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
-            //     wiffleBall.position.y = -0.001;
-            //     wiffleBall.position.z = 0.03;
-            //     // wiffleBall.isHeld = false;
-                
-                
-            //     // wiffleBall.material = newMaterial;
-            //     wiffleBall.parent = sphere;
-                
-            //     sphereImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-            //     sphereImpostor.material = newMaterial;
-            //     // sphereImpostor.body.setCollisionCallbackEnabled(true);
-            //     sphereImpostor.checkCollisions = true;
-            //     // sphereAggregate.body.setMotionType(BABYLON.PhysicsMotionType.DYNAMIC);
-
+            //     houseFarmImpostor = new BABYLON.PhysicsImpostor(houseFarm, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
             // });
+
+            var wiffleBall;
+            // var sphereImpostor;
+            // var sphere;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+                // sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
+                // sphere.position = new BABYLON.Vector3(0, 0, 0.5);
+                // sphere.isVisible = false;
+                // sphere.isPickable = true;
+                // sphere.checkCollisions = true;
+                const newColor = new BABYLON.Color3(1, 1, 1); //  color
+                const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                newMaterial.diffuseColor = newColor;
+                // sphere.material = newMaterial;
+                // 0.01984165,
+                // const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                // body.setMassProperties({
+                //   mass: 0.5,
+                // });
+
+                // // center of the sphere in local space, radius of sphere, containing scene.
+                // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
+                // body.shape = shape;
+
+                // const material = {friction: 0.5, restitution: 0.3};
+                // shape.material = material;
+
+                // The loaded mesh is returned as an array
+                wiffleBall = newMeshes[0];
+                
+                // wiffleBall.setParent(null);
+                // wiffleBall.isPickable = true;
+
+                
+
+                // camera.setTarget(wiffleBall);
+                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                wiffleBall.position = new BABYLON.Vector3(0, 1, 0);
+                wiffleBall.checkCollisions = true;
+
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                wiffleBall.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.material = newMaterial;
+                  });
+
+
+                // wiffleBall.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+                // const body = new BABYLON.PhysicsBody(wiffleBall, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
+                //     body.setMassProperties({
+                //     mass: 0.5,
+                // });
+                // wiffleBall.body = body;
+                // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 1, scene);
+                // wiffleBall.body.shape = shape;
+                // wiffleBall.position.x = 0;
+                // wiffleBall.position.y = 3;
+                // wiffleBall.position.z = 0;
+
+                // wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
+                // wiffleBall.physicsImpostor.isPickable = false;
+                // wiffleBall.physicsImpostor.checkCollisions = true;
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.2, friction: 0.4, restitution: 0.6 }, scene);
+                wiffleBall.physicsImpostor.isPickable = false;
+
+            });
+
+            // setTimeout(function() {
+            //     // Code to be executed after 3 seconds
+            // }, 3000);
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
