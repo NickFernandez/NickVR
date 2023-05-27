@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Wiffle Ball VR</title>
-
+        <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png" />
         <!-- Babylon.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
         <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
@@ -291,18 +291,20 @@
             var fenceVinyl;
             BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                fenceVinyl = newMeshes[0];
+                fenceRoot = newMeshes[0];
+                // Gotta do this on each mesh to make it white/check collisions
+                fenceRoot.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                  });
+                // Here is the secret line. Combines all meshes into one for Impostor use.
+                fenceVinyl = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
                 fenceVinyl.checkCollisions = true
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
                 fenceVinyl.position = new BABYLON.Vector3(0, 3.75, 15);
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                fenceVinyl.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.checkCollisions = true;
-                  });
+                
                 fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
                 fenceVinyl.physicsImpostor.isPickable = false;
             });
@@ -385,37 +387,23 @@
             // var sphereImpostor;
             // var sphere;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
-                // sphere = new BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.075 });
-                // sphere.position = new BABYLON.Vector3(0, 0, 0.5);
-                // sphere.isVisible = false;
-                // sphere.isPickable = true;
-                // sphere.checkCollisions = true;
-                const newColor = new BABYLON.Color3(1, 1, 1); //  color
-                const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
-                newMaterial.diffuseColor = newColor;
-                // sphere.material = newMaterial;
-                // 0.01984165,
-                // const body = new BABYLON.PhysicsBody(sphere, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-                // body.setMassProperties({
-                //   mass: 0.5,
-                // });
-
-                // // center of the sphere in local space, radius of sphere, containing scene.
-                // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 0.5, scene);
-                // body.shape = shape;
-
-                // const material = {friction: 0.5, restitution: 0.3};
-                // shape.material = material;
-
                 // The loaded mesh is returned as an array
                 ballRoot = newMeshes[0];
-                // Gotta do this on each mesh to make sure it isn't Pickable
+                const newColor = new BABYLON.Color3(1, 1, 1); //  white
+                const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                newMaterial.diffuseColor = newColor;
+                // Enable shadows on the material
+                newMaterial.shadowEnabled = true;
+
+                // Adjust the intensity of the shadows
+                newMaterial.shadowIntensity = 0.1; // Experiment with different values to achieve the desired result
+
+                // Gotta do this on each mesh to make it white/check collisions
                 ballRoot.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
                     mesh.material = newMaterial;
                   });
-                // wiffleBall.setParent(null);
-                // wiffleBall.isPickable = true;
+                // Here is the secret line. Combines all meshes into one for Impostor use.
                 wiffleBall = BABYLON.Mesh.MergeMeshes(ballRoot.getChildMeshes(), true, false, false, false, true);
 
                 
@@ -425,25 +413,7 @@
                 wiffleBall.position = new BABYLON.Vector3(0, 1, 0);
                 wiffleBall.checkCollisions = true;
 
-                
-
-
-                // wiffleBall.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-                // const body = new BABYLON.PhysicsBody(wiffleBall, BABYLON.PhysicsMotionType.DYNAMIC, false, scene);
-                //     body.setMassProperties({
-                //     mass: 0.5,
-                // });
-                // wiffleBall.body = body;
-                // const shape = new BABYLON.PhysicsShapeSphere(new BABYLON.Vector3(0,0,0), 1, scene);
-                // wiffleBall.body.shape = shape;
-                // wiffleBall.position.x = 0;
-                // wiffleBall.position.y = 3;
-                // wiffleBall.position.z = 0;
-
-                // wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.3 }, scene);
-                // wiffleBall.physicsImpostor.isPickable = false;
-                // wiffleBall.physicsImpostor.checkCollisions = true;
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.2, friction: 0.4, restitution: 0.6 }, scene);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.01984165, friction: 0.2, restitution: 0.5 }, scene);
                 wiffleBall.physicsImpostor.isPickable = false;
 
             });
