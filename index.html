@@ -96,17 +96,17 @@
             camera.attachControl(canvas, true);
             camera.checkCollisions = true;
             // Creates a directional light, aiming at the ground
-            var light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(-1, -1, 0), scene);
+            var light = new BABYLON.DirectionalLight("sunlight", new BABYLON.Vector3(0, -1, 0), scene);
             // Set the position of the light to be far away from the scene
-            light.position = new BABYLON.Vector3(50, 100, 0);
+            light.position = new BABYLON.Vector3(0, 100, 0);
             // Set the intensity of the light to be high, simulating bright sunlight
             light.intensity = 2;
             // Set the color of the light to be a warm yellow-orange, simulating the color of sunlight
             light.diffuse = new BABYLON.Color3(1, 0.95, 0.85);
             // Set the shadow generator for the light to create shadows
-            var shadowGenerator = new BABYLON.ShadowGenerator(4096, light);
+            // var shadowGenerator = new BABYLON.ShadowGenerator(4096, light);
             // Adjust the bias to avoid shadow acne
-            shadowGenerator.bias = 0.01;
+            // shadowGenerator.bias = 0.01;
 
             // Add more objects that can cast shadows
             // shadowGenerator.addShadowCaster(scene.getMeshByName("fence_vinyl"));
@@ -408,10 +408,15 @@
                 // shape.material = material;
 
                 // The loaded mesh is returned as an array
-                wiffleBall = newMeshes[0];
-                
+                ballRoot = newMeshes[0];
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                ballRoot.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.material = newMaterial;
+                  });
                 // wiffleBall.setParent(null);
                 // wiffleBall.isPickable = true;
+                wiffleBall = BABYLON.Mesh.MergeMeshes(ballRoot.getChildMeshes(), true, false, false, false, true);
 
                 
 
@@ -420,11 +425,7 @@
                 wiffleBall.position = new BABYLON.Vector3(0, 1, 0);
                 wiffleBall.checkCollisions = true;
 
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                wiffleBall.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.material = newMaterial;
-                  });
+                
 
 
                 // wiffleBall.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
@@ -446,10 +447,6 @@
                 wiffleBall.physicsImpostor.isPickable = false;
 
             });
-
-            // setTimeout(function() {
-            //     // Code to be executed after 3 seconds
-            // }, 3000);
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             box.position = new BABYLON.Vector3(4, 0.75, 2.75);
