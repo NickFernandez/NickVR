@@ -295,10 +295,12 @@
                 // Gotta do this on each mesh to make it white/check collisions
                 fenceRoot.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
+                    mesh.isPickable = false;
                   });
                 // Here is the secret line. Combines all meshes into one for Impostor use.
                 fenceVinyl = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
                 fenceVinyl.checkCollisions = true;
+                fenceVinyl.isPickable = false;
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
@@ -414,7 +416,7 @@
                 wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
                 
 
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.01984165, friction: 0.2, restitution: 0.5 }, scene);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0.01984165, friction: 0.2, restitution: 0.5 }, scene);
                 // wiffleBall.physicsImpostor.isPickable = false;
 
             });
