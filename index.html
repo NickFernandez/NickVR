@@ -125,7 +125,7 @@
             fillLight.specular = new BABYLON.Color3(1, 1, 1);
 
             // Our built-in 'ground' shape.
-            var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100}, scene);
+            var ground = BABYLON.MeshBuilder.CreateBox("ground", { width: 150, height: 1, depth: 150}, scene);
             ground.checkCollisions = true;
             ground.position.y = 0;
             ground.isPickable = false;
@@ -290,51 +290,102 @@
                 tree.physicsImpostor.isPickable = false;
             });
 
-            var fenceVinyl;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                fenceRoot = newMeshes[0];
-                // Gotta do this on each mesh to make it white/check collisions
-                fenceRoot.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.isPickable = false;
-                  });
-                // Here is the secret line. Combines all meshes into one for Impostor use.
-                fenceVinyl = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
-                fenceVinyl.checkCollisions = true;
-                fenceVinyl.isPickable = false;
-                // mesh.material.freeze()
-                // Scale the mesh down by a factor of 0.01
-                fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-                // Position the mesh
-                fenceVinyl.position = new BABYLON.Vector3(0, 3.75, 30.48);
-                // fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
+            // var fenceVinyl;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     fenceRoot = newMeshes[0];
+            //     // Gotta do this on each mesh to make it white/check collisions
+            //     fenceRoot.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.isPickable = false;
+            //       });
+            //     // Here is the secret line. Combines all meshes into one for Impostor use.
+            //     fenceVinyl = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
+            //     fenceVinyl.checkCollisions = true;
+            //     fenceVinyl.isPickable = false;
+            //     // mesh.material.freeze()
+            //     // Scale the mesh down by a factor of 0.01
+            //     fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+            //     // Position the mesh
+            //     fenceVinyl.position = new BABYLON.Vector3(0, 3.75, 30.48);
+            //     // fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
                 
-                fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
-                fenceVinyl.physicsImpostor.isPickable = false;
-            });
+            //     fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+            //     fenceVinyl.physicsImpostor.isPickable = false;
+            // });
 
 
-            var fenceHedge;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
+            // var fenceHedge;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     fenceHedge = newMeshes[0];
+            //     // mesh.material.freeze()
+            //     // Scale the mesh down by a factor of 0.01
+            //     fenceHedge.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+            //     // Position the mesh
+            //     fenceHedge.position = new BABYLON.Vector3(3.25, 0, 22);
+            //     // Set the rotation of the chair mesh to face the opposite direction
+            //     fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     fenceHedge.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.checkCollisions = true;
+            //       });
+            //     fenceHedge.physicsImpostor = new BABYLON.PhysicsImpostor(fenceHedge, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+            //     fenceHedge.physicsImpostor.isPickable = false;
+
+            // });
+
+            var fenceWood;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fencing_wood/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                fenceHedge = newMeshes[0];
+                fenceWood = newMeshes[0];
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
-                fenceHedge.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+                fenceWood.scaling = new BABYLON.Vector3(1, 1.5, 1);
                 // Position the mesh
-                fenceHedge.position = new BABYLON.Vector3(3.25, 0, 22);
+                fenceWood.position = new BABYLON.Vector3(0, 0, 30.48);
                 // Set the rotation of the chair mesh to face the opposite direction
-                fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+                // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
                 // Gotta do this on each mesh to make sure it isn't Pickable
-                fenceHedge.getChildMeshes().forEach((mesh) => {
+                fenceWood.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
-                fenceHedge.physicsImpostor = new BABYLON.PhysicsImpostor(fenceHedge, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
-                fenceHedge.physicsImpostor.isPickable = false;
+                fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(fenceWood, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+                fenceWood.physicsImpostor.isPickable = false;
+                var clonedFence = fenceWood.clone("fenceWood2");
+                clonedFence.position = new BABYLON.Vector3(1, 0, 30.48);
+                var clonedFence2 = fenceWood.clone("fenceWood3");
+                clonedFence2.position = new BABYLON.Vector3(2, 0, 30.48);
+                var clonedFence3 = fenceWood.clone("fenceWood4");
+                clonedFence3.position = new BABYLON.Vector3(3, 0, 30.48);
+                var clonedFence4 = fenceWood.clone("fenceWood5");
+                clonedFence4.position = new BABYLON.Vector3(4, 0, 30.48);
+                var clonedFence5 = fenceWood.clone("fenceWood6");
+                clonedFence5.position = new BABYLON.Vector3(-1, 0, 30.48);
+                var clonedFence6 = fenceWood.clone("fenceWood7");
+                clonedFence6.position = new BABYLON.Vector3(-2, 0, 30.48);
+                var clonedFence7 = fenceWood.clone("fenceWood8");
+                clonedFence7.position = new BABYLON.Vector3(-3, 0, 30.48);
+                var clonedFence8 = fenceWood.clone("fenceWood9");
+                clonedFence8.position = new BABYLON.Vector3(-4, 0, 30.48);
+                var clonedFence9 = fenceWood.clone("fenceWood10");
+                clonedFence9.position = new BABYLON.Vector3(-5, 0, 30.48);
+                var clonedFence10 = fenceWood.clone("fenceWood11");
+                clonedFence10.position = new BABYLON.Vector3(-6, 0, 30.48);
+                var clonedFence11 = fenceWood.clone("fenceWood12");
+                clonedFence11.position = new BABYLON.Vector3(-7, 0, 30.48);
+                var clonedFence12 = fenceWood.clone("fenceWood13");
+                clonedFence12.position = new BABYLON.Vector3(5, 0, 30.48);
+                var clonedFence13 = fenceWood.clone("fenceWood14");
+                clonedFence13.position = new BABYLON.Vector3(6, 0, 30.48);
+                var clonedFence14 = fenceWood.clone("fenceWood15");
+                clonedFence14.position = new BABYLON.Vector3(7, 0, 30.48);
 
+                
             });
+
 
             var houseYellow;
             BABYLON.SceneLoader.ImportMesh("", "meshes/suburb_house_1/", "scene.gltf", scene, function (newMeshes) {
@@ -354,6 +405,27 @@
                 houseYellow.physicsImpostor = new BABYLON.PhysicsImpostor(houseYellow, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 });
                 // houseYellow.physicsImpostor.isPickable = false;
+
+            var houseResidential;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/house_residential/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                houseResidential = newMeshes[0];
+                houseResidential.checkCollisions = true;
+                // mesh.material.freeze()
+                // Scale the mesh down by a factor of 0.01
+                houseResidential.scaling = new BABYLON.Vector3(1.2, 1.2, 1.2);
+                // Position the mesh
+                houseResidential.position = new BABYLON.Vector3(0, 0.71, 55);
+                // Gotta do this on each mesh to make sure it isn't Pickable
+                houseResidential.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
+                houseResidential.physicsImpostor = new BABYLON.PhysicsImpostor(houseResidential, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+                 houseResidential.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
+                });
+
 
          
             var wiffleBall;
