@@ -126,9 +126,10 @@
 
             // Our built-in 'ground' shape.
             var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100}, scene);
+            ground.checkCollisions = true;
             ground.position.y = 0;
             ground.isPickable = false;
-            ground.checkCollisions = true;
+            
             // Create a new StandardMaterial for the ground
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
@@ -138,7 +139,7 @@
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
-            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.88, restitution: 0.05}, scene);
+            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.90, restitution: 0.05}, scene);
             groundImpostor.isPickable = false;            
 
             // Sky mesh (box)
@@ -349,6 +350,27 @@
 
             });
 
+            // var fenceWood;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     fenceWood = newMeshes[0];
+            //     // mesh.material.freeze()
+            //     // Scale the mesh down by a factor of 0.01
+            //     // fenceWood.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+            //     // Position the mesh
+            //     fenceWood.position = new BABYLON.Vector3(0, 0, 10);
+            //     // Set the rotation of the chair mesh to face the opposite direction
+            //     // fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     fenceWood.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.checkCollisions = true;
+            //       });
+            //     // fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(fenceWood, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+            //     // fenceWood.physicsImpostor.isPickable = false;
+
+            // });
+
             var houseYellow;
             BABYLON.SceneLoader.ImportMesh("", "meshes/suburb_house_1/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -396,6 +418,7 @@
                 wiffleBall = ballRootParent.getChildMeshes()[0];
                 wiffleBall.setParent(null);
                 ballRootParent.dispose();
+                wiffleBall.checkCollisions = true;
                 const newColor = new BABYLON.Color3(1, 1, 1); //  white
                 const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                 newMaterial.diffuseColor = newColor;
@@ -407,13 +430,13 @@
                 newMaterial.shadowIntensity = 0.1; // Experiment with different values to achieve the desired result
                 wiffleBall.material = newMaterial;
                 // Gotta do this on each mesh to make it white/check collisions
-                // ballRoot.getChildMeshes().forEach((mesh) => {
-                //     mesh.checkCollisions = true;
-                //     mesh.material = newMaterial;
-                //   });
+                wiffleBall.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.material = newMaterial;
+                  });
                 // Here is the secret line. Combines all meshes into one for Impostor use.
                 // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRoot.getChildMeshes(), true, false, false, false, true);
-                wiffleBall.checkCollisions = true;
+                
                 
 
                 // camera.setTarget(wiffleBall);
@@ -422,7 +445,6 @@
                 
 
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.01984165, friction: 0.2, restitution: 0.5 }, scene);
-                // wiffleBall.physicsImpostor.isPickable = false;
 
             });
 
