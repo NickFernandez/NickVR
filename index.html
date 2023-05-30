@@ -308,26 +308,12 @@
                 fenceVinyl.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
                 // Position the mesh
                 fenceVinyl.position = new BABYLON.Vector3(0, 3.75, 30.48);
-                fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(6.28), BABYLON.Space.LOCAL);
+                // fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
                 
                 fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(fenceVinyl, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
                 fenceVinyl.physicsImpostor.isPickable = false;
             });
 
-            var picnicTable;
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/picnic_table_-_low_poly/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     picnicTable = newMeshes[0];
-            //     // mesh.material.freeze()
-            //     picnicTable.scaling = new BABYLON.Vector3(1, 1, 1);
-            //     // Position the mesh
-            //     picnicTable.position = new BABYLON.Vector3(4, 0, 2.75);
-            //     picnicTable.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
-            //     // Gotta do this on each mesh to make sure it isn't Pickable
-            //     picnicTable.getChildMeshes().forEach((mesh) => {
-            //         mesh.isPickable = false;
-            //       });
-            // });
 
             var fenceHedge;
             BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
@@ -350,27 +336,6 @@
 
             });
 
-            // var fenceWood;
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     fenceWood = newMeshes[0];
-            //     // mesh.material.freeze()
-            //     // Scale the mesh down by a factor of 0.01
-            //     // fenceWood.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-            //     // Position the mesh
-            //     fenceWood.position = new BABYLON.Vector3(0, 0, 10);
-            //     // Set the rotation of the chair mesh to face the opposite direction
-            //     // fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
-            //     // Gotta do this on each mesh to make sure it isn't Pickable
-            //     fenceWood.getChildMeshes().forEach((mesh) => {
-            //         mesh.isPickable = false;
-            //         mesh.checkCollisions = true;
-            //       });
-            //     // fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(fenceWood, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
-            //     // fenceWood.physicsImpostor.isPickable = false;
-
-            // });
-
             var houseYellow;
             BABYLON.SceneLoader.ImportMesh("", "meshes/suburb_house_1/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -390,25 +355,7 @@
                 });
                 // houseYellow.physicsImpostor.isPickable = false;
 
-            // var houseFarm;
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/farmhouse__low-poly/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     houseFarm = newMeshes[0];
-            //     houseFarm.checkCollisions = true;
-            //     // mesh.material.freeze()
-            //     // Scale the mesh down by a factor of 0.01
-            //     houseFarm.scaling = new BABYLON.Vector3(1, 1, 1);
-            //     // Position the mesh
-            //     houseFarm.position = new BABYLON.Vector3(25, 2, 20);
-            //     houseFarm.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(360), BABYLON.Space.LOCAL);
-            //     // Gotta do this on each mesh to make sure it isn't Pickable
-            //     houseFarm.getChildMeshes().forEach((mesh) => {
-            //         mesh.isPickable = false;
-            //         mesh.checkCollisions = true;
-            //       });
-            //     houseFarmImpostor = new BABYLON.PhysicsImpostor(houseFarm, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
-            // });
-
+         
             var wiffleBall;
             // var sphereImpostor;
             // var sphere;
@@ -416,6 +363,8 @@
                 // The loaded mesh is returned as an array
                 let ballRootParent = newMeshes[0];
                 wiffleBall = ballRootParent.getChildMeshes()[0];
+                // Here is the secret line. Combines all meshes into one for Impostor use.
+                // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRootParent.getChildMeshes(), true, false, false, false, true);
                 wiffleBall.setParent(null);
                 ballRootParent.dispose();
                 wiffleBall.checkCollisions = true;
@@ -434,8 +383,8 @@
                     mesh.checkCollisions = true;
                     mesh.material = newMaterial;
                   });
-                // Here is the secret line. Combines all meshes into one for Impostor use.
-                // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRoot.getChildMeshes(), true, false, false, false, true);
+                
+                wiffleBall.checkCollisions = true;
                 
                 
 
@@ -444,7 +393,7 @@
                 wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
                 
 
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.01984165, friction: 0.2, restitution: 0.5 }, scene);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
 
             });
 
