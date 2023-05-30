@@ -66,6 +66,7 @@
             // Creates a basic Babylon Scene object
             await Ammo();
             var scene = new BABYLON.Scene(engine);
+            // scene.useRightHandedSystem = true;
 
             // Enable Havok physics in the scene.
             // XR Physics needs to be upgraded to support Havok -
@@ -391,23 +392,27 @@
             // var sphere;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                ballRoot = newMeshes[0];
+                let ballRootParent = newMeshes[0];
+                wiffleBall = ballRootParent.getChildMeshes()[0];
+                wiffleBall.setParent(null);
+                ballRootParent.dispose();
                 const newColor = new BABYLON.Color3(1, 1, 1); //  white
                 const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
                 newMaterial.diffuseColor = newColor;
                 // Enable shadows on the material
                 newMaterial.shadowEnabled = true;
 
+
                 // Adjust the intensity of the shadows
                 newMaterial.shadowIntensity = 0.1; // Experiment with different values to achieve the desired result
-
+                wiffleBall.material = newMaterial;
                 // Gotta do this on each mesh to make it white/check collisions
-                ballRoot.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.material = newMaterial;
-                  });
+                // ballRoot.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.material = newMaterial;
+                //   });
                 // Here is the secret line. Combines all meshes into one for Impostor use.
-                wiffleBall = BABYLON.Mesh.MergeMeshes(ballRoot.getChildMeshes(), true, false, false, false, true);
+                // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRoot.getChildMeshes(), true, false, false, false, true);
                 wiffleBall.checkCollisions = true;
                 
 
