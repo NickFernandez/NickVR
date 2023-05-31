@@ -276,6 +276,7 @@
                 // The loaded mesh is returned as an array
                 tree = newMeshes[0];
                 tree.checkCollisions = true;
+                tree.isPickable = false;
                 // tree.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 tree.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
@@ -294,7 +295,125 @@
                 clonedTree.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
                 clonedTree.position = new BABYLON.Vector3(0, 0, 30);
                 clonedTree.checkCollisions = true;
+                
+                var clonedTree2 = tree.clone("tree3");
+                clonedTree2.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree2.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree2.position = new BABYLON.Vector3(1, 0, 27.3);
+                clonedTree2.checkCollisions = true;
+
+                var clonedTree3 = tree.clone("tree4");
+                clonedTree3.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree3.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree3.position = new BABYLON.Vector3(2, 0, 27.3);
+                clonedTree3.checkCollisions = true;
+
+                var clonedTree4 = tree.clone("tree5");
+                clonedTree4.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree4.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree4.position = new BABYLON.Vector3(3, 0, 27.3);
+                clonedTree4.checkCollisions = true;
+
+                var clonedTree5 = tree.clone("tree6");
+                clonedTree5.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree5.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree5.position = new BABYLON.Vector3(4, 0, 27.3);
+                clonedTree5.checkCollisions = true;
+
+                var clonedTree6 = tree.clone("tree7");
+                clonedTree6.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree6.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree6.position = new BABYLON.Vector3(5, 0, 27.3);
+                clonedTree6.checkCollisions = true;
+
+                var clonedTree7 = tree.clone("tree8");
+                clonedTree7.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree7.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree7.position = new BABYLON.Vector3(6, 0, 27.3);
+                clonedTree7.checkCollisions = true;
+
+                var clonedTree8 = tree.clone("tree9");
+                clonedTree8.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree8.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree8.position = new BABYLON.Vector3(7, 0, 27.3);
+                clonedTree8.checkCollisions = true;
+
+                var clonedTree9 = tree.clone("tree10");
+                clonedTree9.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree9.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree9.position = new BABYLON.Vector3(8, 0, 27.3);
+                clonedTree9.checkCollisions = true;
+
+                var clonedTree10 = tree.clone("tree11");
+                clonedTree10.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree10.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree10.position = new BABYLON.Vector3(-1, 0, 27.3);
+                clonedTree10.checkCollisions = true;
+
+                var clonedTree11 = tree.clone("tree12");
+                clonedTree11.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree11.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree11.position = new BABYLON.Vector3(-2, 0, 27.3);
+                clonedTree11.checkCollisions = true;
+
+                var clonedTree12 = tree.clone("tree13");
+                clonedTree12.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree12.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree12.position = new BABYLON.Vector3(-3, 0, 27.3);
+                clonedTree12.checkCollisions = true;
+
+                var clonedTree13 = tree.clone("tree14");
+                clonedTree13.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree13.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree13.position = new BABYLON.Vector3(-4, 0, 27.3);
+                clonedTree13.checkCollisions = true;
+
+                var clonedTree14 = tree.clone("tree15");
+                clonedTree14.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree14.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree14.position = new BABYLON.Vector3(-5, 0, 27.3);
+                clonedTree14.checkCollisions = true;
+
+                var clonedTree15 = tree.clone("tree16");
+                clonedTree15.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree15.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree15.position = new BABYLON.Vector3(-6.5, 0, 27.3);
+                clonedTree15.checkCollisions = true;
+
+                var clonedTree16 = tree.clone("tree17");
+                clonedTree16.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree16.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree16.position = new BABYLON.Vector3(-7.5, 0, 27.3);
+                clonedTree16.checkCollisions = true;
+
+                var clonedTree17 = tree.clone("tree18");
+                clonedTree17.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree17.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree17.position = new BABYLON.Vector3(-8.5, 0, 27.3);
+                clonedTree17.checkCollisions = true;
+
+                var clonedTree18 = tree.clone("tree19");
+                clonedTree18.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree18.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree18.position = new BABYLON.Vector3(-9.5, 0, 27.3);
+                clonedTree18.checkCollisions = true;
+
+                var clonedTree19 = tree.clone("tree20");
+                clonedTree19.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree19.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree19.position = new BABYLON.Vector3(-10.5, 0, 27.3);
+                clonedTree19.checkCollisions = true;
+
+                var clonedTree20 = tree.clone("tree21");
+                // clonedTree19.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree20.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
+                clonedTree20.position = new BABYLON.Vector3(5.75, 0, 30);
+                clonedTree20.checkCollisions = true;
+
+
             });
+
+            
 
             // var fenceVinyl;
             // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
@@ -321,44 +440,28 @@
             // });
 
 
-            // var fenceHedge;
-            // BABYLON.SceneLoader.ImportMesh("", "meshes/hedge__green_fence/", "scene.gltf", scene, function (newMeshes) {
-            //     // The loaded mesh is returned as an array
-            //     fenceHedge = newMeshes[0];
-            //     // mesh.material.freeze()
-            //     // Scale the mesh down by a factor of 0.01
-            //     fenceHedge.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-            //     // Position the mesh
-            //     fenceHedge.position = new BABYLON.Vector3(3.25, 0, 22);
-            //     // Set the rotation of the chair mesh to face the opposite direction
-            //     fenceHedge.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
-            //     // Gotta do this on each mesh to make sure it isn't Pickable
-            //     fenceHedge.getChildMeshes().forEach((mesh) => {
-            //         mesh.isPickable = false;
-            //         mesh.checkCollisions = true;
-            //       });
-            //     fenceHedge.physicsImpostor = new BABYLON.PhysicsImpostor(fenceHedge, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
-            //     fenceHedge.physicsImpostor.isPickable = false;
-
-            // });
-
             var fenceWood;
             BABYLON.SceneLoader.ImportMesh("", "meshes/fencing_wood/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                fenceWood = newMeshes[0];
+                fenceRoot = newMeshes[0];
+                fenceRoot.getChildMeshes().forEach((mesh) => {
+                    mesh.isPickable = false;
+                    mesh.checkCollisions = true;
+                  });
+                // Here is the secret line. Combines all meshes into one for Impostor use.
+                fenceWood = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
                 fenceWood.checkCollisions = true;
+                fenceWood.isPickable = false;
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 fenceWood.scaling = new BABYLON.Vector3(1, 1.5, 1);
                 // Position the mesh
                 fenceWood.position = new BABYLON.Vector3(0, 0, 30.48);
+                fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
                 // Set the rotation of the chair mesh to face the opposite direction
                 // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
                 // Gotta do this on each mesh to make sure it isn't Pickable
-                fenceWood.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.checkCollisions = true;
-                  });
+                
                 fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(fenceWood, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
                 fenceWood.physicsImpostor.isPickable = false;
                 var clonedFence = fenceWood.clone("fenceWood2");
@@ -403,6 +506,21 @@
                 var clonedFence14 = fenceWood.clone("fenceWood15");
                 clonedFence14.position = new BABYLON.Vector3(7, 0, 30.48);
                 clonedFence14.checkCollisions = true;
+                var clonedFence15 = fenceWood.clone("fenceWood16");
+                clonedFence15.position = new BABYLON.Vector3(8, 0, 30.48);
+                clonedFence15.checkCollisions = true;
+                var clonedFence16 = fenceWood.clone("fenceWood17");
+                clonedFence16.position = new BABYLON.Vector3(9, 0, 30.48);
+                clonedFence16.checkCollisions = true;
+                var clonedFence17 = fenceWood.clone("fenceWood18");
+                clonedFence17.position = new BABYLON.Vector3(-8, 0, 30.48);
+                clonedFence17.checkCollisions = true;
+                var clonedFence18 = fenceWood.clone("fenceWood19");
+                clonedFence18.position = new BABYLON.Vector3(-9, 0, 30.48);
+                clonedFence18.checkCollisions = true;
+                var clonedFence19 = fenceWood.clone("fenceWood20");
+                clonedFence19.position = new BABYLON.Vector3(10, 0, 30.48);
+                clonedFence19.checkCollisions = true;
 
                 
             });
@@ -415,7 +533,7 @@
                 houseYellow.checkCollisions = true;
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
-                houseYellow.scaling = new BABYLON.Vector3(6, 6, 6);
+                houseYellow.scaling = new BABYLON.Vector3(8, 8, 8);
                 // Position the mesh
                 houseYellow.position = new BABYLON.Vector3(-25, 0, 6);
                 // Gotta do this on each mesh to make sure it isn't Pickable
@@ -432,19 +550,25 @@
                 // The loaded mesh is returned as an array
                 houseResidential = newMeshes[0];
                 houseResidential.checkCollisions = true;
-                // mesh.material.freeze()
-                // Scale the mesh down by a factor of 0.01
-                houseResidential.scaling = new BABYLON.Vector3(1.2, 1.2, 1.2);
-                // Position the mesh
-                houseResidential.position = new BABYLON.Vector3(0, 0.71, 55);
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 houseResidential.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
                     mesh.checkCollisions = true;
                   });
+
+                // Here is the secret line. Combines all meshes into one for Impostor use.
+                // houseResidential = BABYLON.Mesh.MergeMeshes(houseRoot.getChildMeshes(), true, false, false, false, true);
+                houseResidential.checkCollisions = true;
+                houseResidential.isPickable = false;
+                // mesh.material.freeze()
+                // Scale the mesh down by a factor of 0.01
+                houseResidential.scaling = new BABYLON.Vector3(1.75, 1.75, 1.75);
+                // Position the mesh
+                houseResidential.position = new BABYLON.Vector3(0.65, 0.65, 55);
+                
                 houseResidential.physicsImpostor = new BABYLON.PhysicsImpostor(houseResidential, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
-                 houseResidential.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
+                 houseResidential.rotate(BABYLON.Axis.Y, 0.040, BABYLON.Space.LOCAL);
                 });
 
 
