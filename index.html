@@ -439,7 +439,7 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/suburb_house_1/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 houseYellow = newMeshes[0];
-                // houseYellow.checkCollisions = true;
+                houseYellow.isPickable = false;
                 // mesh.material.freeze()
                 // Scale the mesh down by a factor of 0.01
                 houseYellow.scaling = new BABYLON.Vector3(8, 8, 8);
@@ -474,13 +474,45 @@
                 // Scale the mesh down by a factor of 0.01
                 houseResidential.scaling = new BABYLON.Vector3(1.75, 1.75, 1.75);
                 // Position the mesh
-                houseResidential.position = new BABYLON.Vector3(0.65, 0.65, 62);
+                houseResidential.position = new BABYLON.Vector3(0.65, 0.55, 62);
                 
                 houseResidential.physicsImpostor = new BABYLON.PhysicsImpostor(houseResidential, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 houseResidential.physicsImpostor.isPickable = false;
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
                 houseResidential.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
                 });
+
+            var bat;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/bat/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                let batRootParent = newMeshes[0];
+                bat = batRootParent.getChildMeshes()[0];
+                // Here is the secret line. Combines all meshes into one for Impostor use.
+                // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRootParent.getChildMeshes(), true, false, false, false, true);
+                bat.setParent(null);
+                batRootParent.dispose();
+
+                const newColor = new BABYLON.Color3.Yellow(); //  white
+                const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                newMaterial.diffuseColor = newColor;
+                // Enable shadows on the material
+                newMaterial.shadowEnabled = true;
+                // Adjust the intensity of the shadows
+                newMaterial.shadowIntensity = 0.1; // Experiment with different values to achieve the desired result
+                bat.material = newMaterial;
+                // Gotta do this on each mesh to make it white/check collisions
+                bat.getChildMeshes().forEach((mesh) => {
+                    // mesh.checkCollisions = true;
+                    mesh.material = newMaterial;
+                  });
+
+                bat.scaling = new BABYLON.Vector3(0.004, 0.004, 0.004);
+                bat.position = new BABYLON.Vector3(0, 0, 3);
+                
+                bat.physicsImpostor = new BABYLON.PhysicsImpostor(bat, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                bat.physicsImpostor.isPickable = false;
+            });
+
 
 
          
