@@ -349,14 +349,15 @@
             var fenceWood;
             BABYLON.SceneLoader.ImportMesh("", "meshes/fencing_wood/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                fenceWood = newMeshes[0];
-                fenceWood.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    // mesh.checkCollisions = true;
-                  });
+                fenceRoot = newMeshes[0];
+                // Rotate the fenceRoot mesh to face the opposite direction
+                fenceRoot.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // fenceRoot.getChildMeshes().forEach((mesh) => {
+                //     mesh.isPickable = false;
+                //   });
                 // Here is the secret line. Combines all meshes into one for Impostor use.
-                // fenceWood = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
-                // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+                fenceWood = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
+                
                 // fenceWood.checkCollisions = true;
                 fenceWood.isPickable = false;
                 // mesh.material.freeze()
@@ -364,6 +365,7 @@
                 fenceWood.scaling = new BABYLON.Vector3(1, 1.35, 1);
                 // Position the mesh
                 fenceWood.position = new BABYLON.Vector3(0, 0, 30.48);
+                // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 
                 // Set the rotation of the chair mesh to face the opposite direction
                 // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
@@ -371,65 +373,84 @@
                 
                 fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(fenceWood, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
                 fenceWood.physicsImpostor.isPickable = false;
+
                 var clonedFence = fenceWood.clone("fenceWood2");
-                clonedFence.position = new BABYLON.Vector3(1, 0, 30.48);
                 // clonedFence.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
-                clonedFence.checkCollisions = true;
+                clonedFence.position = new BABYLON.Vector3(1, 0, 30.48);
+                
+                // clonedFence.checkCollisions = true;
                 var clonedFence2 = fenceWood.clone("fenceWood3");
                 clonedFence2.position = new BABYLON.Vector3(2, 0, 30.48);
-                // clonedFence2.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
-                clonedFence2.checkCollisions = true;
+                // clonedFence2.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence2.checkCollisions = true;
                 var clonedFence3 = fenceWood.clone("fenceWood4");
                 clonedFence3.position = new BABYLON.Vector3(3, 0, 30.48);
-                clonedFence3.checkCollisions = true;
+                // clonedFence3.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence3.checkCollisions = true;
                 var clonedFence4 = fenceWood.clone("fenceWood5");
                 clonedFence4.position = new BABYLON.Vector3(4, 0, 30.48);
-                clonedFence4.checkCollisions = true;
+                // clonedFence4.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence4.checkCollisions = true;
                 var clonedFence5 = fenceWood.clone("fenceWood6");
                 clonedFence5.position = new BABYLON.Vector3(-1, 0, 30.48);
-                clonedFence5.checkCollisions = true;
+                clonedFence5.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence5.checkCollisions = true;
                 var clonedFence6 = fenceWood.clone("fenceWood7");
                 clonedFence6.position = new BABYLON.Vector3(-2, 0, 30.48);
-                clonedFence6.checkCollisions = true;
+                clonedFence6.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence6.checkCollisions = true;
                 var clonedFence7 = fenceWood.clone("fenceWood8");
                 clonedFence7.position = new BABYLON.Vector3(-3, 0, 30.48);
-                clonedFence7.checkCollisions = true;
+                clonedFence7.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence7.checkCollisions = true;
                 var clonedFence8 = fenceWood.clone("fenceWood9");
                 clonedFence8.position = new BABYLON.Vector3(-4, 0, 30.48);
-                clonedFence8.checkCollisions = true;
+                clonedFence8.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence8.checkCollisions = true;
                 var clonedFence9 = fenceWood.clone("fenceWood10");
                 clonedFence9.position = new BABYLON.Vector3(-5, 0, 30.48);
-                clonedFence9.checkCollisions = true;
+                clonedFence9.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence9.checkCollisions = true;
                 var clonedFence10 = fenceWood.clone("fenceWood11");
                 clonedFence10.position = new BABYLON.Vector3(-6, 0, 30.48);
-                clonedFence10.checkCollisions = true;
+                clonedFence10.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence10.checkCollisions = true;
                 var clonedFence11 = fenceWood.clone("fenceWood12");
                 clonedFence11.position = new BABYLON.Vector3(-7, 0, 30.48);
-                clonedFence11.checkCollisions = true;
+                clonedFence11.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence11.checkCollisions = true;
                 var clonedFence12 = fenceWood.clone("fenceWood13");
                 clonedFence12.position = new BABYLON.Vector3(5, 0, 30.48);
-                clonedFence12.checkCollisions = true;
+                clonedFence12.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence12.checkCollisions = true;
                 var clonedFence13 = fenceWood.clone("fenceWood14");
                 clonedFence13.position = new BABYLON.Vector3(6, 0, 30.48);
-                clonedFence13.checkCollisions = true;
+                clonedFence13.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence13.checkCollisions = true;
                 var clonedFence14 = fenceWood.clone("fenceWood15");
                 clonedFence14.position = new BABYLON.Vector3(7, 0, 30.48);
-                clonedFence14.checkCollisions = true;
+                clonedFence14.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence14.checkCollisions = true;
                 var clonedFence15 = fenceWood.clone("fenceWood16");
                 clonedFence15.position = new BABYLON.Vector3(8, 0, 30.48);
-                clonedFence15.checkCollisions = true;
+                clonedFence15.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence15.checkCollisions = true;
                 var clonedFence16 = fenceWood.clone("fenceWood17");
                 clonedFence16.position = new BABYLON.Vector3(9, 0, 30.48);
-                clonedFence16.checkCollisions = true;
+                clonedFence16.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence16.checkCollisions = true;
                 var clonedFence17 = fenceWood.clone("fenceWood18");
                 clonedFence17.position = new BABYLON.Vector3(-8, 0, 30.48);
-                clonedFence17.checkCollisions = true;
+                clonedFence17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence17.checkCollisions = true;
                 var clonedFence18 = fenceWood.clone("fenceWood19");
                 clonedFence18.position = new BABYLON.Vector3(-9, 0, 30.48);
-                clonedFence18.checkCollisions = true;
+                clonedFence18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence18.checkCollisions = true;
                 var clonedFence19 = fenceWood.clone("fenceWood20");
                 clonedFence19.position = new BABYLON.Vector3(10, 0, 30.48);
-                clonedFence19.checkCollisions = true;
+                clonedFence19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence19.checkCollisions = true;
 
                 
             });
@@ -505,10 +526,11 @@
                     // mesh.checkCollisions = true;
                     mesh.material = newMaterial;
                   });
-
+                
                 bat.scaling = new BABYLON.Vector3(0.004, 0.004, 0.004);
                 bat.position = new BABYLON.Vector3(0, 0, 3);
                 
+
                 bat.physicsImpostor = new BABYLON.PhysicsImpostor(bat, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
                 bat.physicsImpostor.isPickable = false;
             });
