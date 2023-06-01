@@ -1024,7 +1024,7 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                        const position = controller.grip ? controller.grip.position : controller.rootMesh;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
