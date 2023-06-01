@@ -139,7 +139,7 @@
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
-            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.90, restitution: 0.05}, scene);
+            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 1, restitution: 0.05}, scene);
             groundImpostor.isPickable = false;            
 
             // Sky mesh (box)
@@ -221,126 +221,339 @@
                     mesh.isPickable = false;
                     // mesh.checkCollisions = true;
                   });
-                tree.physicsImpostor = new BABYLON.PhysicsImpostor(tree, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.05 }, scene);
+                tree.physicsImpostor = new BABYLON.PhysicsImpostor(tree, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.7, restitution: 0.05 }, scene);
                 tree.physicsImpostor.isPickable = false;
 
-                // var clonedTree = tree.clone("tree2");
-                // clonedTree.scaling = new BABYLON.Vector3(0.009, 0.009, 0.09);
-                // clonedTree.position = new BABYLON.Vector3(-1, 0, 27.3);
+                var clonedTree = tree.clone("tree1");
+                clonedTree.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree.position = new BABYLON.Vector3(0, 0.15, 27.65);
                 // clonedTree.checkCollisions = true;
+                clonedTree.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
                 
-                var clonedTree2 = tree.clone("tree3");
+                var clonedTree2 = tree.clone("tree2");
                 clonedTree2.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree2.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree2.position = new BABYLON.Vector3(1, 0, 27.5);
+                clonedTree2.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree2.position = new BABYLON.Vector3(0.75, 0.15, 27.65);
                 // clonedTree2.checkCollisions = true;
+                clonedTree2.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree2,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree3 = tree.clone("tree4");
+                var clonedTree3 = tree.clone("tree3");
                 clonedTree3.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree3.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree3.position = new BABYLON.Vector3(2, 0, 27.5);
+                clonedTree3.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree3.position = new BABYLON.Vector3(1.25, 0.15, 27.65);
                 // clonedTree3.checkCollisions = true;
+                clonedTree3.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree3,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree4 = tree.clone("tree5");
+                var clonedTree4 = tree.clone("tree4");
                 clonedTree4.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree4.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree4.position = new BABYLON.Vector3(3, 0, 27.5);
+                clonedTree4.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree4.position = new BABYLON.Vector3(2, 0.15, 27.65);
                 // clonedTree4.checkCollisions = true;
+                clonedTree4.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree4,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree5 = tree.clone("tree6");
+                var clonedTree5 = tree.clone("tree5");
                 clonedTree5.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree5.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree5.position = new BABYLON.Vector3(4, 0, 27.5);
-                clonedTree5.checkCollisions = true;
+                clonedTree5.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree5.position = new BABYLON.Vector3(2.75, 0.15, 27.65);
+                // clonedTree5.checkCollisions = true;
+                clonedTree5.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree5,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree6 = tree.clone("tree7");
+                var clonedTree6 = tree.clone("tree6");
                 clonedTree6.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree6.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree6.position = new BABYLON.Vector3(5, 0, 27.5);
+                clonedTree6.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree6.position = new BABYLON.Vector3(3.50, 0.15, 27.65);
                 // clonedTree6.checkCollisions = true;
+                clonedTree6.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree6,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree7 = tree.clone("tree8");
+                var clonedTree7 = tree.clone("tree7");
                 clonedTree7.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree7.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree7.position = new BABYLON.Vector3(6, 0, 27.5);
+                clonedTree7.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree7.position = new BABYLON.Vector3(4.25, 0.15, 27.65);
                 // clonedTree7.checkCollisions = true;
+                clonedTree7.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree7,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree8 = tree.clone("tree9");
+                var clonedTree8 = tree.clone("tree8");
                 clonedTree8.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree8.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree8.position = new BABYLON.Vector3(7, 0, 27.5);
+                clonedTree8.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree8.position = new BABYLON.Vector3(5, 0.15, 27.65);
                 // clonedTree8.checkCollisions = true;
+                clonedTree8.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree8,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree9 = tree.clone("tree10");
+                var clonedTree9 = tree.clone("tree9");
                 clonedTree9.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree9.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree9.position = new BABYLON.Vector3(8, 0, 27.5);
+                clonedTree9.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree9.position = new BABYLON.Vector3(5.75, 0.15, 27.65);
+                clonedTree9.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree9,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
                 // clonedTree9.checkCollisions = true;
 
-                var clonedTree10 = tree.clone("tree11");
+
+                var clonedTree25 = tree.clone("tree25");
+                clonedTree25.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree25.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree25.position = new BABYLON.Vector3(6.50, 0.15, 27.65);
+                // clonedTree9.checkCollisions = true;
+                clonedTree25.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree25,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree26 = tree.clone("tree26");
+                clonedTree26.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree26.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree26.position = new BABYLON.Vector3(7.25, 0.15, 27.65);
+                // clonedTree9.checkCollisions = true;
+                clonedTree26.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree26,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree27 = tree.clone("tree27");
+                clonedTree27.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree27.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree27.position = new BABYLON.Vector3(8, 0.15, 27.65);
+                // clonedTree9.checkCollisions = true;
+                clonedTree27.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree27,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree10 = tree.clone("tree10");
                 clonedTree10.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree10.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree10.position = new BABYLON.Vector3(-1, 0, 27.5);
+                clonedTree10.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree10.position = new BABYLON.Vector3(-0.75, 0.15, 27.65);
                 // clonedTree10.checkCollisions = true;
+                clonedTree10.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree10,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree11 = tree.clone("tree12");
+                var clonedTree11 = tree.clone("tree11");
                 clonedTree11.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree11.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree11.position = new BABYLON.Vector3(-2, 0, 27.5);
+                clonedTree11.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree11.position = new BABYLON.Vector3(-1.5, 0.15, 27.65);
                 // clonedTree11.checkCollisions = true;
+                clonedTree11.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree11,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree12 = tree.clone("tree13");
+                var clonedTree12 = tree.clone("tree12");
                 clonedTree12.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree12.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree12.position = new BABYLON.Vector3(-3, 0, 27.5);
-                // clonedTree12.checkCollisions = true;
+                clonedTree12.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree12.position = new BABYLON.Vector3(-2.25, 0.15, 27.65);
+                // clonedTree11.checkCollisions = true;
+                clonedTree12.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree12,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree13 = tree.clone("tree14");
+                var clonedTree13 = tree.clone("tree13");
                 clonedTree13.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree13.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree13.position = new BABYLON.Vector3(-4, 0, 27.5);
-                // clonedTree13.checkCollisions = true;
+                clonedTree13.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree13.position = new BABYLON.Vector3(-3, 0.15, 27.65);
+                // clonedTree12.checkCollisions = true;
+                clonedTree13.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree13,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree14 = tree.clone("tree15");
+                var clonedTree14 = tree.clone("tree14");
                 clonedTree14.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree14.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree14.position = new BABYLON.Vector3(-5, 0, 27.5);
-                // clonedTree14.checkCollisions = true;
+                clonedTree14.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree14.position = new BABYLON.Vector3(-3.50, 0.15, 27.65);
+                // clonedTree12.checkCollisions = true;
+                clonedTree14.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree14,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree15 = tree.clone("tree16");
+                var clonedTree15 = tree.clone("tree15");
                 clonedTree15.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree15.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree15.position = new BABYLON.Vector3(-6.5, 0, 27.5);
-                // clonedTree15.checkCollisions = true;
+                clonedTree15.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree15.position = new BABYLON.Vector3(-4, 0.15, 27.65);
+                // clonedTree13.checkCollisions = true;
+                clonedTree15.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree15,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree16 = tree.clone("tree17");
+                var clonedTree16 = tree.clone("tree16");
                 clonedTree16.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree16.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree16.position = new BABYLON.Vector3(-7.5, 0, 27.5);
-                // clonedTree16.checkCollisions = true;
+                clonedTree16.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree16.position = new BABYLON.Vector3(-4.75, 0.15, 27.65);
+                // clonedTree13.checkCollisions = true;
+                clonedTree16.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree16,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree17 = tree.clone("tree18");
+                var clonedTree17 = tree.clone("tree17");
                 clonedTree17.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree17.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree17.position = new BABYLON.Vector3(-8.5, 0, 27.5);
-                // clonedTree17.checkCollisions = true;
+                clonedTree17.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree17.position = new BABYLON.Vector3(-5.25, 0.15, 27.65);
+                // clonedTree14.checkCollisions = true;
+                clonedTree17.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree17,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree18 = tree.clone("tree19");
+                var clonedTree18 = tree.clone("tree18");
                 clonedTree18.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree18.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree18.position = new BABYLON.Vector3(-9.5, 0, 27.5);
-                // clonedTree18.checkCollisions = true;
+                clonedTree18.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree18.position = new BABYLON.Vector3(-5.75, 0.15, 27.65);
+                // clonedTree15.checkCollisions = true;
+                clonedTree18.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree18,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree19 = tree.clone("tree20");
+                var clonedTree19= tree.clone("tree19");
                 clonedTree19.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree19.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree19.position = new BABYLON.Vector3(-10.5, 0, 27.5);
-                // clonedTree19.checkCollisions = true;
+                clonedTree19.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree19.position = new BABYLON.Vector3(-6.50, 0.15, 27.65);
+                // clonedTree15.checkCollisions = true;
+                clonedTree19.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree19,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
 
-                var clonedTree20 = tree.clone("tree21");
-                // clonedTree19.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-                clonedTree20.scaling = new BABYLON.Vector3(0.009, 0.009, 0.009);
-                clonedTree20.position = new BABYLON.Vector3(5.75, 0, 30);
+                var clonedTree20 = tree.clone("tree20");
+                clonedTree20.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree20.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree20.position = new BABYLON.Vector3(-7.25, 0.15, 27.65);
+                // clonedTree16.checkCollisions = true;.
+                clonedTree20.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree20,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree21 = tree.clone("tree21");
+                clonedTree21.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree21.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree21.position = new BABYLON.Vector3(-8.0, 0.15, 27.65);
+                // clonedTree16.checkCollisions = true;
+                clonedTree21.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree21,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+
+                var clonedTree22 = tree.clone("tree22");
+                clonedTree22.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree22.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree22.position = new BABYLON.Vector3(-8.75, 0.15, 27.65);
+                // clonedTree17.checkCollisions = true;
+                clonedTree22.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree22,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree23 = tree.clone("tree23");
+                clonedTree23.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree23.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree23.position = new BABYLON.Vector3(-9.5, 0.15, 27.65);
+                // clonedTree18.checkCollisions = true;
+                clonedTree23.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree23,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree24 = tree.clone("tree24");
+                clonedTree24.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree24.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree24.position = new BABYLON.Vector3(-10.25, 0.15, 27.65);
+                // clonedTree19.checkCollisions = true;
+                clonedTree24.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree24,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                // var clonedTree23 = tree.clone("tree23");
+                // clonedTree23.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                // clonedTree23.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                // clonedTree23.position = new BABYLON.Vector3(5.25, 0, 30);
                 // clonedTree20.checkCollisions = true;
 
 
@@ -349,14 +562,22 @@
             var fenceWood;
             BABYLON.SceneLoader.ImportMesh("", "meshes/fencing_wood/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                fenceRoot = newMeshes[0];
-                // Rotate the fenceRoot mesh to face the opposite direction
-                fenceRoot.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
-                // fenceRoot.getChildMeshes().forEach((mesh) => {
-                //     mesh.isPickable = false;
-                //   });
+                var root = new BABYLON.TransformNode();
+                fenceWood = newMeshes[0];
+                fenceWood.getChildMeshes().forEach((mesh) => {
+                    if (!mesh.parent) {
+                        mesh.parent = root
+                    }
+                    mesh.isPickable = false;
+                  });
                 // Here is the secret line. Combines all meshes into one for Impostor use.
-                fenceWood = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
+                // fenceWood = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
+
+                // var info = fenceWood.getBoundingInfo().boundingBox["centerWorld"];
+                // fenceWood.setPivotMatrix(BABYLON.Matrix.Translation(info.x, info.y, info.z));
+
+                // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+
                 
                 // fenceWood.checkCollisions = true;
                 fenceWood.isPickable = false;
@@ -365,7 +586,7 @@
                 fenceWood.scaling = new BABYLON.Vector3(1, 1.35, 1);
                 // Position the mesh
                 fenceWood.position = new BABYLON.Vector3(0, 0, 30.48);
-                // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                
                 
                 // Set the rotation of the chair mesh to face the opposite direction
                 // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
@@ -377,79 +598,103 @@
                 var clonedFence = fenceWood.clone("fenceWood2");
                 // clonedFence.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 clonedFence.position = new BABYLON.Vector3(1, 0, 30.48);
+                clonedFence.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
                 
                 // clonedFence.checkCollisions = true;
                 var clonedFence2 = fenceWood.clone("fenceWood3");
                 clonedFence2.position = new BABYLON.Vector3(2, 0, 30.48);
                 // clonedFence2.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence2.checkCollisions = true;
+                clonedFence2.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence2,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
                 var clonedFence3 = fenceWood.clone("fenceWood4");
                 clonedFence3.position = new BABYLON.Vector3(3, 0, 30.48);
                 // clonedFence3.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence3.checkCollisions = true;
+                clonedFence3.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence3,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
                 var clonedFence4 = fenceWood.clone("fenceWood5");
                 clonedFence4.position = new BABYLON.Vector3(4, 0, 30.48);
                 // clonedFence4.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence4.checkCollisions = true;
+                clonedFence4.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence4,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
                 var clonedFence5 = fenceWood.clone("fenceWood6");
                 clonedFence5.position = new BABYLON.Vector3(-1, 0, 30.48);
-                clonedFence5.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence5.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence5.checkCollisions = true;
                 var clonedFence6 = fenceWood.clone("fenceWood7");
                 clonedFence6.position = new BABYLON.Vector3(-2, 0, 30.48);
-                clonedFence6.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence6.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence6.checkCollisions = true;
                 var clonedFence7 = fenceWood.clone("fenceWood8");
                 clonedFence7.position = new BABYLON.Vector3(-3, 0, 30.48);
-                clonedFence7.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence7.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence7.checkCollisions = true;
                 var clonedFence8 = fenceWood.clone("fenceWood9");
                 clonedFence8.position = new BABYLON.Vector3(-4, 0, 30.48);
-                clonedFence8.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence8.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence8.checkCollisions = true;
                 var clonedFence9 = fenceWood.clone("fenceWood10");
                 clonedFence9.position = new BABYLON.Vector3(-5, 0, 30.48);
-                clonedFence9.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence9.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence9.checkCollisions = true;
                 var clonedFence10 = fenceWood.clone("fenceWood11");
                 clonedFence10.position = new BABYLON.Vector3(-6, 0, 30.48);
-                clonedFence10.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence10.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence10.checkCollisions = true;
                 var clonedFence11 = fenceWood.clone("fenceWood12");
                 clonedFence11.position = new BABYLON.Vector3(-7, 0, 30.48);
-                clonedFence11.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence11.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence11.checkCollisions = true;
                 var clonedFence12 = fenceWood.clone("fenceWood13");
                 clonedFence12.position = new BABYLON.Vector3(5, 0, 30.48);
-                clonedFence12.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence12.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence12.checkCollisions = true;
                 var clonedFence13 = fenceWood.clone("fenceWood14");
                 clonedFence13.position = new BABYLON.Vector3(6, 0, 30.48);
-                clonedFence13.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence13.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence13.checkCollisions = true;
                 var clonedFence14 = fenceWood.clone("fenceWood15");
                 clonedFence14.position = new BABYLON.Vector3(7, 0, 30.48);
-                clonedFence14.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence14.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence14.checkCollisions = true;
                 var clonedFence15 = fenceWood.clone("fenceWood16");
                 clonedFence15.position = new BABYLON.Vector3(8, 0, 30.48);
-                clonedFence15.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence15.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence15.checkCollisions = true;
                 var clonedFence16 = fenceWood.clone("fenceWood17");
                 clonedFence16.position = new BABYLON.Vector3(9, 0, 30.48);
-                clonedFence16.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence16.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence16.checkCollisions = true;
                 var clonedFence17 = fenceWood.clone("fenceWood18");
                 clonedFence17.position = new BABYLON.Vector3(-8, 0, 30.48);
-                clonedFence17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence17.checkCollisions = true;
                 var clonedFence18 = fenceWood.clone("fenceWood19");
                 clonedFence18.position = new BABYLON.Vector3(-9, 0, 30.48);
-                clonedFence18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence18.checkCollisions = true;
                 var clonedFence19 = fenceWood.clone("fenceWood20");
                 clonedFence19.position = new BABYLON.Vector3(10, 0, 30.48);
-                clonedFence19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                // clonedFence19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 // clonedFence19.checkCollisions = true;
 
                 
@@ -527,7 +772,7 @@
                     mesh.material = newMaterial;
                   });
                 
-                bat.scaling = new BABYLON.Vector3(0.004, 0.004, 0.004);
+                bat.scaling = new BABYLON.Vector3(0.0025, 0.0025, 0.0025);
                 bat.position = new BABYLON.Vector3(0, 0, 3);
                 
 
