@@ -139,7 +139,7 @@
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
-            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 1, restitution: 0.05}, scene);
+            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 1, restitution: 0.2}, scene);
             groundImpostor.isPickable = false;            
 
             // Sky mesh (box)
@@ -579,7 +579,23 @@
                 fenceWood.scaling = new BABYLON.Vector3(1, 1.4, 1);
                 // Position the mesh
                 fenceWood.position = new BABYLON.Vector3(0, 0.25, 30.48);
-                // fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                fenceWood.isPickable = false;
+                
+                // let batRootParent = newMeshes[0];
+                // bat = batRootParent.getChildMeshes()[0];
+                // // Here is the secret line. Combines all meshes into one for Impostor use.
+                // // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRootParent.getChildMeshes(), true, false, false, false, true);
+                // bat.setParent(null);
+                // batRootParent.dispose();
+
+                // Gotta do this on each mesh to make it white/check collisions
+                fenceWood.getChildMeshes().forEach((mesh) => {
+                    // mesh.checkCollisions = true;
+                    // mesh.material = newMaterial;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.isPickable = false;
+                  });
+                
                 fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(
                   fenceWood,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -789,10 +805,17 @@
                 fenceVinyl.scaling = new BABYLON.Vector3(0.0036, 0.0036, 0.0036);
                 // Position the mesh
                 fenceVinyl.position = new BABYLON.Vector3(-9.55, 1.8, 28.8);
+                fenceVinyl.isPickable = false;
+                fenceVinyl.getChildMeshes().forEach((mesh) => {
+                    // mesh.checkCollisions = true;
+                    // mesh.material = newMaterial;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.isPickable = false;
+                  });
                 fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
                 fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
                   fenceVinyl,
-                  BABYLON.PhysicsImpostor.BoxImpostor,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -801,7 +824,7 @@
                 clonedFenceVinyl.position = new BABYLON.Vector3(-9.55, 1.8, 26);
                 clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl,
-                  BABYLON.PhysicsImpostor.BoxImpostor,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -821,9 +844,9 @@
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 houseYellow.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
-                    // mesh.checkCollisions = true;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                   });
-                houseYellow.physicsImpostor = new BABYLON.PhysicsImpostor(houseYellow, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                houseYellow.physicsImpostor = new BABYLON.PhysicsImpostor(houseYellow, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 });
                 // houseYellow.physicsImpostor.isPickable = false;
                 // houseYellow.physicsImpostor.checkCollisions = true;
@@ -836,7 +859,7 @@
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 houseResidential.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
-                    // mesh.checkCollisions = true;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                   });
 
                 // Here is the secret line. Combines all meshes into one for Impostor use.
@@ -849,7 +872,7 @@
                 // Position the mesh
                 houseResidential.position = new BABYLON.Vector3(0.65, 0.55, 62);
                 
-                houseResidential.physicsImpostor = new BABYLON.PhysicsImpostor(houseResidential, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                houseResidential.physicsImpostor = new BABYLON.PhysicsImpostor(houseResidential, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 houseResidential.physicsImpostor.isPickable = false;
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
                 houseResidential.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
@@ -1024,7 +1047,7 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.grip ? controller.grip.position : controller.rootMesh;
+                        const position = controller.grip ? controller.grip.position : motionController.rootMesh;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
