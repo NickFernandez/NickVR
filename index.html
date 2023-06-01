@@ -231,7 +231,7 @@
                 // clonedTree.checkCollisions = true;
                 clonedTree.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -243,7 +243,7 @@
                 // clonedTree2.checkCollisions = true;
                 clonedTree2.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree2,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -255,7 +255,7 @@
                 // clonedTree3.checkCollisions = true;
                 clonedTree3.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree3,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -267,7 +267,7 @@
                 // clonedTree4.checkCollisions = true;
                 clonedTree4.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree4,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -279,7 +279,7 @@
                 // clonedTree5.checkCollisions = true;
                 clonedTree5.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree5,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -291,7 +291,7 @@
                 // clonedTree6.checkCollisions = true;
                 clonedTree6.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree6,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -303,7 +303,7 @@
                 // clonedTree7.checkCollisions = true;
                 clonedTree7.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree7,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -315,7 +315,7 @@
                 // clonedTree8.checkCollisions = true;
                 clonedTree8.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree8,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -326,7 +326,7 @@
                 clonedTree9.position = new BABYLON.Vector3(5.75, 0.15, 27.65);
                 clonedTree9.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree9,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -340,7 +340,7 @@
                 // clonedTree9.checkCollisions = true;
                 clonedTree25.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree25,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -352,7 +352,7 @@
                 // clonedTree9.checkCollisions = true;
                 clonedTree26.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree26,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -364,7 +364,19 @@
                 // clonedTree9.checkCollisions = true;
                 clonedTree27.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree27,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
+                  { mass: 0, friction: 0.7, restitution: 0.05 },
+                  scene
+                );
+
+                var clonedTree28 = tree.clone("tree27");
+                clonedTree28.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+                clonedTree28.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
+                clonedTree28.position = new BABYLON.Vector3(8.75, 0.15, 27.65);
+                // clonedTree9.checkCollisions = true;
+                clonedTree28.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedTree28,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -376,7 +388,7 @@
                 // clonedTree10.checkCollisions = true;
                 clonedTree10.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree10,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -388,7 +400,7 @@
                 // clonedTree11.checkCollisions = true;
                 clonedTree11.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree11,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -400,7 +412,7 @@
                 // clonedTree11.checkCollisions = true;
                 clonedTree12.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree12,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -412,7 +424,7 @@
                 // clonedTree12.checkCollisions = true;
                 clonedTree13.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree13,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -424,7 +436,7 @@
                 // clonedTree12.checkCollisions = true;
                 clonedTree14.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree14,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -436,7 +448,7 @@
                 // clonedTree13.checkCollisions = true;
                 clonedTree15.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree15,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -448,7 +460,7 @@
                 // clonedTree13.checkCollisions = true;
                 clonedTree16.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree16,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -460,7 +472,7 @@
                 // clonedTree14.checkCollisions = true;
                 clonedTree17.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree17,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -472,7 +484,7 @@
                 // clonedTree15.checkCollisions = true;
                 clonedTree18.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree18,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -484,7 +496,7 @@
                 // clonedTree15.checkCollisions = true;
                 clonedTree19.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree19,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -496,7 +508,7 @@
                 // clonedTree16.checkCollisions = true;.
                 clonedTree20.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree20,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -508,7 +520,7 @@
                 // clonedTree16.checkCollisions = true;
                 clonedTree21.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree21,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -521,7 +533,7 @@
                 // clonedTree17.checkCollisions = true;
                 clonedTree22.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree22,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -533,7 +545,7 @@
                 // clonedTree18.checkCollisions = true;
                 clonedTree23.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree23,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -545,7 +557,7 @@
                 // clonedTree19.checkCollisions = true;
                 clonedTree24.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedTree24,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.7, restitution: 0.05 },
                   scene
                 );
@@ -562,21 +574,27 @@
             var fenceWood;
             BABYLON.SceneLoader.ImportMesh("", "meshes/fencing_wood/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
-                var root = new BABYLON.TransformNode();
-                fenceWood = newMeshes[0];
-                fenceWood.getChildMeshes().forEach((mesh) => {
-                    if (!mesh.parent) {
-                        mesh.parent = root
-                    }
-                    mesh.isPickable = false;
-                  });
-                // Here is the secret line. Combines all meshes into one for Impostor use.
+                // var root = new BABYLON.TransformNode();
+                // fenceWood = newMeshes[0];
+                // fenceWood.getChildMeshes().forEach((mesh) => {
+                //     if (!mesh.parent) {
+                //         mesh.parent = root
+                //     }
+                //     mesh.isPickable = false;
+                //   });
+                // // Here is the secret line. Combines all meshes into one for Impostor use.
                 // fenceWood = BABYLON.Mesh.MergeMeshes(fenceRoot.getChildMeshes(), true, false, false, false, true);
 
-                // var info = fenceWood.getBoundingInfo().boundingBox["centerWorld"];
-                // fenceWood.setPivotMatrix(BABYLON.Matrix.Translation(info.x, info.y, info.z));
-
                 // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+
+                let fenceWoodParent = newMeshes[0];
+                fenceWood = fenceWoodParent.getChildMeshes()[0];
+                // Here is the secret line. Combines all meshes into one for Impostor use.
+                // wiffleBall = BABYLON.Mesh.MergeMeshes(ballRootParent.getChildMeshes(), true, false, false, false, true);
+                fenceWood.setParent(null);
+                fenceWoodParent.dispose();
+
+
 
                 
                 // fenceWood.checkCollisions = true;
@@ -588,9 +606,14 @@
                 fenceWood.position = new BABYLON.Vector3(0, 0, 30.48);
                 
                 
-                // Set the rotation of the chair mesh to face the opposite direction
+                // Set the rotation of the mesh to face the opposite direction
                 // fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
-                // Gotta do this on each mesh to make sure it isn't Pickable
+
+                // Gotta do this on each mesh to make it white/check collisions
+                // fenceWood.getChildMeshes().forEach((mesh) => {
+                //     // mesh.checkCollisions = true;
+                //     fenceWood.material = newMaterial;
+                //   });
                 
                 fenceWood.physicsImpostor = new BABYLON.PhysicsImpostor(fenceWood, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
                 fenceWood.physicsImpostor.isPickable = false;
@@ -600,7 +623,7 @@
                 clonedFence.position = new BABYLON.Vector3(1, 0, 30.48);
                 clonedFence.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -612,7 +635,7 @@
                 // clonedFence2.checkCollisions = true;
                 clonedFence2.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence2,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -622,7 +645,7 @@
                 // clonedFence3.checkCollisions = true;
                 clonedFence3.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence3,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -632,7 +655,7 @@
                 // clonedFence4.checkCollisions = true;
                 clonedFence4.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence4,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -698,6 +721,32 @@
                 // clonedFence19.checkCollisions = true;
 
                 
+            });
+            
+            var fenceVinyl;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                const fenceVinyl = newMeshes[0];
+                // Scale the mesh down by a factor of 0.01
+                fenceVinyl.scaling = new BABYLON.Vector3(0.0036, 0.0036, 0.0036);
+                // Position the mesh
+                fenceVinyl.position = new BABYLON.Vector3(-9.55, 1.8, 28.8);
+                fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  fenceVinyl,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                var clonedFenceVinyl = fenceVinyl.clone("fenceVinyl1");
+                // clonedFence.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
+                clonedFenceVinyl.position = new BABYLON.Vector3(-9.55, 1.8, 26);
+                clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFenceVinyl,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
             });
 
 
