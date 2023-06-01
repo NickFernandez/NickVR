@@ -792,7 +792,7 @@
                 fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
                 fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
                   fenceVinyl,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -801,7 +801,7 @@
                 clonedFenceVinyl.position = new BABYLON.Vector3(-9.55, 1.8, 26);
                 clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  BABYLON.PhysicsImpostor.BoxImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -877,6 +877,7 @@
                 bat.getChildMeshes().forEach((mesh) => {
                     // mesh.checkCollisions = true;
                     mesh.material = newMaterial;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
                   });
                 
                 bat.scaling = new BABYLON.Vector3(0.0025, 0.0025, 0.0025);
@@ -916,6 +917,7 @@
                 wiffleBall.getChildMeshes().forEach((mesh) => {
                     // mesh.checkCollisions = true;
                     mesh.material = newMaterial;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
                   });
                 
                 // wiffleBall.checkCollisions = true;
