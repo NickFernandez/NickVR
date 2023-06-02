@@ -66,9 +66,6 @@
             // Creates a basic Babylon Scene object
             await Ammo();
             var scene = new BABYLON.Scene(engine);
-            // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            var physicsEngine = scene.getPhysicsEngine();
-            physicsEngine.setSubTimeStep(1);
 
             // Enable Havok physics in the scene.
             // XR Physics needs to be upgraded to support Havok -
@@ -80,8 +77,10 @@
             //  gravity using AmmoJS
             const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
             const physicsPlugin = new BABYLON.AmmoJSPlugin();
-            // await physicsPlugin.initPromise; // Wait for Ammo.js to finish loading
             scene.enablePhysics(gravityVector, physicsPlugin);
+            // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
+            var physicsEngine = scene.getPhysicsEngine();
+            physicsEngine.setSubTimeStep(1);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
