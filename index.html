@@ -81,7 +81,7 @@
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
             var physicsEngine = scene.getPhysicsEngine();
             // if this number is too small (we tried 1), it requires a lot of CPU power and will slow down the game to a crawl
-            physicsEngine.setSubTimeStep(5);
+            physicsEngine.setSubTimeStep(8);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -131,6 +131,7 @@
             ground.checkCollisions = true;
             ground.position.y = 0;
             ground.isPickable = false;
+            ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.1 }, scene);
             
             // Create a new StandardMaterial for the ground
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
@@ -141,8 +142,8 @@
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
             groundMaterial.diffuseTexture.vScale = 50;
-            var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 1, restitution: 0.2}, scene);
-            groundImpostor.isPickable = false;            
+            // var groundImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 50, restitution: 0.1}, scene);
+            // groundImpostor.isPickable = false;            
 
             // Sky mesh (box)
             var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
@@ -873,12 +874,12 @@
                 wiffleBall.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
                     mesh.material = newMaterial;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
                   });
 
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
                 wiffleBall.position = new BABYLON.Vector3(0, 0, 0);
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
                 wiffleBall.physicsImpostor.isPickable = false;
             });
 
