@@ -763,6 +763,88 @@
                   scene
                 );
                 clonedFence19.physicsImpostor.forceUpdate = true;
+                var clonedFence20 = fenceWood.clone("fenceWood20");
+                clonedFence20.position = new BABYLON.Vector3(11, -0.1, 30.48);
+                clonedFence20.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence20,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence20.physicsImpostor.forceUpdate = true;
+                var clonedFence21 = fenceWood.clone("fenceWood21");
+                clonedFence21.position = new BABYLON.Vector3(12, -0.1, 30.48);
+                clonedFence21.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence21,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence21.physicsImpostor.forceUpdate = true;
+                var clonedFence22 = fenceWood.clone("fenceWood22");
+                clonedFence22.position = new BABYLON.Vector3(13, -0.1, 30.48);
+                clonedFence22.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence22,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence22.physicsImpostor.forceUpdate = true;
+                var clonedFence22 = fenceWood.clone("fenceWood22");
+                clonedFence22.position = new BABYLON.Vector3(14, -0.1, 30.48);
+                clonedFence22.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence22,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence23.physicsImpostor.forceUpdate = true;
+                var clonedFence23 = fenceWood.clone("fenceWood23");
+                clonedFence23.position = new BABYLON.Vector3(15, -0.1, 30.48);
+                clonedFence23.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence23,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence23.physicsImpostor.forceUpdate = true;
+                var clonedFence24 = fenceWood.clone("fenceWood24");
+                clonedFence24.position = new BABYLON.Vector3(16, -0.1, 30.48);
+                clonedFence24.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence24,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence25.physicsImpostor.forceUpdate = true;
+                var clonedFence25 = fenceWood.clone("fenceWood25");
+                clonedFence25.position = new BABYLON.Vector3(17, -0.1, 30.48);
+                clonedFence25.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence25,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence25.physicsImpostor.forceUpdate = true;
+                var clonedFence26 = fenceWood.clone("fenceWood26");
+                clonedFence26.position = new BABYLON.Vector3(18, -0.1, 30.48);
+                clonedFence26.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence26,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence26.physicsImpostor.forceUpdate = true;
+                var clonedFence27 = fenceWood.clone("fenceWood27");
+                clonedFence27.position = new BABYLON.Vector3(19, -0.1, 30.48);
+                clonedFence27.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence27,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
+                  { mass: 0, friction: 0.4, restitution: 0.2},
+                  scene
+                );
+                clonedFence27.physicsImpostor.forceUpdate = true;
 
             });
             
@@ -783,7 +865,7 @@
                 fenceVinyl.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
                 fenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
                   fenceVinyl,
-                  BABYLON.PhysicsImpostor.BoxImpostor,
+                  BABYLON.PhysicsImpostor.MeshImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
@@ -926,6 +1008,17 @@
             sphere.physicsImpostor.isPickable = false;
             sphere.material = whiteMaterial;
             sphere.physicsImpostor.material = whiteMaterial;
+
+            var pole = BABYLON.MeshBuilder.CreateCapsule("pole", {radius:0.05, capSubdivisions: 1, height:12, tessellation:4, topCapSubdivisions:12}, scene);
+            pole.position = new BABYLON.Vector3(-9.50, 0, 30.4);
+            // Create a white material
+            var metalMaterial = new BABYLON.StandardMaterial("metalMaterial", scene);
+            metalMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3); // Set diffuse color to grey
+            pole.material = metalMaterial;
+            pole.setParent(null);
+            pole.isPickable = false;
+            pole.physicsImpostor = new BABYLON.PhysicsImpostor(pole, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            pole.physicsImpostor.isPickable = false;
 
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
