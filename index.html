@@ -79,7 +79,7 @@
             const physicsPlugin = new BABYLON.AmmoJSPlugin();
             scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            var physicsEngine = scene.getPhysicsEngine();
+            // var physicsEngine = scene.getPhysicsEngine();
             // if this number is too small (we tried 1), it requires a lot of CPU power and will slow down the game to a crawl
             // physicsEngine.setSubTimeStep(8);
 
@@ -568,19 +568,20 @@
             });
 
             let fenceWood;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/fencing_wood/", "scene.gltf", scene, function (newMeshes) {
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 fenceWood = newMeshes[0];
                 // Scale the mesh down by a factor of 0.01
-                fenceWood.scaling = new BABYLON.Vector3(1, 1.5, 1);
+                fenceWood.scaling = new BABYLON.Vector3(1, 1.72, 1);
                 // Position the mesh
-                fenceWood.position = new BABYLON.Vector3(0, -0.1, 30.48);
+                fenceWood.position = new BABYLON.Vector3(0, 1.4, 30.48);
+                fenceWood.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.WORLD);
                 fenceWood.isPickable = false;
 
                 // Gotta do this on each mesh
                 fenceWood.getChildMeshes().forEach((mesh) => {
                   mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    // mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                     mesh.isPickable = false;
                   });
                 
@@ -593,7 +594,7 @@
                 fenceWood.physicsImpostor.forceUpdate = true;
 
                 var clonedFence = fenceWood.clone("fenceWood1");
-                clonedFence.position = new BABYLON.Vector3(1, -0.1, 30.48);
+                clonedFence.position = new BABYLON.Vector3(1, 1.4, 30.48);
                 clonedFence.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -602,7 +603,7 @@
                 );
                 clonedFence.physicsImpostor.forceUpdate = true;
                 var clonedFence2 = fenceWood.clone("fenceWood2");
-                clonedFence2.position = new BABYLON.Vector3(2.5, -0.1, 30.48);
+                clonedFence2.position = new BABYLON.Vector3(2.5, 1.4, 30.48);
                 clonedFence2.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence2,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -611,7 +612,7 @@
                 );
                 clonedFence2.physicsImpostor.forceUpdate = true;
                 var clonedFence3 = fenceWood.clone("fenceWood3");
-                clonedFence3.position = new BABYLON.Vector3(4, -0.1, 30.48);
+                clonedFence3.position = new BABYLON.Vector3(4, 1.4, 30.48);
                 clonedFence3.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence3,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -620,7 +621,7 @@
                 );
                 clonedFence3.physicsImpostor.forceUpdate = true;
                 var clonedFence4 = fenceWood.clone("fenceWood4");
-                clonedFence4.position = new BABYLON.Vector3(4, -0.1, 30.48);
+                clonedFence4.position = new BABYLON.Vector3(4, 1.4, 30.48);
                 clonedFence4.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence4,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -629,7 +630,7 @@
                 );
                 clonedFence4.physicsImpostor.forceUpdate = true;
                 var clonedFence5 = fenceWood.clone("fenceWood5");
-                clonedFence5.position = new BABYLON.Vector3(-1, -0.1, 30.48);
+                clonedFence5.position = new BABYLON.Vector3(-1, 1.4, 30.48);
                 clonedFence5.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence5,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -638,7 +639,7 @@
                 );
                 clonedFence5.physicsImpostor.forceUpdate = true;
                 var clonedFence6 = fenceWood.clone("fenceWood6");
-                clonedFence6.position = new BABYLON.Vector3(-2, -0.1, 30.48);
+                clonedFence6.position = new BABYLON.Vector3(-2, 1.4, 30.48);
                 clonedFence6.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence6,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -647,7 +648,7 @@
                 );
                 clonedFence6.physicsImpostor.forceUpdate = true;
                 var clonedFence7 = fenceWood.clone("fenceWood7");
-                clonedFence7.position = new BABYLON.Vector3(-3, -0.1, 30.48);
+                clonedFence7.position = new BABYLON.Vector3(-3, 1.4, 30.48);
                 clonedFence7.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence7,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -656,7 +657,7 @@
                 );
                 clonedFence7.physicsImpostor.forceUpdate = true;
                 var clonedFence8 = fenceWood.clone("fenceWood8");
-                clonedFence8.position = new BABYLON.Vector3(-4, -0.1, 30.48);
+                clonedFence8.position = new BABYLON.Vector3(-4, 1.4, 30.48);
                 clonedFence8.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence8,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -665,7 +666,7 @@
                 );
                 clonedFence8.physicsImpostor.forceUpdate = true;
                 var clonedFence9 = fenceWood.clone("fenceWood9");
-                clonedFence9.position = new BABYLON.Vector3(-5, -0.1, 30.48);
+                clonedFence9.position = new BABYLON.Vector3(-5, 1.4, 30.48);
                 clonedFence9.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence9,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -674,7 +675,7 @@
                 );
                 clonedFence9.physicsImpostor.forceUpdate = true;
                 var clonedFence10 = fenceWood.clone("fenceWood10");
-                clonedFence10.position = new BABYLON.Vector3(-6, -0.1, 30.48);
+                clonedFence10.position = new BABYLON.Vector3(-6, 1.4, 30.48);
                 clonedFence10.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence10,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -683,7 +684,7 @@
                 );
                 clonedFence10.physicsImpostor.forceUpdate = true;
                 var clonedFence11 = fenceWood.clone("fenceWood11");
-                clonedFence11.position = new BABYLON.Vector3(-7, -0.1, 30.48);
+                clonedFence11.position = new BABYLON.Vector3(-7, 1.4, 30.48);
                 clonedFence11.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence11,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -692,7 +693,7 @@
                 );
                 clonedFence11.physicsImpostor.forceUpdate = true;
                 var clonedFence12 = fenceWood.clone("fenceWood12");
-                clonedFence12.position = new BABYLON.Vector3(5, -0.1, 30.48);
+                clonedFence12.position = new BABYLON.Vector3(5, 1.4, 30.48);
                 clonedFence12.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence12,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -701,7 +702,7 @@
                 );
                 clonedFence12.physicsImpostor.forceUpdate = true;
                 var clonedFence13 = fenceWood.clone("fenceWood13");
-                clonedFence13.position = new BABYLON.Vector3(6, -0.1, 30.48);
+                clonedFence13.position = new BABYLON.Vector3(6, 1.4, 30.48);
                 clonedFence13.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence13,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -710,7 +711,7 @@
                 );
                 clonedFence13.physicsImpostor.forceUpdate = true;
                 var clonedFence14 = fenceWood.clone("fenceWood14");
-                clonedFence14.position = new BABYLON.Vector3(7, -0.1, 30.48);
+                clonedFence14.position = new BABYLON.Vector3(7, 1.4, 30.48);
                 clonedFence14.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence14,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -719,7 +720,7 @@
                 );
                 clonedFence14.physicsImpostor.forceUpdate = true;
                 var clonedFence15 = fenceWood.clone("fenceWood15");
-                clonedFence15.position = new BABYLON.Vector3(8, -0.1, 30.48);
+                clonedFence15.position = new BABYLON.Vector3(8, 1.4, 30.48);
                 clonedFence15.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence15,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -728,7 +729,7 @@
                 );
                 clonedFence15.physicsImpostor.forceUpdate = true;
                 var clonedFence16 = fenceWood.clone("fenceWood16");
-                clonedFence16.position = new BABYLON.Vector3(9, -0.1, 30.48);
+                clonedFence16.position = new BABYLON.Vector3(9, 1.4, 30.48);
                 clonedFence16.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence16,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -737,7 +738,7 @@
                 );
                 clonedFence16.physicsImpostor.forceUpdate = true;
                 var clonedFence17 = fenceWood.clone("fenceWood17");
-                clonedFence17.position = new BABYLON.Vector3(-8, -0.1, 30.48);
+                clonedFence17.position = new BABYLON.Vector3(-8, 1.4, 30.48);
                 clonedFence17.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence17,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -746,7 +747,7 @@
                 );
                 clonedFence17.physicsImpostor.forceUpdate = true;
                 var clonedFence18 = fenceWood.clone("fenceWood18");
-                clonedFence18.position = new BABYLON.Vector3(-9, -0.1, 30.48);
+                clonedFence18.position = new BABYLON.Vector3(-9, 1.4, 30.48);
                 clonedFence18.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence18,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -755,7 +756,7 @@
                 );
                 clonedFence18.physicsImpostor.forceUpdate = true;
                 var clonedFence19 = fenceWood.clone("fenceWood19");
-                clonedFence19.position = new BABYLON.Vector3(10, -0.1, 30.48);
+                clonedFence19.position = new BABYLON.Vector3(10, 1.4, 30.48);
                 clonedFence19.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence19,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -764,7 +765,7 @@
                 );
                 clonedFence19.physicsImpostor.forceUpdate = true;
                 var clonedFence20 = fenceWood.clone("fenceWood20");
-                clonedFence20.position = new BABYLON.Vector3(11, -0.1, 30.48);
+                clonedFence20.position = new BABYLON.Vector3(11, 1.4, 30.48);
                 clonedFence20.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence20,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -773,7 +774,7 @@
                 );
                 clonedFence20.physicsImpostor.forceUpdate = true;
                 var clonedFence21 = fenceWood.clone("fenceWood21");
-                clonedFence21.position = new BABYLON.Vector3(12, -0.1, 30.48);
+                clonedFence21.position = new BABYLON.Vector3(12, 1.4, 30.48);
                 clonedFence21.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence21,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -782,7 +783,7 @@
                 );
                 clonedFence21.physicsImpostor.forceUpdate = true;
                 var clonedFence22 = fenceWood.clone("fenceWood22");
-                clonedFence22.position = new BABYLON.Vector3(13, -0.1, 30.48);
+                clonedFence22.position = new BABYLON.Vector3(13, 1.4, 30.48);
                 clonedFence22.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence22,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -791,7 +792,7 @@
                 );
                 clonedFence22.physicsImpostor.forceUpdate = true;
                 var clonedFence22 = fenceWood.clone("fenceWood22");
-                clonedFence22.position = new BABYLON.Vector3(14, -0.1, 30.48);
+                clonedFence22.position = new BABYLON.Vector3(14, 1.4, 30.48);
                 clonedFence22.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence22,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -800,7 +801,7 @@
                 );
                 clonedFence23.physicsImpostor.forceUpdate = true;
                 var clonedFence23 = fenceWood.clone("fenceWood23");
-                clonedFence23.position = new BABYLON.Vector3(15, -0.1, 30.48);
+                clonedFence23.position = new BABYLON.Vector3(15, 1.4, 30.48);
                 clonedFence23.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence23,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -809,7 +810,7 @@
                 );
                 clonedFence23.physicsImpostor.forceUpdate = true;
                 var clonedFence24 = fenceWood.clone("fenceWood24");
-                clonedFence24.position = new BABYLON.Vector3(16, -0.1, 30.48);
+                clonedFence24.position = new BABYLON.Vector3(16, 1.4, 30.48);
                 clonedFence24.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence24,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -818,7 +819,7 @@
                 );
                 clonedFence25.physicsImpostor.forceUpdate = true;
                 var clonedFence25 = fenceWood.clone("fenceWood25");
-                clonedFence25.position = new BABYLON.Vector3(17, -0.1, 30.48);
+                clonedFence25.position = new BABYLON.Vector3(17, 1.4, 30.48);
                 clonedFence25.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence25,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -828,7 +829,7 @@
                 );
                 clonedFence25.physicsImpostor.forceUpdate = true;
                 var clonedFence26 = fenceWood.clone("fenceWood26");
-                clonedFence26.position = new BABYLON.Vector3(18, -0.1, 30.48);
+                clonedFence26.position = new BABYLON.Vector3(18, 1.4, 30.48);
                 clonedFence26.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence26,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -837,7 +838,7 @@
                 );
                 clonedFence26.physicsImpostor.forceUpdate = true;
                 var clonedFence27 = fenceWood.clone("fenceWood27");
-                clonedFence27.position = new BABYLON.Vector3(19, -0.1, 30.48);
+                clonedFence27.position = new BABYLON.Vector3(19, 1.4, 30.48);
                 clonedFence27.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence27,
                   BABYLON.PhysicsImpostor.MeshImpostor,
@@ -1115,27 +1116,27 @@
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
-                var clonedFenceVinyl30 = fenceVinyl.clone("fenceVinyl30");
-                // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl30.position = new BABYLON.Vector3(12.9, 1.8, 3.57);
-                clonedFenceVinyl30.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl30,
-                  BABYLON.PhysicsImpostor.BoxImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                var clonedFenceVinyl31 = fenceVinyl.clone("fenceVinyl31");
-                // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl31.position = new BABYLON.Vector3(12.9, 1.8, 14.5);
-                clonedFenceVinyl31.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl30,
-                  BABYLON.PhysicsImpostor.BoxImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl30 = fenceVinyl.clone("fenceVinyl30");
+                // // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl30.position = new BABYLON.Vector3(12.9, 1.8, 3.57);
+                // clonedFenceVinyl30.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl30,
+                //   BABYLON.PhysicsImpostor.BoxImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
+                // var clonedFenceVinyl31 = fenceVinyl.clone("fenceVinyl31");
+                // // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl31.position = new BABYLON.Vector3(12.9, 1.8, 14.5);
+                // clonedFenceVinyl31.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl30,
+                //   BABYLON.PhysicsImpostor.BoxImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
                 var clonedFenceVinyl32 = fenceVinyl.clone("fenceVinyl32");
                 // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl32.position = new BABYLON.Vector3(12.9, 1.8, 17.3);
+                clonedFenceVinyl32.position = new BABYLON.Vector3(12.9, 1.8, 17.77);
                 clonedFenceVinyl32.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl32,
                   BABYLON.PhysicsImpostor.BoxImpostor,
@@ -1144,7 +1145,7 @@
                 );
                 var clonedFenceVinyl33 = fenceVinyl.clone("fenceVinyl33");
                 // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl33.position = new BABYLON.Vector3(12.9, 1.8, 20.1);
+                clonedFenceVinyl33.position = new BABYLON.Vector3(12.9, 1.8, 20.57);
                 clonedFenceVinyl33.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl33,
                   BABYLON.PhysicsImpostor.BoxImpostor,
@@ -1153,7 +1154,7 @@
                 );
                 var clonedFenceVinyl34 = fenceVinyl.clone("fenceVinyl34");
                 // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl34.position = new BABYLON.Vector3(12.9, 1.8, 22.9);
+                clonedFenceVinyl34.position = new BABYLON.Vector3(12.9, 1.8, 23.37);
                 clonedFenceVinyl34.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl34,
                   BABYLON.PhysicsImpostor.BoxImpostor,
@@ -1162,7 +1163,7 @@
                 );
                 var clonedFenceVinyl35 = fenceVinyl.clone("fenceVinyl35");
                 // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl35.position = new BABYLON.Vector3(12.9, 1.8, 25.7);
+                clonedFenceVinyl35.position = new BABYLON.Vector3(12.9, 1.8, 26.17);
                 clonedFenceVinyl35.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl35,
                   BABYLON.PhysicsImpostor.BoxImpostor,
@@ -1171,7 +1172,7 @@
                 );
                 var clonedFenceVinyl36 = fenceVinyl.clone("fenceVinyl36");
                 // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl36.position = new BABYLON.Vector3(12.9, 1.8, 28.5);
+                clonedFenceVinyl36.position = new BABYLON.Vector3(12.9, 1.8, 28.97);
                 clonedFenceVinyl36.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFenceVinyl36,
                   BABYLON.PhysicsImpostor.BoxImpostor,
@@ -1188,7 +1189,7 @@
                 treeLowPoly.isPickable = false;
                 treeLowPoly.scaling = new BABYLON.Vector3(0.008, 0.008, 0.008);
                 // Position the mesh
-                treeLowPoly.position = new BABYLON.Vector3(12.9, 0, 30);
+                treeLowPoly.position = new BABYLON.Vector3(13.4, 0, 30);
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 treeLowPoly.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
@@ -1198,6 +1199,62 @@
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
                 treeLowPoly.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
                 });
+
+            // var thuja;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/thuja/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     thuja = newMeshes[0];
+            //     thuja.isPickable = false;
+            //     thuja.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
+            //     // Position the mesh
+            //     thuja.position = new BABYLON.Vector3(0, 0, 2);
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     thuja.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         // mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     // thuja.physicsImpostor = new BABYLON.PhysicsImpostor(treeLowPoly, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            //     // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+            //     thuja.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            //     });
+
+            // var treePine;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/tree_pine/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     treePine = newMeshes[0];
+            //     treePine.isPickable = false;
+            //     treePine.scaling = new BABYLON.Vector3(0.006, 0.006, 0.006);
+            //     // Position the mesh
+            //     treePine.position = new BABYLON.Vector3(0, 0, 27.63);
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     treePine.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     treePine.physicsImpostor = new BABYLON.PhysicsImpostor(treeLowPoly, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            //     // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+            //     treePine.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            //     });
+
+            // var realFence;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     realFence = newMeshes[0];
+            //     realFence.isPickable = false;
+            //     realFence.scaling = new BABYLON.Vector3(1, 1.9, 1);
+            //     // Position the mesh
+            //     realFence.position = new BABYLON.Vector3(0, 1.4, 29);
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     realFence.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         // mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     // realFence.physicsImpostor = new BABYLON.PhysicsImpostor(realFence, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            //     // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+            //     realFence.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+            //     });
+
+
 
 
             var houseYellow;
@@ -1255,37 +1312,38 @@
                 // houseResidential = BABYLON.Mesh.MergeMeshes(houseRoot.getChildMeshes(), true, false, false, false, true);
 
                 home.isPickable = false;
-                home.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
-                home.position = new BABYLON.Vector3(18.48, 0.55, 9);
+                // home.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
+                home.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
+                home.position = new BABYLON.Vector3(25, 0.55, 8);
                 
-                home.physicsImpostor = new BABYLON.PhysicsImpostor(houseResidential, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                home.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 home.physicsImpostor.isPickable = false;
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
-                home.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+                home.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
                 });
 
-            var houseBlue;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/house_blue/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                houseBlue = newMeshes[0];
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                houseBlue.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                  });
+            // var houseBlue;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/house_blue/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     houseBlue = newMeshes[0];
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     houseBlue.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
 
-                // Here is the secret line. Combines all meshes into one for Impostor use.
-                // houseResidential = BABYLON.Mesh.MergeMeshes(houseRoot.getChildMeshes(), true, false, false, false, true);
+            //     // Here is the secret line. Combines all meshes into one for Impostor use.
+            //     // houseResidential = BABYLON.Mesh.MergeMeshes(houseRoot.getChildMeshes(), true, false, false, false, true);
 
-                houseBlue.isPickable = false;
-                houseBlue.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
-                houseBlue.position = new BABYLON.Vector3(-29, 0, 77);
+            //     houseBlue.isPickable = false;
+            //     houseBlue.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
+            //     houseBlue.position = new BABYLON.Vector3(-29, 0, 77);
                 
-                houseBlue.physicsImpostor = new BABYLON.PhysicsImpostor(houseBlue, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
-                houseBlue.physicsImpostor.isPickable = false;
-                // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
-                houseBlue.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
-                });
+            //     houseBlue.physicsImpostor = new BABYLON.PhysicsImpostor(houseBlue, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            //     houseBlue.physicsImpostor.isPickable = false;
+            //     // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+            //     houseBlue.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
+            //     });
 
 
 
