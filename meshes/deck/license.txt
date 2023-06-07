@@ -1,0 +1,11 @@
+Model Information:
+* title:	Deck With Stairs and guardrails
+* source:	https://sketchfab.com/3d-models/deck-with-stairs-and-guardrails-6d7abddfd9634574a49d3f7661e4040a
+* author:	imrchk (https://sketchfab.com/imarchenko)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Deck With Stairs and guardrails" (https://sketchfab.com/3d-models/deck-with-stairs-and-guardrails-6d7abddfd9634574a49d3f7661e4040a) by imrchk (https://sketchfab.com/imarchenko) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
