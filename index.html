@@ -41,19 +41,36 @@
                 width: 100%;
                 height: 100%;
             }
+
+            #fps {
+                position: absolute;
+                background-color: black;
+                border: 2px solid red;
+                text-align: center;
+                font-size: 16px;
+                color: white;
+                top: 15px;
+                right: 10px;
+                width: 60px;
+                height: 20px;
+            }
         </style>
     </head>
 
 <body>
 
     <div id="canvasZone"><canvas id="renderCanvas"></canvas></div>
+    <div id="fps">0</div>
 
     <script>
         var canvas = document.getElementById("renderCanvas");
+        // Show FPS
+        let divFps = document.getElementById("fps");
         var startRenderLoop = function (engine, canvas) {
             engine.runRenderLoop(function () {
                 if (sceneToRender && sceneToRender.activeCamera) {
                     sceneToRender.render();
+                    divFps.innerHTML = engine.getFps().toFixed() + " fps";
                 }
             });
         }
@@ -78,6 +95,7 @@
             const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
             const physicsPlugin = new BABYLON.AmmoJSPlugin();
             scene.enablePhysics(gravityVector, physicsPlugin);
+            
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
             // var physicsEngine = scene.getPhysicsEngine();
             // if this number is too small (we tried 1), it requires a lot of CPU power and will slow down the game to a crawl
