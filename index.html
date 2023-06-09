@@ -111,9 +111,9 @@
             scene.enablePhysics(gravityVector, physicsPlugin);
             
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            // var physicsEngine = scene.getPhysicsEngine();
+            var physicsEngine = scene.getPhysicsEngine();
             // if this number is too small (we tried 1), it requires a lot of CPU power and will slow down the game to a crawl
-            // physicsEngine.setSubTimeStep(8);
+            physicsEngine.setSubTimeStep(10);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -244,6 +244,7 @@
                 fenceWood.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
                     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    // mesh.physicsImpostor.physicsBody.setCcdMotionThreshold();
                     mesh.isPickable = false;
                     });
 
@@ -253,6 +254,7 @@
                           { mass: 0, friction: 0.4, restitution: 0.2},
                           scene
                         );
+                fenceWood.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
                 // Gotta do this on each mesh
                 // newMeshes.forEach((mesh) => {
@@ -1133,7 +1135,7 @@
                 }
             }
             // 
-            console.log(scene.rootNodes);
+            // console.log(scene.rootNodes);
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
               floorMeshes: [ground],
