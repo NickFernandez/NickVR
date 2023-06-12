@@ -1286,6 +1286,8 @@
                                     xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                     observers[controller.uniqueId] = null;
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec);
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(meshesUnderPointer[controller.uniqueId].physicsImpostor.getLinearVelocity().scale(.97));
+
                                 }
                             }
                         }
