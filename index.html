@@ -1445,7 +1445,7 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = motionController.rootMesh;
+                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
@@ -1469,8 +1469,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = motionController.rootMesh;
-                                        // position.y = -0.25;
+                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1498,7 +1497,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = motionController.rootMesh;
+                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
