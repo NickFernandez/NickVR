@@ -250,7 +250,6 @@
                     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                     mesh.isPickable = false;
                     });
-                
                 clonedFence.physicsImpostor = new BABYLON.PhysicsImpostor(
                   clonedFence,
                   BABYLON.PhysicsImpostor.NoImpostor,
@@ -477,6 +476,7 @@
                     mesh.isPickable = false;
                     });
                 clonedFence19.physicsImpostor = new BABYLON.PhysicsImpostor(
+                  clonedFence19,
                   BABYLON.PhysicsImpostor.NoImpostor,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
@@ -956,239 +956,241 @@
                 
             });
 
-            var tree;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/tree/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                tree = newMeshes[0];
-                tree.isPickable = false;
-                tree.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
-                // Position the mesh
-                tree.position = new BABYLON.Vector3(20, 0, 26);
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                tree.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                  });
-                tree.physicsImpostor = new BABYLON.PhysicsImpostor(tree, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
-                // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
-                tree.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            // var tree;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/tree/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     tree = newMeshes[0];
+            //     tree.isPickable = false;
+            //     tree.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
+            //     // Position the mesh
+            //     tree.position = new BABYLON.Vector3(20, 0, 26);
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     tree.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     tree.physicsImpostor = new BABYLON.PhysicsImpostor(tree, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            //     // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+            //     tree.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
 
-                var clonedTree = tree.clone("tree1");
-                clonedTree.scaling = new BABYLON.Vector3(0.025, 0.025, 0.025);
-                clonedTree.position = new BABYLON.Vector3(15.2, 0, -2.5);
-                clonedTree.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedTree,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
-                });
+            //     var clonedTree = tree.clone("tree1");
+            //     clonedTree.scaling = new BABYLON.Vector3(0.025, 0.025, 0.025);
+            //     clonedTree.position = new BABYLON.Vector3(15.2, 0, -2.5);
+            //     clonedTree.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedTree,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
+            //     });
 
             var thuja;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/thuja/", "scene.gltf", scene, function (newMeshes) {
+            BABYLON.SceneLoader.ImportMesh("", "meshes/tree_pine/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 thuja = newMeshes[0];
                 thuja.isPickable = false;
-                thuja.scaling = new BABYLON.Vector3(0.006, 0.006, 0.006);
+                // thuja.scaling = new BABYLON.Vector3(0.006, 0.006, 0.006);
+                thuja.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
                 // Position the mesh
                 thuja.position = new BABYLON.Vector3(0, 0.5, 31.25);
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 thuja.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
+                    thuja.physicsImpostor = new BABYLON.PhysicsImpostor(thuja, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                   });
-                thuja.physicsImpostor = new BABYLON.PhysicsImpostor(thuja, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                thuja.physicsImpostor = new BABYLON.PhysicsImpostor(thuja, BABYLON.PhysicsImpostor.NoImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
                 thuja.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
                 
 
-                var clonedThuja = thuja.clone("thuja1");
-                clonedThuja.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(45), BABYLON.Space.LOCAL);
-                clonedThuja.position = new BABYLON.Vector3(1, 0.5, 31.25);
-                clonedThuja.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja,
-                  BABYLON.PhysicsImpostor.BoxImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja = thuja.clone("thuja1");
+            //     clonedThuja.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(45), BABYLON.Space.LOCAL);
+            //     clonedThuja.position = new BABYLON.Vector3(1, 0.5, 31.25);
+            //     clonedThuja.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja,
+            //       BABYLON.PhysicsImpostor.BoxImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja2 = thuja.clone("thuja2");
-                clonedThuja.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(60), BABYLON.Space.LOCAL);
-                clonedThuja2.position = new BABYLON.Vector3(2, 0.5, 31.25);
-                clonedThuja2.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja2,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
-                var clonedThuja3 = thuja.clone("thuja3");
-                clonedThuja3.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(88), BABYLON.Space.LOCAL);
-                clonedThuja3.position = new BABYLON.Vector3(3, 0.5, 31.25);
-                clonedThuja3.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja3,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja2 = thuja.clone("thuja2");
+            //     clonedThuja.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(60), BABYLON.Space.LOCAL);
+            //     clonedThuja2.position = new BABYLON.Vector3(2, 0.5, 31.25);
+            //     clonedThuja2.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja2,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
+            //     var clonedThuja3 = thuja.clone("thuja3");
+            //     clonedThuja3.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(88), BABYLON.Space.LOCAL);
+            //     clonedThuja3.position = new BABYLON.Vector3(3, 0.5, 31.25);
+            //     clonedThuja3.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja3,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja4 = thuja.clone("thuja4");
-                clonedThuja4.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(120), BABYLON.Space.LOCAL);
-                clonedThuja4.position = new BABYLON.Vector3(4, 0.5, 31.25);
-                clonedThuja4.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja4,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja4 = thuja.clone("thuja4");
+            //     clonedThuja4.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(120), BABYLON.Space.LOCAL);
+            //     clonedThuja4.position = new BABYLON.Vector3(4, 0.5, 31.25);
+            //     clonedThuja4.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja4,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja5 = thuja.clone("thuja5");
-                clonedThuja5.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(15), BABYLON.Space.LOCAL);
-                clonedThuja5.position = new BABYLON.Vector3(5, 0.5, 31.25);
-                clonedThuja5.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja5,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja5 = thuja.clone("thuja5");
+            //     clonedThuja5.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(15), BABYLON.Space.LOCAL);
+            //     clonedThuja5.position = new BABYLON.Vector3(5, 0.5, 31.25);
+            //     clonedThuja5.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja5,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja6 = thuja.clone("thuja6");
-                clonedThuja6.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(15), BABYLON.Space.LOCAL);
-                clonedThuja6.position = new BABYLON.Vector3(6, 0.5, 31.25);
-                clonedThuja6.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja6,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja6 = thuja.clone("thuja6");
+            //     clonedThuja6.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(15), BABYLON.Space.LOCAL);
+            //     clonedThuja6.position = new BABYLON.Vector3(6, 0.5, 31.25);
+            //     clonedThuja6.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja6,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja7 = thuja.clone("thuja7");
-                clonedThuja7.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(105), BABYLON.Space.LOCAL);
-                clonedThuja7.position = new BABYLON.Vector3(7, 0.5, 31.25);
-                clonedThuja7.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja7,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja7 = thuja.clone("thuja7");
+            //     clonedThuja7.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(105), BABYLON.Space.LOCAL);
+            //     clonedThuja7.position = new BABYLON.Vector3(7, 0.5, 31.25);
+            //     clonedThuja7.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja7,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja8 = thuja.clone("thuja8");
-                clonedThuja8.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(45), BABYLON.Space.LOCAL);
-                clonedThuja8.position = new BABYLON.Vector3(8, 0.5, 31.25);
-                clonedThuja8.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja8,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja8 = thuja.clone("thuja8");
+            //     clonedThuja8.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(45), BABYLON.Space.LOCAL);
+            //     clonedThuja8.position = new BABYLON.Vector3(8, 0.5, 31.25);
+            //     clonedThuja8.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja8,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja9 = thuja.clone("thuja9");
-                clonedThuja9.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(22), BABYLON.Space.LOCAL);
-                clonedThuja9.position = new BABYLON.Vector3(9, 0.5, 31.25);
-                clonedThuja9.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja9,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja9 = thuja.clone("thuja9");
+            //     clonedThuja9.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(22), BABYLON.Space.LOCAL);
+            //     clonedThuja9.position = new BABYLON.Vector3(9, 0.5, 31.25);
+            //     clonedThuja9.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja9,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja10 = thuja.clone("thuja10");
-                clonedThuja10.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(66), BABYLON.Space.LOCAL);
-                clonedThuja10.position = new BABYLON.Vector3(10, 0.5, 31.25);
-                clonedThuja10.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja10,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja10 = thuja.clone("thuja10");
+            //     clonedThuja10.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(66), BABYLON.Space.LOCAL);
+            //     clonedThuja10.position = new BABYLON.Vector3(10, 0.5, 31.25);
+            //     clonedThuja10.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja10,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja17 = thuja.clone("thuja17");
-                clonedThuja17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(25), BABYLON.Space.LOCAL);
-                clonedThuja17.position = new BABYLON.Vector3(-1, 0.5, 31.25);
-                clonedThuja17.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja17,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja17 = thuja.clone("thuja17");
+            //     clonedThuja17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(25), BABYLON.Space.LOCAL);
+            //     clonedThuja17.position = new BABYLON.Vector3(-1, 0.5, 31.25);
+            //     clonedThuja17.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja17,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja18 = thuja.clone("thuja18");
-                clonedThuja18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(96), BABYLON.Space.LOCAL);
-                clonedThuja18.position = new BABYLON.Vector3(-2, 0.5, 31.25);
-                clonedThuja18.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja18,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja18 = thuja.clone("thuja18");
+            //     clonedThuja18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(96), BABYLON.Space.LOCAL);
+            //     clonedThuja18.position = new BABYLON.Vector3(-2, 0.5, 31.25);
+            //     clonedThuja18.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja18,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja19 = thuja.clone("thuja19");
-                clonedThuja19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(32), BABYLON.Space.LOCAL);
-                clonedThuja19.position = new BABYLON.Vector3(-3, 0.5, 31.25);
-                clonedThuja19.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja19,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja19 = thuja.clone("thuja19");
+            //     clonedThuja19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(32), BABYLON.Space.LOCAL);
+            //     clonedThuja19.position = new BABYLON.Vector3(-3, 0.5, 31.25);
+            //     clonedThuja19.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja19,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja20 = thuja.clone("thuja20");
-                clonedThuja20.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(105), BABYLON.Space.LOCAL);
-                clonedThuja20.position = new BABYLON.Vector3(-4, 0.5, 31.25);
-                clonedThuja20.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja20,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja20 = thuja.clone("thuja20");
+            //     clonedThuja20.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(105), BABYLON.Space.LOCAL);
+            //     clonedThuja20.position = new BABYLON.Vector3(-4, 0.5, 31.25);
+            //     clonedThuja20.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja20,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja21 = thuja.clone("thuja21");
-                clonedThuja21.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(45), BABYLON.Space.LOCAL);
-                clonedThuja21.position = new BABYLON.Vector3(-5, 0.5, 31.25);
-                clonedThuja21.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja21,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja21 = thuja.clone("thuja21");
+            //     clonedThuja21.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(45), BABYLON.Space.LOCAL);
+            //     clonedThuja21.position = new BABYLON.Vector3(-5, 0.5, 31.25);
+            //     clonedThuja21.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja21,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja22 = thuja.clone("thuja22");
-                clonedThuja22.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(88), BABYLON.Space.LOCAL);
-                clonedThuja22.position = new BABYLON.Vector3(-6, 0.5, 31.25);
-                clonedThuja22.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja22,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja22 = thuja.clone("thuja22");
+            //     clonedThuja22.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(88), BABYLON.Space.LOCAL);
+            //     clonedThuja22.position = new BABYLON.Vector3(-6, 0.5, 31.25);
+            //     clonedThuja22.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja22,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja23 = thuja.clone("thuja23");
-                clonedThuja23.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(145), BABYLON.Space.LOCAL);
-                clonedThuja23.position = new BABYLON.Vector3(-7, 0.5, 31.25);
-                clonedThuja23.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja23,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja23 = thuja.clone("thuja23");
+            //     clonedThuja23.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(145), BABYLON.Space.LOCAL);
+            //     clonedThuja23.position = new BABYLON.Vector3(-7, 0.5, 31.25);
+            //     clonedThuja23.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja23,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja24 = thuja.clone("thuja24");
-                clonedThuja24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(12), BABYLON.Space.LOCAL);
-                clonedThuja24.position = new BABYLON.Vector3(-8, 0.5, 31.25);
-                clonedThuja24.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja24,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja24 = thuja.clone("thuja24");
+            //     clonedThuja24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(12), BABYLON.Space.LOCAL);
+            //     clonedThuja24.position = new BABYLON.Vector3(-8, 0.5, 31.25);
+            //     clonedThuja24.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja24,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedThuja25 = thuja.clone("thuja25");
-                clonedThuja25.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(165), BABYLON.Space.LOCAL);
-                clonedThuja25.position = new BABYLON.Vector3(-9, 0.5, 31.25);
-                clonedThuja25.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedThuja25,
-                  BABYLON.PhysicsImpostor.MeshImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedThuja25 = thuja.clone("thuja25");
+            //     clonedThuja25.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(165), BABYLON.Space.LOCAL);
+            //     clonedThuja25.position = new BABYLON.Vector3(-9, 0.5, 31.25);
+            //     clonedThuja25.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedThuja25,
+            //       BABYLON.PhysicsImpostor.MeshImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
             });
 
@@ -1199,14 +1201,14 @@
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 houseDave.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                   });
 
                 houseDave.isPickable = false;
                 houseDave.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5);
                 houseDave.position = new BABYLON.Vector3(0.65, 0.55, 62);
                 
-                houseDave.physicsImpostor = new BABYLON.PhysicsImpostor(houseDave, BABYLON.PhysicsImpostor.NoImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                houseDave.physicsImpostor = new BABYLON.PhysicsImpostor(houseDave, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 houseDave.physicsImpostor.isPickable = false;
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
                 houseDave.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
@@ -1219,13 +1221,13 @@
                 // Gotta do this on each mesh to make sure it isn't Pickable
                 home.getChildMeshes().forEach((mesh) => {
                     mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.MeshImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                   });
                 home.isPickable = false;
                 home.scaling = new BABYLON.Vector3(0.0087, 0.0087, 0.0087);
                 home.position = new BABYLON.Vector3(20.2, 0.25, 9.5);
                 
-                home.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.NoImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+                home.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
                 home.physicsImpostor.isPickable = false;
                 // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
                 home.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(270), BABYLON.Space.LOCAL);
@@ -1330,7 +1332,7 @@
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.01984165, friction: 0.4, restitution: 0.5 }, scene);
                 wiffleBall.physicsImpostor.forceUpdate = true;
                 wiffleBall.physicsImpostor.isPickable = false;
-                wiffleBall.physicsImpostor.physicsBody.setDamping(0.8, 0.5);
+                wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.3);
             });
 
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
@@ -1443,7 +1445,7 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.grip ? controller.grip.position : motionController.rootMesh;
+                        const position = motionController.rootMesh;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
@@ -1467,8 +1469,8 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
-                                        position.y = -0.25;
+                                        const position = motionController.rootMesh;
+                                        // position.y = -0.25;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1496,7 +1498,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                                        const position = motionController.rootMesh;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
