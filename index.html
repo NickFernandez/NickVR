@@ -1232,48 +1232,48 @@
                 });
 
 
-            var shed;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/shed/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                shed = newMeshes[0];
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                shed.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                  });
-                shed.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.NoImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
-                shed.isPickable = false;
-                shed.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
-                shed.position = new BABYLON.Vector3(11, -0.1, 35.5);
+            // var shed;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/shed/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     shed = newMeshes[0];
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     shed.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     shed.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.NoImpostor, { mass: 0, friction:0.4, restitution:0.2 }, scene);
+            //     shed.isPickable = false;
+            //     shed.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
+            //     shed.position = new BABYLON.Vector3(11, -0.1, 35.5);
 
-                var clonedShed = shed.clone("shed1");
-                clonedShed.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                  });
-                clonedShed.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
-                clonedShed.position = new BABYLON.Vector3(14, -0.1, 35.5);
-                clonedShed.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedShed,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
+            //     var clonedShed = shed.clone("shed1");
+            //     clonedShed.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     clonedShed.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
+            //     clonedShed.position = new BABYLON.Vector3(14, -0.1, 35.5);
+            //     clonedShed.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedShed,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
 
-                var clonedShed2 = shed.clone("shed2");
-                clonedShed2.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                  });
-                clonedShed2.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
-                clonedShed2.position = new BABYLON.Vector3(17, -0.1, 35.5);
-                clonedShed2.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedShed2,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.7, restitution: 0.05 },
-                  scene
-                );
-              });
+            //     var clonedShed2 = shed.clone("shed2");
+            //     clonedShed2.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     clonedShed2.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
+            //     clonedShed2.position = new BABYLON.Vector3(17, -0.1, 35.5);
+            //     clonedShed2.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedShed2,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.7, restitution: 0.05 },
+            //       scene
+            //     );
+            //   });
 
 
             var bat;
