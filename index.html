@@ -1445,7 +1445,7 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.inputSource.grip;
+                        const position = controller.inputSource.gripSpace;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
@@ -1469,7 +1469,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = controller.inputSource.grip;
+                                        const position = controller.inputSource.gripSpace;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1497,7 +1497,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = controller.inputSource.grip;
+                                        const position = controller.inputSource.gripSpace;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
