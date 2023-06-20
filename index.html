@@ -1436,8 +1436,6 @@
             xr.input.onControllerAddedObservable.add((controller) => {
               controller.onMotionControllerInitObservable.add((motionController) => {
                 const handness = motionController.handness;
-                // const xr_ids = motionController.getComponentIds();
-                // const triggerComponent = motionController.getComponent(xr_ids[0]); // xr-standard-trigger
                 const squeezeComponent = motionController.getComponentOfType('squeeze');
                 squeezeComponent.onButtonStateChangedObservable.add(() => {
                 if (squeezeComponent.changes.pressed) {
@@ -1445,21 +1443,17 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.inputSource.gripSpace;
-                        
+                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
                             isMeshHeld = false; // No mesh item is being held when squeezing
                             return;
                         }
-                        // meshUnderPointer.setParent(controller.uniqueId.rootMesh);
+
                         if (handness === 'left') {
-                            // meshLeft = meshUnderPointer;
-                            // meshLeft.physicsImpostor.dispose();
-                            // meshLeft && meshLeft.setParent(motionController.rootMesh);
                             const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                 meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
-                                position.add(tmpRay.direction),
+                                controller.grip.position.clone(),
                                 BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                                 new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                                     if (!meshUnderPointer) return;
@@ -1469,7 +1463,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = controller.inputSource.gripSpace;
+                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1482,12 +1476,9 @@
                                     })
                                 });
                         } else if (handness === 'right') {
-                            // meshRight = meshUnderPointer;
-                            // meshRight.physicsImpostor.dispose();   
-                            // meshRight && meshRight.setParent(motionController.rootMesh);
                             const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                 meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
-                                position.add(tmpRay.direction),
+                                controller.grip.position.clone(),
                                 BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                                 new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                                     if (!meshUnderPointer) return;
@@ -1497,7 +1488,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(1.5);
-                                        const position = controller.inputSource.gripSpace;
+                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
