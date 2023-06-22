@@ -1324,7 +1324,7 @@
                     mesh.checkCollisions = true;
                     mesh.material = newMaterial;
                     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 0.01984165, friction: 0.4, restitution: 0.5 }, scene);
-                    mesh.physicsImpostor.physicsBody.setDamping(0.8, 0.5);
+                    mesh.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                   });
 
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
@@ -1332,7 +1332,7 @@
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.01984165, friction: 0.4, restitution: 0.5 }, scene);
                 wiffleBall.physicsImpostor.forceUpdate = true;
                 wiffleBall.physicsImpostor.isPickable = false;
-                wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.3);
+                wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
             });
 
             var homePlate;
@@ -1340,7 +1340,7 @@
                 // The loaded mesh is returned as an array
                 homePlate = newMeshes[0];
                 // Scale the mesh down by a factor of 0.01
-                homePlate.scaling = new BABYLON.Vector3(.005, .005, .005);
+                homePlate.scaling = new BABYLON.Vector3(.003, .003, .003);
                 // Position the mesh
                 homePlate.position = new BABYLON.Vector3(0, 0.5, 0);
                 homePlate.isPickable = false;
@@ -1509,7 +1509,7 @@
                                       // Dispose the existing physics impostor and create a new one for the mesh
                                       meshLeft.physicsImpostor.dispose();
                                       meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
-                                      meshLeft.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
+                                      meshLeft.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                                       const slowedLinearVelocity = v.scale(0.001);
                                       // Set the linear velocity of the mesh for throwing
                                       meshLeft.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
@@ -1523,8 +1523,8 @@
                                       // Dispose the existing physics impostor and create a new one for the mesh
                                       meshRight.physicsImpostor.dispose();
                                       meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
-                                      meshRight.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                      const slowedLinearVelocity = v.scale(0.2);
+                                      meshRight.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                                      const slowedLinearVelocity = v.scale(0.75);
                                       // Set the linear velocity of the mesh for throwing
                                       meshRight.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
                                       // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
