@@ -1335,6 +1335,31 @@
                 wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.3);
             });
 
+            var homePlate;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/home_plate/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                homePlate = newMeshes[0];
+                // Scale the mesh down by a factor of 0.01
+                homePlate.scaling = new BABYLON.Vector3(.005, .005, .005);
+                // Position the mesh
+                homePlate.position = new BABYLON.Vector3(0, 0.5, 0);
+                homePlate.isPickable = false;
+
+                // Gotta do this on each mesh
+                homePlate.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.isPickable = false;
+                    });
+
+                homePlate.physicsImpostor = new BABYLON.PhysicsImpostor(
+                          homePlate,
+                          BABYLON.PhysicsImpostor.NoImpostor,
+                          { mass: 0, friction: 0.4, restitution: 0.2},
+                          scene
+                        );
+            });
+
             var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             const newColor = new BABYLON.Color3(0, 0, 1); //  blue
             const newMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
