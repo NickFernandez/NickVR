@@ -18,6 +18,8 @@
         <script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
         <script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
         <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
         <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
         <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
         <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
@@ -1414,9 +1416,9 @@
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
               floorMeshes: [ground],
-              // inputOptions: {
-              //   doNotLoadControllerMeshes: true
-              // }
+              inputOptions: {
+                doNotLoadControllerMeshes: true
+              }
             });
             // xr.pointerSelection.displayLaserPointer = false;
 
@@ -1511,21 +1513,22 @@
                                       meshLeft.physicsImpostor.dispose();
                                       meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                       meshLeft.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
-                                      const slowedLinearVelocity = v.scale(0.001);
+                                      const slowedLinearVelocity = v.scale(0.5);
                                       // Set the linear velocity of the mesh for throwing
                                       meshLeft.physicsImpostor.physicsBody.setLinearVelocity(v);
                                       // meshLeft.physicsImpostor.physicsBody.setAngularVelocity(w);
 
                                   } else if (handness === 'right') {
-                                      meshRight.setParent(null);
                                       // throw the object
                                       const w = angularVelocity;
                                       const v = linearVelocity;
+                                      // Set the parent of the mesh to null to detach it from the controller
+                                      meshRight.setParent(null);
                                       // Dispose the existing physics impostor and create a new one for the mesh
                                       meshRight.physicsImpostor.dispose();
                                       meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                       meshRight.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
-                                      const slowedLinearVelocity = v.scale(0.75);
+                                      const slowedLinearVelocity = v.scale(0.5);
                                       // Set the linear velocity of the mesh for throwing
                                       meshRight.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
                                       // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
