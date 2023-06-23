@@ -1416,9 +1416,9 @@
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
               floorMeshes: [ground],
-              inputOptions: {
-                doNotLoadControllerMeshes: true
-              }
+              // inputOptions: {
+              //   doNotLoadControllerMeshes: true
+              // }
             });
             // xr.pointerSelection.displayLaserPointer = false;
 
@@ -1476,6 +1476,7 @@
               controller.onMotionControllerInitObservable.add((motionController) => {
                   const handness = motionController.handness;
                   const squeezeComponent = motionController.getComponentOfType('squeeze');
+                  // const buttonComponent = motionController.getComponent('y-button');
                   squeezeComponent.onButtonStateChangedObservable.add(() => {
                       if (squeezeComponent.changes.pressed) {
                           if (squeezeComponent.pressed) {
@@ -1530,7 +1531,7 @@
                                       meshRight.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                                       const slowedLinearVelocity = v.scale(0.5);
                                       // Set the linear velocity of the mesh for throwing
-                                      meshRight.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
+                                      meshRight.physicsImpostor.physicsBody.setLinearVelocity(v);
                                       // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
                                   }
                               }
