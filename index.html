@@ -3,7 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>PG HYBRID TEST 736</title>
+        <title>Wiffle Ball VR</title>
+        <link rel="shortcut icon" href="https://www.clipartmax.com/png/middle/26-269744_nice-usable-wiffle-ball-wiffle-ball-clip-art.png" />
 
         <!-- Babylon.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
@@ -61,272 +62,317 @@
         var scene = null;
         var sceneToRender = null;
         var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+
         var createScene = async function () {
-    // This creates a basic Babylon Scene object (non-mesh)
-    var scene = new BABYLON.Scene(engine);
-    // Enable Havok physics in the scene.
-    // const havokInstance = await HavokPhysics();
-    // const hk = new BABYLON.HavokPlugin(true, havokInstance);
-    // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+            // This creates a basic Babylon Scene object (non-mesh)
+            var scene = new BABYLON.Scene(engine);
+            // Enable Havok physics in the scene.
+            // const havokInstance = await HavokPhysics();
+            // const hk = new BABYLON.HavokPlugin(true, havokInstance);
+            // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
-    //  gravity using AmmoJS
-    const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-    const physicsPlugin = new BABYLON.AmmoJSPlugin();
-    scene.enablePhysics(gravityVector, physicsPlugin);
-    // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-    var physicsEngine = scene.getPhysicsEngine();
-    physicsEngine.setSubTimeStep(1);
+            //  gravity using AmmoJS
+            const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+            const physicsPlugin = new BABYLON.AmmoJSPlugin();
+            scene.enablePhysics(gravityVector, physicsPlugin);
+            // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
+            var physicsEngine = scene.getPhysicsEngine();
+            physicsEngine.setSubTimeStep(1);
 
-    // This creates and positions a free camera (non-mesh)
-    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-
-    // This targets the camera to scene origin
-    camera.setTarget(BABYLON.Vector3.Zero());
-
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
-
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.7;
-
-    // Add a skybox to the scene
-    // Sky mesh (box)
-    var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
-    // Sky material
-    var skyMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-    skyMaterial.backFaceCulling = false;
-    skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
-    skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-    skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    skybox.material = skyMaterial;
-    skybox.isPickable = false;
-
-    // Set sky properties for a blue sky
-    skyMaterial.luminance = 1.5;
-    skyMaterial.turbidity = 2;
-    skyMaterial.rayleigh = 2;
-    skyMaterial.mieCoefficient = 0.005;
-    skyMaterial.mieDirectionalG = 0.8;
-     // var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
-     // var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-     // skyboxMaterial.backFaceCulling = false;
-     // skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox", scene);
-     // skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-     // skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-     // skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-     // skybox.material = skyboxMaterial;
-     // skybox.isPickable = false;
-
-    // Our built-in 'ground' shape.
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 90, height: 90}, scene);
-    ground.isPickable = false;
-    ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.88, restitution: 0.2}, scene);
-    ground.physicsImpostor.isPickable = false;
-    
-    // Our built-in 'sphere' shape.
-    var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-    sphere.setParent(null);
-    sphere.isPickable = true;
-    // drop from a height
-    sphere.position.y = 15;
-    sphere.scaling = new BABYLON.Vector3(0.045, 0.045, 0.045);
-    sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.2 }, scene);
-    sphere.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
-    sphere.physicsImpostor.isPickable = false;
-
-    // Create a wall mesh
-    var wallWidth = 4;
-    var wallHeight = 2;
-    var wallDepth = 0.2;
-    var wallPosition = new BABYLON.Vector3(0, wallHeight/2, 15);
-    var wall = BABYLON.MeshBuilder.CreateBox("wall", { width: wallWidth, height: wallHeight, depth: wallDepth }, scene);
-    wall.position = wallPosition;
-    wall.physicsImpostor = new BABYLON.PhysicsImpostor(wall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.88, restitution: 0.2}, scene);
-    wall.physicsImpostor.isPickable = false;
-
-    let fence;
-    BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes){
-        fence = newMeshes[0];
-        fence.scaling = new BABYLON.Vector3(2, 2 ,2);
-        fence.position = new BABYLON.Vector3(-3.5, 0, 5);
-        fence.isPickable = false,
-
-        // Gotta do this on each mesh
-        fence.getChildMeshes().forEach((mesh) => {
-            mesh.checkCollisions = true;
-            mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-            mesh.isPickable = false;
-            });
-
-        fence.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  fence,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-        });
-
-    let fenceV;
-    BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes){
-        fenceV = newMeshes[0];
-        fenceV.scaling = new BABYLON.Vector3(1, 1, 1);
-        fenceV.position = new BABYLON.Vector3(0, 0, 5);
-        fenceV.isPickable = false,
-
-        // Gotta do this on each mesh
-        fenceV.getChildMeshes().forEach((mesh) => {
-            mesh.checkCollisions = true;
-            mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-            mesh.isPickable = false;
-            });
-
-        fenceV.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  fenceV,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-
-        var clonedFenceVinyl = fenceV.clone("fenceV");
-        clonedFenceVinyl.position = new BABYLON.Vector3(3, 0, 5);
-        clonedFenceVinyl.getChildMeshes().forEach((mesh) => {
-            mesh.checkCollisions = true;
-            mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-            mesh.isPickable = false;
-            });
-        clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
-            clonedFenceVinyl,
-            BABYLON.PhysicsImpostor.NoImpostor,
-            { mass: 0, friction: 0.4, restitution: 0.2},
-            scene
-        );
-    });
-    
-    // here we add XR support
-    const xr = await scene.createDefaultXRExperienceAsync({
-        floorMeshes: [ground],
-        // inputOptions: {
-        //   doNotLoadControllerMeshes: true;
-        // }
-    });
-    xr.pointerSelection.maxPointerDistance = 1;
-    // add features such as teleportation
-    const featuresManager = xr.baseExperience.featuresManager; // or any other way to get a features manager
-    featuresManager.enableFeature(BABYLON.WebXRFeatureName.TELEPORTATION, "stable" /* or latest */, {
-        xrInput: xr.input,
-        // add options here
-        floorMeshes: [ground],
-    });
-    const xrPhysics = xr.baseExperience.featuresManager.enableFeature(
-        BABYLON.WebXRFeatureName.PHYSICS_CONTROLLERS,
-        "latest",
-        {
-            xrInput: xr.input,
-            physicsProperties: {
-                restitution: 0.5,
-                impostorSize: 0.1,
-                impostorType: BABYLON.PhysicsImpostor.NoImpostor
-            },
-        }
-    ) 
-
-    let meshLeft;
-    let meshRight;
-    let isMeshHeld = false; // Flag to track if a mesh item is held when squeezing
-
-    xr.input.onControllerAddedObservable.add((controller) => {
-        const linearVelocity = BABYLON.Vector3.Zero();
-        const angularVelocity = BABYLON.Vector3.Zero();
-
-        xr.baseExperience.sessionManager.onXRFrameObservable.add((xrFrame) => {
-            const controllerImpostor = xrPhysics.getImpostorForController(controller);
-
-            // Exponential smoothing
-            linearVelocity.addInPlace(
-                controllerImpostor.getLinearVelocity()
+            // Creates and positions a free camera
+            var camera = new BABYLON.ArcRotateCamera(
+                "camera",
+                BABYLON.Tools.ToRadians(90),
+                BABYLON.Tools.ToRadians(65),
+                10,
+                BABYLON.Vector3.Zero(),
+                scene
             );
-            angularVelocity.addInPlace(
-                controllerImpostor.getAngularVelocity()
-            );
-        });
 
-        controller.onMotionControllerInitObservable.add((motionController) => {
-            const handness = motionController.handness;
-            const squeezeComponent = motionController.getComponentOfType('squeeze');
-            squeezeComponent.onButtonStateChangedObservable.add(() => {
-                if (squeezeComponent.changes.pressed) {
-                    if (squeezeComponent.pressed) {
-                        const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                        if (!meshUnderPointer) {
-                            isMeshHeld = false; // No mesh item is being held when squeezing
-                            return;
-                        }
-                        if (handness === 'left') {
-                            meshLeft = meshUnderPointer;
-                            meshLeft.physicsImpostor.dispose();
-                            meshLeft.setParent(controller.pointer);
-                            meshLeft.position = BABYLON.Vector3.ZeroReadOnly;
-                            meshLeft.rotationQuaternion = BABYLON.Quaternion.Identity();
-                            meshLeft.locallyTranslate(new BABYLON.Vector3(0.3, -0.3, -0.3));
-                        } else if (handness === 'right') {
-                            meshRight = meshUnderPointer;
-                            meshRight.physicsImpostor.dispose();
-                            meshRight.setParent(controller.pointer);
-                            meshRight.position = BABYLON.Vector3.ZeroReadOnly;
-                            meshRight.rotationQuaternion = BABYLON.Quaternion.Identity();
-                            meshRight.locallyTranslate(new BABYLON.Vector3(-0.3, -0.3, -0.3));
-                        }
-                        isMeshHeld = true; // A mesh item is being held when squeezing
+            // Set the starting position of the camera
+            camera.position = new BABYLON.Vector3(0, 1.6, 0.5);
+            // This attaches the camera to the canvas
+            camera.attachControl(canvas, true);
+            camera.checkCollisions = true;
 
-                    } else {
-                        if (isMeshHeld) {
-                            if (handness === 'left') {
-                                // throw the object
-                                const w = angularVelocity;
-                                const v = linearVelocity;
-                                // Set the parent of the mesh to null to detach it from the controller
-                                meshLeft.setParent(null);
-                                // Dispose the existing physics impostor and create a new one for the mesh
-                                meshLeft.physicsImpostor.dispose();
-                                meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
-                                meshLeft.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                const slowedLinearVelocity = v.scale(0.001);
-                                // Set the linear velocity of the mesh for throwing
-                                meshLeft.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
-                                // meshLeft.physicsImpostor.physicsBody.setAngularVelocity(w);
+            var light = new BABYLON.PointLight("light", new BABYLON.Vector3(0, 10, 0), scene);
+            light.intensity = 1;
+            light.diffuse = new BABYLON.Color3(1, 1, 1); // Set the color of the light
 
-                            } else if (handness === 'right') {
-                                meshRight.setParent(null);
-                                // throw the object
-                                const w = angularVelocity;
-                                const v = linearVelocity;
-                                // Dispose the existing physics impostor and create a new one for the mesh
-                                meshRight.physicsImpostor.dispose();
-                                meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
-                                meshRight.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                const slowedLinearVelocity = v.scale(0.2);
-                                // Set the linear velocity of the mesh for throwing
-                                meshRight.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
-                                // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
+            var ambientLight = new BABYLON.HemisphericLight("ambientLight", new BABYLON.Vector3(0, 1, 0), scene);
+            ambientLight.intensity = 0.8;
+            ambientLight.diffuse = new BABYLON.Color3(1, 1, 1); // Set the color of the ambient light
+
+            // Our built-in 'ground' shape.
+            var ground = BABYLON.MeshBuilder.CreateBox("ground", { width: 150, height: 1, depth: 150}, scene);
+            ground.checkCollisions = true;
+            ground.position.y = 0;
+            ground.isPickable = false;
+            ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.1 }, scene);
+            
+            // Create a new StandardMaterial for the ground
+            var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
+            ground.material = groundMaterial;
+            // Load the grass texture
+            var grassTexture = new BABYLON.Texture("textures/grass.png", scene);
+            // Apply the grass texture to the ground material
+            groundMaterial.diffuseTexture = grassTexture;
+            groundMaterial.diffuseTexture.uScale = 49;
+            groundMaterial.diffuseTexture.vScale = 50;   
+
+            // Add a skybox to the scene
+            var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
+            // Sky material
+            var skyMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+            skyMaterial.backFaceCulling = false;
+            skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
+            skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+            skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+            skybox.material = skyMaterial;
+            skybox.isPickable = false;
+
+            // Set sky properties for a blue sky
+            skyMaterial.luminance = 1.5;
+            skyMaterial.turbidity = 2;
+            skyMaterial.rayleigh = 2;
+            skyMaterial.mieCoefficient = 0.005;
+            skyMaterial.mieDirectionalG = 0.8;
+            
+            // Our built-in 'sphere' shape.
+            var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
+            const newColor = new BABYLON.Color3(0, 0, 5); //  blue
+            const newMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
+            newMaterial.diffuseColor = newColor;
+            sphere.material = newMaterial;
+            sphere.setParent(null);
+            sphere.isPickable = true;
+            // drop from a height
+            sphere.position.y = 15;
+            sphere.scaling = new BABYLON.Vector3(0.045, 0.045, 0.045);
+            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.2 }, scene);
+            sphere.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+            sphere.physicsImpostor.isPickable = false;
+
+            // Create a wall mesh
+            var wallWidth = 4;
+            var wallHeight = 2;
+            var wallDepth = 0.2;
+            var wallPosition = new BABYLON.Vector3(0, wallHeight/2, 15);
+            var wall = BABYLON.MeshBuilder.CreateBox("wall", { width: wallWidth, height: wallHeight, depth: wallDepth }, scene);
+            wall.position = wallPosition;
+            wall.physicsImpostor = new BABYLON.PhysicsImpostor(wall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.88, restitution: 0.2}, scene);
+            wall.physicsImpostor.isPickable = false;
+
+            let fence;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes){
+                fence = newMeshes[0];
+                fence.scaling = new BABYLON.Vector3(2, 2 ,2);
+                fence.position = new BABYLON.Vector3(-3.5, 0, 5);
+                fence.isPickable = false,
+
+                // Gotta do this on each mesh
+                fence.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.isPickable = false;
+                    });
+
+                fence.physicsImpostor = new BABYLON.PhysicsImpostor(
+                          fence,
+                          BABYLON.PhysicsImpostor.NoImpostor,
+                          { mass: 0, friction: 0.4, restitution: 0.2},
+                          scene
+                        );
+                });
+
+            let fenceV;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes){
+                fenceV = newMeshes[0];
+                fenceV.scaling = new BABYLON.Vector3(1, 1, 1);
+                fenceV.position = new BABYLON.Vector3(0, 0, 5);
+                fenceV.isPickable = false,
+
+                // Gotta do this on each mesh
+                fenceV.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.isPickable = false;
+                    });
+
+                fenceV.physicsImpostor = new BABYLON.PhysicsImpostor(
+                          fenceV,
+                          BABYLON.PhysicsImpostor.NoImpostor,
+                          { mass: 0, friction: 0.4, restitution: 0.2},
+                          scene
+                        );
+
+                var clonedFenceVinyl = fenceV.clone("fenceV");
+                clonedFenceVinyl.position = new BABYLON.Vector3(3, 0, 5);
+                clonedFenceVinyl.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.isPickable = false;
+                    });
+                clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
+                    clonedFenceVinyl,
+                    BABYLON.PhysicsImpostor.NoImpostor,
+                    { mass: 0, friction: 0.4, restitution: 0.2},
+                    scene
+                );
+            });
+
+            var wiffleBall;
+            BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
+                // The loaded mesh is returned as an array
+                let ballRootParent = newMeshes[0];
+                wiffleBall = ballRootParent.getChildMeshes()[0];
+                wiffleBall.setParent(null);
+                ballRootParent.dispose();
+
+                const newColor = new BABYLON.Color3(1, 1, 1); //  white
+                const newMaterial = new BABYLON.StandardMaterial('newMaterial', scene);
+                newMaterial.diffuseColor = newColor;
+
+                wiffleBall.material = newMaterial;
+                // Gotta do this on each mesh to make it white/add impostors
+                wiffleBall.getChildMeshes().forEach((mesh) => {
+                    mesh.checkCollisions = true;
+                    mesh.material = newMaterial;
+                    // mass: 0.01984165
+                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                    mesh.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                  });
+
+                wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
+                wiffleBall.position = new BABYLON.Vector3(0, 0, 0.5);
+                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                wiffleBall.physicsImpostor.forceUpdate = true;
+                wiffleBall.physicsImpostor.isPickable = false;
+                wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+            });
+            
+            // here we add XR support
+            const xr = await scene.createDefaultXRExperienceAsync({
+                floorMeshes: [ground],
+                // inputOptions: {
+                //   doNotLoadControllerMeshes: true;
+                // }
+            });
+            xr.pointerSelection.maxPointerDistance = 1;
+            // add features such as teleportation
+            const featuresManager = xr.baseExperience.featuresManager; // or any other way to get a features manager
+            featuresManager.enableFeature(BABYLON.WebXRFeatureName.TELEPORTATION, "stable" /* or latest */, {
+                xrInput: xr.input,
+                // add options here
+                floorMeshes: [ground],
+            });
+            const xrPhysics = xr.baseExperience.featuresManager.enableFeature(
+                BABYLON.WebXRFeatureName.PHYSICS_CONTROLLERS,
+                "latest",
+                {
+                    xrInput: xr.input,
+                    physicsProperties: {
+                        restitution: 0.5,
+                        impostorSize: 0.1,
+                        impostorType: BABYLON.PhysicsImpostor.NoImpostor
+                    },
+                }
+            ) 
+
+            let meshLeft;
+            let meshRight;
+            let isMeshHeld = false; // Flag to track if a mesh item is held when squeezing
+
+            xr.input.onControllerAddedObservable.add((controller) => {
+                const linearVelocity = BABYLON.Vector3.Zero();
+                const angularVelocity = BABYLON.Vector3.Zero();
+
+                xr.baseExperience.sessionManager.onXRFrameObservable.add((xrFrame) => {
+                    const controllerImpostor = xrPhysics.getImpostorForController(controller);
+
+                    // Exponential smoothing
+                    linearVelocity.addInPlace(
+                        controllerImpostor.getLinearVelocity()
+                    );
+                    angularVelocity.addInPlace(
+                        controllerImpostor.getAngularVelocity()
+                    );
+                });
+
+                controller.onMotionControllerInitObservable.add((motionController) => {
+                    const handness = motionController.handness;
+                    const squeezeComponent = motionController.getComponentOfType('squeeze');
+                    squeezeComponent.onButtonStateChangedObservable.add(() => {
+                        if (squeezeComponent.changes.pressed) {
+                            if (squeezeComponent.pressed) {
+                                const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                                if (!meshUnderPointer) {
+                                    isMeshHeld = false; // No mesh item is being held when squeezing
+                                    return;
+                                }
+                                if (handness === 'left') {
+                                    meshLeft = meshUnderPointer;
+                                    meshLeft.physicsImpostor.dispose();
+                                    meshLeft.setParent(controller.pointer);
+                                    meshLeft.position = BABYLON.Vector3.ZeroReadOnly;
+                                    meshLeft.rotationQuaternion = BABYLON.Quaternion.Identity();
+                                    meshLeft.locallyTranslate(new BABYLON.Vector3(0.3, -0.3, -0.3));
+                                } else if (handness === 'right') {
+                                    meshRight = meshUnderPointer;
+                                    meshRight.physicsImpostor.dispose();
+                                    meshRight.setParent(controller.pointer);
+                                    meshRight.position = BABYLON.Vector3.ZeroReadOnly;
+                                    meshRight.rotationQuaternion = BABYLON.Quaternion.Identity();
+                                    meshRight.locallyTranslate(new BABYLON.Vector3(-0.3, -0.3, -0.3));
+                                }
+                                isMeshHeld = true; // A mesh item is being held when squeezing
+
+                            } else {
+                                if (isMeshHeld) {
+                                    if (handness === 'left') {
+                                        // throw the object
+                                        const w = angularVelocity;
+                                        const v = linearVelocity;
+                                        // Set the parent of the mesh to null to detach it from the controller
+                                        meshLeft.setParent(null);
+                                        // Dispose the existing physics impostor and create a new one for the mesh
+                                        meshLeft.physicsImpostor.dispose();
+                                        meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
+                                        meshLeft.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
+                                        const slowedLinearVelocity = v.scale(0.001);
+                                        // Set the linear velocity of the mesh for throwing
+                                        meshLeft.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
+                                        // meshLeft.physicsImpostor.physicsBody.setAngularVelocity(w);
+
+                                    } else if (handness === 'right') {
+                                        meshRight.setParent(null);
+                                        // throw the object
+                                        const w = angularVelocity;
+                                        const v = linearVelocity;
+                                        // Dispose the existing physics impostor and create a new one for the mesh
+                                        meshRight.physicsImpostor.dispose();
+                                        meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
+                                        meshRight.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
+                                        const slowedLinearVelocity = v.scale(0.2);
+                                        // Set the linear velocity of the mesh for throwing
+                                        meshRight.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
+                                        // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
+                                    }
+                                }
+                                isMeshHeld = false; // Reset the flag after releasing the squeeze button
+
                             }
                         }
-                        isMeshHeld = false; // Reset the flag after releasing the squeeze button
+                    });
+                });
+            }); 
+            
+          
 
-                    }
-                }
-            });
-        });
-    }); 
-    
-  
-
-    
-    return scene;
-};
+            
+            return scene;
+        };
 
                 window.initFunction = async function() {
                     await Ammo();
