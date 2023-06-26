@@ -75,8 +75,8 @@
             const physicsPlugin = new BABYLON.AmmoJSPlugin();
             scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            // var physicsEngine = scene.getPhysicsEngine();
-            // physicsEngine.setSubTimeStep(10);
+            var physicsEngine = scene.getPhysicsEngine();
+            physicsEngine.setSubTimeStep(1);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -182,7 +182,7 @@
             setInterval(playSoundEffectIceCreamTruck, 1200000);
 
             let fenceWood;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_wood/", "scene.gltf", scene, function (newMeshes) {
+            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
                 fenceWood = newMeshes[0];
                 // Scale the mesh down by a factor of 0.01
@@ -448,41 +448,41 @@
 
             });
 
-            let fenceV;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes){
-                fenceV = newMeshes[0];
-                fenceV.scaling = new BABYLON.Vector3(1, 1, 1);
-                fenceV.position = new BABYLON.Vector3(0, 0, 5);
-                fenceV.isPickable = false,
+            // let fenceV;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes){
+            //     fenceV = newMeshes[0];
+            //     fenceV.scaling = new BABYLON.Vector3(1, 1, 1);
+            //     fenceV.position = new BABYLON.Vector3(0, 0, 5);
+            //     fenceV.isPickable = false,
 
-                // Gotta do this on each mesh
-                fenceV.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
+            //     // Gotta do this on each mesh
+            //     fenceV.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
 
-                fenceV.physicsImpostor = new BABYLON.PhysicsImpostor(
-                          fenceV,
-                          BABYLON.PhysicsImpostor.NoImpostor,
-                          { mass: 0, friction: 0.4, restitution: 0.2},
-                          scene
-                        );
+            //     fenceV.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //               fenceV,
+            //               BABYLON.PhysicsImpostor.NoImpostor,
+            //               { mass: 0, friction: 0.4, restitution: 0.2},
+            //               scene
+            //             );
 
-                var clonedFenceVinyl = fenceV.clone("fenceV");
-                clonedFenceVinyl.position = new BABYLON.Vector3(3, 0, 5);
-                clonedFenceVinyl.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
-                    clonedFenceVinyl,
-                    BABYLON.PhysicsImpostor.NoImpostor,
-                    { mass: 0, friction: 0.4, restitution: 0.2},
-                    scene
-                );
-            });
+            //     var clonedFenceVinyl = fenceV.clone("fenceV");
+            //     clonedFenceVinyl.position = new BABYLON.Vector3(3, 0, 5);
+            //     clonedFenceVinyl.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //         clonedFenceVinyl,
+            //         BABYLON.PhysicsImpostor.NoImpostor,
+            //         { mass: 0, friction: 0.4, restitution: 0.2},
+            //         scene
+            //     );
+            // });
 
             // Our built-in 'sphere' shape.
             var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
