@@ -72,11 +72,11 @@
 
             //  gravity using AmmoJS
             const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-            const physicsPlugin = new BABYLON.AmmoJSPlugin(false);
+            const physicsPlugin = new BABYLON.AmmoJSPlugin();
             scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
             var physicsEngine = scene.getPhysicsEngine();
-            physicsEngine.setSubTimeStep(1/90);
+            physicsEngine.setSubTimeStep(1);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -188,7 +188,7 @@
                 // Scale the mesh down by a factor of 0.01
                 fenceWood.scaling = new BABYLON.Vector3(1, 1.4, 1);
                 // Position the mesh
-                fenceWood.position = new BABYLON.Vector3(0, 0.4, 30.48);
+                fenceWood.position = new BABYLON.Vector3(0, 0.4, 2);
                 fenceWood.isPickable = false;
 
                 // Gotta do this on each mesh
@@ -204,249 +204,249 @@
                           { mass: 0, friction: 0.4, restitution: 0.2},
                           scene
                         );
-                fenceWood.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence = fenceWood.clone("fenceWood1");
-                clonedFence.position = new BABYLON.Vector3(1.78, 0.4, 30.48);
-                clonedFence.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence2 = fenceWood.clone("fenceWood2");
-                clonedFence2.position = new BABYLON.Vector3(3.56, 0.4, 30.48);
-                clonedFence2.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence2.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence2,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence2.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence = fenceWood.clone("fenceWood1");
+            //     clonedFence.position = new BABYLON.Vector3(1.78, 0.4, 30.48);
+            //     clonedFence.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence3 = fenceWood.clone("fenceWood3");
-                clonedFence3.position = new BABYLON.Vector3(5.34, 0.4, 30.48);
-                clonedFence3.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence3.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence3,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence3.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence2 = fenceWood.clone("fenceWood2");
+            //     clonedFence2.position = new BABYLON.Vector3(3.56, 0.4, 30.48);
+            //     clonedFence2.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence2.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence2,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence2.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence4 = fenceWood.clone("fenceWood4");
-                clonedFence4.position = new BABYLON.Vector3(7.12, 0.4, 30.48);
-                clonedFence4.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence4.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence4,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence4.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence3 = fenceWood.clone("fenceWood3");
+            //     clonedFence3.position = new BABYLON.Vector3(5.34, 0.4, 30.48);
+            //     clonedFence3.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence3.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence3,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence3.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence5 = fenceWood.clone("fenceWood5");
-                clonedFence5.position = new BABYLON.Vector3(-1.78, 0.4, 30.48);
-                clonedFence5.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence5.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence5,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence5.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence4 = fenceWood.clone("fenceWood4");
+            //     clonedFence4.position = new BABYLON.Vector3(7.12, 0.4, 30.48);
+            //     clonedFence4.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence4.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence4,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence4.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence6 = fenceWood.clone("fenceWood6");
-                clonedFence6.position = new BABYLON.Vector3(-3.56, 0.4, 30.48);
-                clonedFence6.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence6.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence6,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence6.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence5 = fenceWood.clone("fenceWood5");
+            //     clonedFence5.position = new BABYLON.Vector3(-1.78, 0.4, 30.48);
+            //     clonedFence5.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence5.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence5,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence5.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence7 = fenceWood.clone("fenceWood7");
-                clonedFence7.position = new BABYLON.Vector3(-5.34, 0.4, 30.48);
-                clonedFence7.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence7.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence7,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence7.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence6 = fenceWood.clone("fenceWood6");
+            //     clonedFence6.position = new BABYLON.Vector3(-3.56, 0.4, 30.48);
+            //     clonedFence6.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence6.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence6,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence6.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence8 = fenceWood.clone("fenceWood8");
-                clonedFence8.position = new BABYLON.Vector3(-7.12, 0.4, 30.48);
-                clonedFence8.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence8.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence8,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence8.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence7 = fenceWood.clone("fenceWood7");
+            //     clonedFence7.position = new BABYLON.Vector3(-5.34, 0.4, 30.48);
+            //     clonedFence7.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence7.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence7,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence7.physicsImpostor.physicsBody.setCcdMotionThreshold();
+
+            //     var clonedFence8 = fenceWood.clone("fenceWood8");
+            //     clonedFence8.position = new BABYLON.Vector3(-7.12, 0.4, 30.48);
+            //     clonedFence8.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence8.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence8,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence8.physicsImpostor.physicsBody.setCcdMotionThreshold();
                 
-                var clonedFence9 = fenceWood.clone("fenceWood9");
-                clonedFence9.position = new BABYLON.Vector3(-8.9, 0.4, 30.48);
-                clonedFence9.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence9.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence9,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence9.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence9 = fenceWood.clone("fenceWood9");
+            //     clonedFence9.position = new BABYLON.Vector3(-8.9, 0.4, 30.48);
+            //     clonedFence9.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence9.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence9,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence9.physicsImpostor.physicsBody.setCcdMotionThreshold();
  
-                var clonedFence12 = fenceWood.clone("fenceWood12");
-                clonedFence12.position = new BABYLON.Vector3(8.9, 0.4, 30.48);
-                clonedFence12.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence12.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence12,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence12.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence12 = fenceWood.clone("fenceWood12");
+            //     clonedFence12.position = new BABYLON.Vector3(8.9, 0.4, 30.48);
+            //     clonedFence12.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence12.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence12,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence12.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence13 = fenceWood.clone("fenceWood13");
-                clonedFence13.position = new BABYLON.Vector3(10.68, 0.4, 30.48);
-                clonedFence13.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence13.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence13,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence13.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence13 = fenceWood.clone("fenceWood13");
+            //     clonedFence13.position = new BABYLON.Vector3(10.68, 0.4, 30.48);
+            //     clonedFence13.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence13.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence13,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence13.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence14 = fenceWood.clone("fenceWood14");
-                clonedFence14.position = new BABYLON.Vector3(12.46, 0.4, 30.48);
-                clonedFence14.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence14.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence14,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence14.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence14 = fenceWood.clone("fenceWood14");
+            //     clonedFence14.position = new BABYLON.Vector3(12.46, 0.4, 30.48);
+            //     clonedFence14.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence14.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence14,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence14.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence15 = fenceWood.clone("fenceWood15");
-                clonedFence15.position = new BABYLON.Vector3(14.24, 0.4, 30.48);
-                clonedFence15.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence15.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence15,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence15.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence15 = fenceWood.clone("fenceWood15");
+            //     clonedFence15.position = new BABYLON.Vector3(14.24, 0.4, 30.48);
+            //     clonedFence15.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence15.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence15,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence15.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence16 = fenceWood.clone("fenceWood16");
-                clonedFence16.position = new BABYLON.Vector3(16.02, 0.4, 30.48);
-                clonedFence16.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence16.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence16,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence16.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence16 = fenceWood.clone("fenceWood16");
+            //     clonedFence16.position = new BABYLON.Vector3(16.02, 0.4, 30.48);
+            //     clonedFence16.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence16.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence16,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence16.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence17 = fenceWood.clone("fenceWood17");
-                clonedFence17.position = new BABYLON.Vector3(17.8, 0.4, 30.48);
-                clonedFence17.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence17.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence17,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence17.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence17 = fenceWood.clone("fenceWood17");
+            //     clonedFence17.position = new BABYLON.Vector3(17.8, 0.4, 30.48);
+            //     clonedFence17.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence17.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence17,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence17.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-                var clonedFence19 = fenceWood.clone("fenceWood19");
-                clonedFence19.position = new BABYLON.Vector3(19.58, 0.4, 30.48);
-                clonedFence19.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                    });
-                clonedFence19.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFence19,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
-                clonedFence19.physicsImpostor.physicsBody.setCcdMotionThreshold();
+            //     var clonedFence19 = fenceWood.clone("fenceWood19");
+            //     clonedFence19.position = new BABYLON.Vector3(19.58, 0.4, 30.48);
+            //     clonedFence19.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //         });
+            //     clonedFence19.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFence19,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
+            //     clonedFence19.physicsImpostor.physicsBody.setCcdMotionThreshold();
 
-            });
+            // });
 
             // let fenceV;
             // BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes){
@@ -482,7 +482,7 @@
             //         { mass: 0, friction: 0.4, restitution: 0.2},
             //         scene
             //     );
-            // });
+            });
 
             // Our built-in 'sphere' shape.
             var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
