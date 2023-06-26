@@ -111,7 +111,7 @@
             scene.enablePhysics(gravityVector, physicsPlugin);
             
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            var physicsEngine = scene.getPhysicsEngine();
+            // var physicsEngine = scene.getPhysicsEngine();
             // // if this number is too small (we tried 1), it requires a lot of CPU power and will slow down the game to a crawl
             // physicsEngine.setSubTimeStep(10);
 
@@ -1325,7 +1325,7 @@
                     mesh.material = newMaterial;
                     // mass: 0.01984165
                     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
-                    mesh.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                    // mesh.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                   });
 
                 wiffleBall.scaling = new BABYLON.Vector3(0.019, 0.019, 0.019);
@@ -1333,7 +1333,7 @@
                 wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
                 wiffleBall.physicsImpostor.forceUpdate = true;
                 wiffleBall.physicsImpostor.isPickable = false;
-                // wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
             });
 
             var homePlate;
@@ -1490,14 +1490,14 @@
                                   meshLeft.setParent(controller.pointer);
                                   meshLeft.position = BABYLON.Vector3.ZeroReadOnly;
                                   meshLeft.rotationQuaternion = BABYLON.Quaternion.Identity();
-                                  meshLeft.locallyTranslate(new BABYLON.Vector3(0.3, -0.3, -0.3));
+                                  // meshLeft.locallyTranslate(new BABYLON.Vector3(0.3, -0.3, -0.3));
                               } else if (handness === 'right') {
                                   meshRight = meshUnderPointer;
                                   meshRight.physicsImpostor.dispose();
                                   meshRight.setParent(controller.pointer);
                                   meshRight.position = BABYLON.Vector3.ZeroReadOnly;
                                   meshRight.rotationQuaternion = BABYLON.Quaternion.Identity();
-                                  meshRight.locallyTranslate(new BABYLON.Vector3(-0.3, -0.3, -0.3));
+                                  // meshRight.locallyTranslate(new BABYLON.Vector3(-0.3, -0.3, -0.3));
                               }
                               isMeshHeld = true; // A mesh item is being held when squeezing
 
@@ -1515,7 +1515,7 @@
                                       // meshLeft.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                                       // const slowedLinearVelocity = v.scale(0.001);
                                       // Set the linear velocity of the mesh for throwing
-                                      meshLeft.physicsImpostor.physicsBody.setLinearVelocity(linearVelocity);
+                                      meshLeft.physicsImpostor.physicsBody.setLinearVelocity(v);
                                       // meshLeft.physicsImpostor.physicsBody.setAngularVelocity(w);
 
                                   } else if (handness === 'right') {
@@ -1529,9 +1529,15 @@
                                       meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                       // meshRight.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                                       // const slowedLinearVelocity = v.scale(0.5);
+
                                       // Set the linear velocity of the mesh for throwing
-                                      meshRight.physicsImpostor.physicsBody.setLinearVelocity(linearVelocity);
-                                      // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
+                                      // meshRight.physicsImpostor.physicsBody.setLinearVelocity(v);
+                                      // Define the linear impulse force for a fastball
+                                    var linearForceMagnitude = 10; // Adjust the value as needed
+                                    var linearDirection = new BABYLON.Vector3(0, 0, 1 ); // Direction along the x-axis
+                                    var linearImpulse = linearDirection.scale(linearForceMagnitude);
+                                     // Apply the linear impulse force to the baseball
+                                    meshRight.physicsImpostor.physicsBody.applyImpulse(linearImpulse, meshRight.getAbsolutePosition());
                                   }
                               }
                               isMeshHeld = false; // Reset the flag after releasing the squeeze button
