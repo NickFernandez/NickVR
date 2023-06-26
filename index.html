@@ -1498,7 +1498,7 @@
                                   meshRight.setParent(controller.pointer);
                                   meshRight.position = BABYLON.Vector3.ZeroReadOnly;
                                   meshRight.rotationQuaternion = BABYLON.Quaternion.Identity();
-                                  meshRight.locallyTranslate(new BABYLON.Vector3(-0.3, 0.2, 2.8));
+                                  meshRight.locallyTranslate(new BABYLON.Vector3(-0.3, -0.3, -0.3));
                               }
                               isMeshHeld = true; // A mesh item is being held when squeezing
 
@@ -1514,9 +1514,9 @@
                                       meshLeft.physicsImpostor.dispose();
                                       meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                       meshLeft.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
-                                      const slowedLinearVelocity = v.scale(0.5);
+                                      const slowedLinearVelocity = v.scale(0.001);
                                       // Set the linear velocity of the mesh for throwing
-                                      meshLeft.physicsImpostor.physicsBody.setLinearVelocity(v);
+                                      meshLeft.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
                                       // meshLeft.physicsImpostor.physicsBody.setAngularVelocity(w);
 
                                   } else if (handness === 'right') {
@@ -1531,7 +1531,7 @@
                                       meshRight.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                                       const slowedLinearVelocity = v.scale(0.5);
                                       // Set the linear velocity of the mesh for throwing
-                                      meshRight.physicsImpostor.physicsBody.setLinearVelocity(v);
+                                      meshRight.physicsImpostor.physicsBody.setLinearVelocity(slowedLinearVelocity);
                                       // meshRight.physicsImpostor.physicsBody.setAngularVelocity(w);
                                   }
                               }
