@@ -76,7 +76,7 @@
             scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
             var physicsEngine = scene.getPhysicsEngine();
-            physicsEngine.setSubTimeStep(100);
+            physicsEngine.setSubTimeStep(1);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -113,7 +113,7 @@
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
             ground.material = groundMaterial;
             // Load the grass texture
-            var grassTexture = new BABYLON.Texture("textures/grass.png", scene);
+            var grassTexture = new BABYLON.Texture("textures/grass.jpg", scene);
             // Apply the grass texture to the ground material
             groundMaterial.diffuseTexture = grassTexture;
             groundMaterial.diffuseTexture.uScale = 49;
