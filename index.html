@@ -908,11 +908,39 @@
             newMaterialSZ.diffuseColor = newColorSZ;
             strikeZone.material = newMaterialSZ;
             strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
-            strikeZone.position = new BABYLON.Vector3(0, 1.4024, -0.55);
+            strikeZone.position = new BABYLON.Vector3(0, 1.4024, -0.65);
             strikeZone.setParent(null);
             strikeZone.isPickable = false;
             strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
             strikeZone.physicsImpostor.isPickable = false;
+
+            // strike-zone pole
+            var szPole = BABYLON.MeshBuilder.CreateCapsule("szPole", {radius:0.04, capSubdivisions: 1, height:1.5, tessellation:4, topCapSubdivisions:12}, scene);
+            // newMaterialSZPole = new BABYLON.StandardMaterial('szPoleMaterial', scene);
+            // newMaterialSZPole.diffuseColor = newColorSZ;
+            szPole.material = newMaterialSZ;
+            szPole.scaling = new BABYLON.Vector3(1, 1, 1);
+            szPole.position = new BABYLON.Vector3(0, 0.75, -1);
+            szPole.setParent(null);
+            szPole.isPickable = false;
+            szPole.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            szPole.physicsImpostor.isPickable = false;
+
+            // strike-zone pole connector
+            var szPole2 = BABYLON.MeshBuilder.CreateCapsule("szPole2", {radius:0.04, capSubdivisions: 1, height:0.4, tessellation:4, topCapSubdivisions:12}, scene);
+            // newMaterialSZPole2 = new BABYLON.StandardMaterial('szPoleMaterial2', scene);
+            // newMaterialSZPole2.diffuseColor = newColorSZ;
+            szPole2.material = newMaterialSZ;
+            szPole2.rotate(BABYLON.Axis.Z, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            szPole2.rotate(BABYLON.Axis.X, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
+            szPole2.scaling = new BABYLON.Vector3(1, 1, 1);
+            szPole2.position = new BABYLON.Vector3(0, 1.45, -0.82);
+            szPole2.setParent(null);
+            szPole2.isPickable = false;
+            szPole2.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            szPole2.physicsImpostor.isPickable = false;
+
+
 
             // Create a material for the red color
             const collisionColor = new BABYLON.Color3.FromHexString('#ff010a'); // Red color
