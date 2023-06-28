@@ -908,7 +908,7 @@
             newMaterialSZ.diffuseColor = newColorSZ;
             strikeZone.material = newMaterialSZ;
             strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
-            strikeZone.position = new BABYLON.Vector3(0, 1.25, -0.55);
+            strikeZone.position = new BABYLON.Vector3(0, 1.4024, -0.55);
             strikeZone.setParent(null);
             strikeZone.isPickable = false;
             strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
@@ -1105,9 +1105,19 @@
                 });
             }); 
             
+            // Define a flag variable to track the intersection state
+            var isIntersecting = false;
             scene.registerBeforeRender(function() {
               if (wiffleBall && strikeZone) {
                   if (wiffleBall.intersectsMesh(strikeZone, true)) {
+                      // Set the flag to true if there is an intersection
+                      isIntersecting = true;
+                  } else {
+                    // Set the flag to true if there is an intersection
+                    isIntersecting = false;
+                  }
+                  // Set the color based on the intersection state
+                  if (isIntersecting) {
                       newMaterialSZ.diffuseColor = collisionColor;
                   } else {
                       newMaterialSZ.diffuseColor = newColorSZ;
