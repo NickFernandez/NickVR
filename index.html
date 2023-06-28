@@ -1135,24 +1135,30 @@
             
             // Define a flag variable to track the intersection state
             var isIntersecting = false;
+            var lastIntersectionTime = 0;
             scene.registerBeforeRender(function() {
               if (wiffleBall && strikeZone) {
                 if (wiffleBall.intersectsMesh(strikeZone, true)) {
                   // Set the flag to true if there is an intersection
                   isIntersecting = true;
+
+                  // Store the timestamp of the last intersection
+                  if (lastIntersectionTime === 0) {
+                    lastIntersectionTime = Date.now();
+                  }
                 } else {
                   // Set the flag to false if there is no intersection
                   isIntersecting = false;
+                  // Check if enough time has passed to reset the color
+                  if (lastIntersectionTime !== 0 && Date.now() - lastIntersectionTime >= 3000) {
+                    newMaterialSZ.diffuseColor = newColorSZ;
+                    lastIntersectionTime = 0;
+                  }
                 }
 
                 // Set the color based on the intersection state
                 if (isIntersecting) {
                   newMaterialSZ.diffuseColor = collisionColor;
-
-                  // Delay the color change back to the original after 3.5 seconds
-                  setTimeout(function() {
-                    newMaterialSZ.diffuseColor = newColorSZ;
-                  }, 3500);
                 } else {
                   newMaterialSZ.diffuseColor = newColorSZ;
                 }
