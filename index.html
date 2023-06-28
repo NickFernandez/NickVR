@@ -916,9 +916,9 @@
 
             // strike-zone pole
             var szPole = BABYLON.MeshBuilder.CreateCapsule("szPole", {radius:0.04, capSubdivisions: 1, height:1.5, tessellation:4, topCapSubdivisions:12}, scene);
-            // newMaterialSZPole = new BABYLON.StandardMaterial('szPoleMaterial', scene);
-            // newMaterialSZPole.diffuseColor = newColorSZ;
-            szPole.material = newMaterialSZ;
+            newMaterialSZPole = new BABYLON.StandardMaterial('szPoleMaterial', scene);
+            newMaterialSZPole.diffuseColor = newColorSZ;
+            szPole.material = newMaterialSZPole;
             szPole.scaling = new BABYLON.Vector3(1, 1, 1);
             szPole.position = new BABYLON.Vector3(0, 0.75, -1);
             szPole.setParent(null);
@@ -928,9 +928,9 @@
 
             // strike-zone pole connector
             var szPole2 = BABYLON.MeshBuilder.CreateCapsule("szPole2", {radius:0.04, capSubdivisions: 1, height:0.4, tessellation:4, topCapSubdivisions:12}, scene);
-            // newMaterialSZPole2 = new BABYLON.StandardMaterial('szPoleMaterial2', scene);
-            // newMaterialSZPole2.diffuseColor = newColorSZ;
-            szPole2.material = newMaterialSZ;
+            newMaterialSZPole2 = new BABYLON.StandardMaterial('szPoleMaterial2', scene);
+            newMaterialSZPole2.diffuseColor = newColorSZ;
+            szPole2.material = newMaterialSZPole2;
             szPole2.rotate(BABYLON.Axis.Z, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             szPole2.rotate(BABYLON.Axis.X, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             szPole2.scaling = new BABYLON.Vector3(1, 1, 1);
@@ -1137,25 +1137,26 @@
             var isIntersecting = false;
             scene.registerBeforeRender(function() {
               if (wiffleBall && strikeZone) {
-                  if (wiffleBall.intersectsMesh(strikeZone, true)) {
-                      // Set the flag to true if there is an intersection
-                      isIntersecting = true;
-                  } else {
-                    // Set the flag to true if there is an intersection
-                    isIntersecting = false;
-                  }
-                  // Set the color based on the intersection state
-                  if (isIntersecting) {
-                      newMaterialSZ.diffuseColor = collisionColor;
-                      setTimeout(function() {
-                          newMaterialSZ.diffuseColor = collisionColor;
-                      }, 3000);
-                      isIntersecting = false;
-                  } else {
-                      newMaterialSZ.diffuseColor = newColorSZ;
-                  }
-              }
+                if (wiffleBall.intersectsMesh(strikeZone, true)) {
+                  // Set the flag to true if there is an intersection
+                  isIntersecting = true;
+                } else {
+                  // Set the flag to false if there is no intersection
+                  isIntersecting = false;
+                }
 
+                // Set the color based on the intersection state
+                if (isIntersecting) {
+                  newMaterialSZ.diffuseColor = collisionColor;
+
+                  // Delay the color change back to the original after 3.5 seconds
+                  setTimeout(function() {
+                    newMaterialSZ.diffuseColor = newColorSZ;
+                  }, 3500);
+                } else {
+                  newMaterialSZ.diffuseColor = newColorSZ;
+                }
+              }
             });
 
             
