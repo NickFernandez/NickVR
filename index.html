@@ -1119,6 +1119,10 @@
                   // Set the color based on the intersection state
                   if (isIntersecting) {
                       newMaterialSZ.diffuseColor = collisionColor;
+                      setTimeout(function() {
+                          newMaterialSZ.diffuseColor = newColorSZ;
+                      }, 3000);
+                      isIntersecting = false;
                   } else {
                       newMaterialSZ.diffuseColor = newColorSZ;
                   }
