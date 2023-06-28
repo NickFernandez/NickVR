@@ -76,7 +76,7 @@
             scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
             var physicsEngine = scene.getPhysicsEngine();
-            physicsEngine.setSubTimeStep(2.5);
+            physicsEngine.setSubTimeStep(2);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -1058,8 +1058,8 @@
                                         meshLeft.physicsImpostor.dispose();
                                         meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                         meshLeft.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                        const spedUpLinearVelocity = v.scale(6);
-                                        const spedUpAngularVelocity = w.scale(6);
+                                        const spedUpLinearVelocity = v.scale(9);
+                                        const spedUpAngularVelocity = w.scale(9);
                                         // Set the linear velocity of the mesh for throwing
                                         meshLeft.physicsImpostor.physicsBody.applyImpulse(spedUpLinearVelocity);
                                         meshLeft.physicsImpostor.physicsBody.setAngularVelocity(spedUpAngularVelocity);
@@ -1073,8 +1073,8 @@
                                         meshRight.physicsImpostor.dispose();
                                         meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                         meshRight.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                        const spedUpLinearVelocity = v.scale(6);
-                                        const spedUpAngularVelocity = w.scale(6);
+                                        const spedUpLinearVelocity = v.scale(9);
+                                        const spedUpAngularVelocity = w.scale(9);
                                         // Set the linear velocity of the mesh for throwing
                                         meshRight.physicsImpostor.physicsBody.applyImpulse(spedUpLinearVelocity);
                                         meshRight.physicsImpostor.physicsBody.setAngularVelocity(spedUpAngularVelocity);
