@@ -957,17 +957,18 @@
                         );
             });
 
-            var box = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
-            const newColor1 = new BABYLON.Color3(0, 0, 1); //  blue
-            const newMaterial1 = new BABYLON.StandardMaterial('blueMaterial', scene);
-            newMaterial1.diffuseColor = newColor1;
-            box.material = newMaterial1;
-            box.scaling = new BABYLON.Vector3(.5, .6, .5);
-            box.position = new BABYLON.Vector3(0, 1.25, -1.25);
-            box.setParent(null);
-            box.isPickable = true;
-            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
-            box.physicsImpostor.isPickable = false;
+            // old strike-zone
+            var strikeZone = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
+            const newColorSZ = new BABYLON.Color3.FromHexString('#013fbc'); //  blue
+            const newMaterialSZ = new BABYLON.StandardMaterial('szMaterial', scene);
+            newMaterialSZ.diffuseColor = newColorSZ;
+            strikeZone.material = newMaterialSZ;
+            strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
+            strikeZone.position = new BABYLON.Vector3(0, 0.9906, -0.75);
+            strikeZone.setParent(null);
+            strikeZone.isPickable = false;
+            strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            strikeZone.physicsImpostor.isPickable = false;
 
             
             // here we add XR support
