@@ -901,6 +901,24 @@
             sphere.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
             sphere.physicsImpostor.isPickable = false;
 
+            // old strike-zone
+            var strikeZone = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
+            const newColorSZ = new BABYLON.Color3.FromHexString('#013fbc'); //  blue
+            const newMaterialSZ = new BABYLON.StandardMaterial('szMaterial', scene);
+            newMaterialSZ.diffuseColor = newColorSZ;
+            strikeZone.material = newMaterialSZ;
+            strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
+            strikeZone.position = new BABYLON.Vector3(0, 0.9906, -0.75);
+            strikeZone.setParent(null);
+            strikeZone.isPickable = false;
+            strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            strikeZone.physicsImpostor.isPickable = false;
+
+            // Create a material for the red color
+            const collisionColor = new BABYLON.Color3(1, 0, 0); // Red color
+            const collisionMaterial = new BABYLON.StandardMaterial('collisionMaterial', scene);
+            collisionMaterial.diffuseColor = collisionColor;
+
             var wiffleBall;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -929,6 +947,18 @@
                 wiffleBall.physicsImpostor.forceUpdate = true;
                 wiffleBall.physicsImpostor.isPickable = false;
                 wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                // Register a collision event handler
+                wiffleBall.physicsImpostor.registerAfterPhysicsStep(() => {
+                  // Check if the wiffleBall has collided with the strikeZone
+                  if (wiffleBall.intersectsMesh(strikeZone, false)) {
+                    // Set the material of the strikeZone to the collision material
+                    strikeZone.material = collisionMaterial;
+                  } else {
+                    // Set the material of the strikeZone back to the original material
+                    strikeZone.material = newMaterialSZ;
+                  }
+                });
+
             });
 
             var homePlate;
@@ -957,19 +987,9 @@
                         );
             });
 
-            // old strike-zone
-            var strikeZone = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
-            const newColorSZ = new BABYLON.Color3.FromHexString('#013fbc'); //  blue
-            const newMaterialSZ = new BABYLON.StandardMaterial('szMaterial', scene);
-            newMaterialSZ.diffuseColor = newColorSZ;
-            strikeZone.material = newMaterialSZ;
-            strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
-            strikeZone.position = new BABYLON.Vector3(0, 0.9906, -0.75);
-            strikeZone.setParent(null);
-            strikeZone.isPickable = false;
-            strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
-            strikeZone.physicsImpostor.isPickable = false;
+            
 
+            
             
             // here we add XR support
             const xr = await scene.createDefaultXRExperienceAsync({
@@ -1097,6 +1117,7 @@
 
                 window.initFunction = async function() {
                     await Ammo();
+
                     
                     
                     var asyncEngineCreation = async function() {
