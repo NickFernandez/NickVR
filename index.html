@@ -908,7 +908,7 @@
             newMaterialSZ.diffuseColor = newColorSZ;
             strikeZone.material = newMaterialSZ;
             strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
-            strikeZone.position = new BABYLON.Vector3(0, 1.4024, -0.65);
+            strikeZone.position = new BABYLON.Vector3(0, 1.4786, -0.65);
             strikeZone.setParent(null);
             strikeZone.isPickable = false;
             strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
@@ -923,7 +923,7 @@
             szPole.position = new BABYLON.Vector3(0, 0.75, -1);
             szPole.setParent(null);
             szPole.isPickable = false;
-            szPole.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            szPole.physicsImpostor = new BABYLON.PhysicsImpostor(szPole, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
             szPole.physicsImpostor.isPickable = false;
 
             // strike-zone pole connector
@@ -937,7 +937,7 @@
             szPole2.position = new BABYLON.Vector3(0, 1.45, -0.82);
             szPole2.setParent(null);
             szPole2.isPickable = false;
-            szPole2.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            szPole2.physicsImpostor = new BABYLON.PhysicsImpostor(szPole2, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
             szPole2.physicsImpostor.isPickable = false;
 
 
@@ -1148,7 +1148,7 @@
                   if (isIntersecting) {
                       newMaterialSZ.diffuseColor = collisionColor;
                       setTimeout(function() {
-                          newMaterialSZ.diffuseColor = newColorSZ;
+                          newMaterialSZ.diffuseColor = collisionColor;
                       }, 3000);
                       isIntersecting = false;
                   } else {
