@@ -903,12 +903,12 @@
 
             // old strike-zone
             var strikeZone = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
-            const newColorSZ = new BABYLON.Color3.FromHexString('#013fbc'); //  blue
+            const newColorSZ = new BABYLON.Color3.FromHexString('#004fd8'); //  blue
             const newMaterialSZ = new BABYLON.StandardMaterial('szMaterial', scene);
             newMaterialSZ.diffuseColor = newColorSZ;
             strikeZone.material = newMaterialSZ;
             strikeZone.scaling = new BABYLON.Vector3(0.4572, 0.5588, 0.0762);
-            strikeZone.position = new BABYLON.Vector3(0, 1.4786, -0.65);
+            strikeZone.position = new BABYLON.Vector3(0, 1.4786, 0);
             strikeZone.setParent(null);
             strikeZone.isPickable = false;
             strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
@@ -920,7 +920,7 @@
             newMaterialSZPole.diffuseColor = newColorSZ;
             szPole.material = newMaterialSZPole;
             szPole.scaling = new BABYLON.Vector3(1, 1, 1);
-            szPole.position = new BABYLON.Vector3(0, 0.75, -1);
+            szPole.position = new BABYLON.Vector3(0, 0.75, -0.35);
             szPole.setParent(null);
             szPole.isPickable = false;
             szPole.physicsImpostor = new BABYLON.PhysicsImpostor(szPole, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
@@ -934,7 +934,7 @@
             szPole2.rotate(BABYLON.Axis.Z, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             szPole2.rotate(BABYLON.Axis.X, BABYLON.Tools.ToRadians(90), BABYLON.Space.LOCAL);
             szPole2.scaling = new BABYLON.Vector3(1, 1, 1);
-            szPole2.position = new BABYLON.Vector3(0, 1.45, -0.82);
+            szPole2.position = new BABYLON.Vector3(0, 1.45, -0.18);
             szPole2.setParent(null);
             szPole2.isPickable = false;
             szPole2.physicsImpostor = new BABYLON.PhysicsImpostor(szPole2, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
@@ -984,6 +984,18 @@
 
             });
 
+            // Create a flat box mesh
+            var pitchingRubber = BABYLON.MeshBuilder.CreateBox("pitchingRubber", { width: 0.50, height: 0.01, depth: 0.125 }, scene);
+
+            // Set the color to white
+            var pitchingRubberMaterial = new BABYLON.StandardMaterial("pitchingRubberMaterial", scene);
+            pitchingRubberMaterial.diffuseColor = BABYLON.Color3.White();
+            pitchingRubber.material = pitchingRubberMaterial;
+            pitchingRubber.position = new BABYLON.Vector3(0, 0.5, 11.58);
+
+            // Set the scaling to make it one foot long (adjust the scale factor as needed)
+            pitchingRubber.scaling = new BABYLON.Vector3(1, 1, 1);
+
 
             var homePlate;
             BABYLON.SceneLoader.ImportMesh("", "meshes/home_plate/", "scene.gltf", scene, function (newMeshes) {
@@ -992,7 +1004,7 @@
                 // Scale the mesh down by a factor of 0.01
                 homePlate.scaling = new BABYLON.Vector3(.003, .003, .003);
                 // Position the mesh
-                homePlate.position = new BABYLON.Vector3(0, 0.5, 0);
+                homePlate.position = new BABYLON.Vector3(0, 0.5, 1);
                 homePlate.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(180), BABYLON.Space.LOCAL);
                 homePlate.isPickable = false;
 
@@ -1103,8 +1115,8 @@
                                         meshLeft.physicsImpostor.dispose();
                                         meshLeft.physicsImpostor = new BABYLON.PhysicsImpostor(meshLeft, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                         meshLeft.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                        const spedUpLinearVelocity = v.scale(9);
-                                        const spedUpAngularVelocity = w.scale(9);
+                                        const spedUpLinearVelocity = v.scale(7);
+                                        const spedUpAngularVelocity = w.scale(7);
                                         // Set the linear velocity of the mesh for throwing
                                         meshLeft.physicsImpostor.physicsBody.applyImpulse(spedUpLinearVelocity);
                                         meshLeft.physicsImpostor.physicsBody.setAngularVelocity(spedUpAngularVelocity);
@@ -1118,8 +1130,15 @@
                                         meshRight.physicsImpostor.dispose();
                                         meshRight.physicsImpostor = new BABYLON.PhysicsImpostor(meshRight, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.2, restitution: 0.8 }, scene);
                                         meshRight.physicsImpostor.physicsBody.setDamping(0.5, 0.5);
-                                        const spedUpLinearVelocity = v.scale(9);
-                                        const spedUpAngularVelocity = w.scale(9);
+                                        const spedUpLinearVelocity = v.scale(7);
+
+                                        // For a curveball effect, modify the angular velocity
+                                        const curveAmount = 0.8; // Adjust this value to control the amount of curve
+                                        const curvedAngularVelocity = new BABYLON.Vector3(0, curveAmount, 0);
+                                        const spedUpAngularVelocity = w.scale(7).add(curvedAngularVelocity);
+
+
+
                                         // Set the linear velocity of the mesh for throwing
                                         meshRight.physicsImpostor.physicsBody.applyImpulse(spedUpLinearVelocity);
                                         meshRight.physicsImpostor.physicsBody.setAngularVelocity(spedUpAngularVelocity);
@@ -1137,7 +1156,7 @@
             var isIntersecting = false;
 
             scene.registerBeforeRender(function() {
-              if (wiffleBall && strikeZone) {
+              if (wiffleBall && strikeZone) { ``
                 if (wiffleBall.intersectsMesh(strikeZone, true)) {
                   // Set the flag to true if there is an intersection
                   isIntersecting = true;
