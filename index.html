@@ -1068,7 +1068,7 @@
                                           controller.getWorldPointerRayToRef(tmpRay, true);
                                           tmpRay.direction.scaleInPlace(1.5);
                                           const position = controller.grip ? controller.grip.position : controller.pointer.position;
-                                          position.y = -0.25;
+                                          position.z = 0.25;
                                           tmpVec.copyFrom(position);
                                           tmpVec.addInPlace(tmpRay.direction);
                                           tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1088,7 +1088,7 @@
                                   meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
                                   controller.pointer.position,
                                   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                                  new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
+                                  new BABYLON.BezierCurveEase(0, 0, 0, 0), () => {
                                       if (!meshUnderPointer) return;
                                       meshesUnderPointer[controller.uniqueId] = meshUnderPointer;
                                       observers[controller.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
