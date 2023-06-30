@@ -1041,7 +1041,7 @@
 
                                     var vectorLeft = new BABYLON.Vector3(-3,0,0);
                                     var targetRotation = BABYLON.Quaternion.RotationAxis(vectorLeft, Math.PI / 3);
-                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
 
 
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
