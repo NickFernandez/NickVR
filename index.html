@@ -923,22 +923,31 @@
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
-                const handness = motionController.handness;
+                
                 const yButtonComponent = motionController.getComponent('y-button');
-                const squeezeComponent = motionController.getComponentOfType('squeeze');
-
                 yButtonComponent.onButtonStateChangedObservable.add(() => {
                   if (yButtonComponent.pressed) {
                     // Clone the wiffleBall object
-                    const clonedBall = wiffleBall.clone();
-                    // Dispose of the original wiffleBall
-                    wiffleBall.dispose();
-                    clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
-                    clonedBall.isVisible = true;
-                    // Assign the cloned ball to the newBall variable
-                    newBall = clonedBall;
+                    if (wiffleBall) {
+                      const clonedBall = wiffleBall.clone();
+                      // Dispose of the original wiffleBall
+                      wiffleBall.dispose();
+                      clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
+                      clonedBall.isVisible = true;
+                      newBall = clonedBall;
+                    }
+                    if (newBall) {
+                      const clonedBall = newBall.clone();
+                      // Dispose of the original wiffleBall
+                      newBall.dispose();
+                      newBall = clonedBall;
+                    }
                   }
                 });
+                const handness = motionController.handness;
+                const squeezeComponent = motionController.getComponentOfType('squeeze');
+
+                
 
                 squeezeComponent.onButtonStateChangedObservable.add(() => {
                 if (squeezeComponent.changes.pressed) {
@@ -981,18 +990,6 @@
                                     })
                                 });
                         } else if (handness === 'right') {
-                          yButtonComponent.onButtonStateChangedObservable.add(() => {
-                  if (yButtonComponent.pressed) {
-                    // Clone the wiffleBall object
-                    const clonedBall = wiffleBall.clone();
-                    // Dispose of the original wiffleBall
-                    wiffleBall.dispose();
-                    clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
-                    clonedBall.isVisible = true;
-                    // Assign the cloned ball to the newBall variable
-                    newBall = clonedBall;
-                  }
-                });
 
                             const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                 meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
@@ -1037,7 +1034,7 @@
                                     vectorRight.scaleInPlace(scalingFactor);
                                     // targetRotation.scaleInPlace(scalingFactor);
 
-                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.body.rotationQuaternion = targetRotation;
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
 
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
@@ -1056,7 +1053,7 @@
                                     vectorLeft.scaleInPlace(scalingFactor);
                                     // targetRotation.scaleInPlace(scalingFactor);
 
-                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.body.rotationQuaternion = targetRotation;
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
                                 }
