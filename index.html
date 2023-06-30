@@ -930,11 +930,12 @@
                 yButtonComponent.onButtonStateChangedObservable.add(() => {
                   if (yButtonComponent.pressed) {
                     // Clone the wiffleBall object
-                    const clonedBall = wiffleBall.clone();
+                    const clonedBall = sphere.clone();
                     // Dispose of the original wiffleBall
-                    wiffleBall.dispose();
+                    sphere.dispose();
                     // Assign the cloned ball to the newBall variable
                     newBall = clonedBall;
+                    newBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
                   }
                 });
 
@@ -944,7 +945,7 @@
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.grip.position;
+                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
@@ -966,7 +967,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(0.15);
-                                        const position = controller.grip.position;
+                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
@@ -992,7 +993,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(0.15);
-                                        const position = controller.grip.position;
+                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
