@@ -926,25 +926,19 @@
                 // const xr_ids = motionController.getComponentIds();
                 // const triggerComponent = motionController.getComponent(xr_ids[0]); // xr-standard-trigger
                 
-                // const yButtonComponent = motionController.getComponent('y-button');
-                // yButtonComponent.onButtonStateChangedObservable.add(() => {
-                //   if (yButtonComponent.pressed) {
-                //       if (handness === 'left') {
-                //         const newBall = wiffleBall.clone();
-                //         wiffleBall.dispose();
-                //         newBall.isVisible = true;
-                //         newBall.position = BABYLON.Vector3(0, 0, 11.58);
-                //       }
+                const yButtonComponent = motionController.getComponent('y-button');
+                yButtonComponent.onButtonStateChangedObservable.add(() => {
+                  if (yButtonComponent.pressed) {
+                      const newBall = wiffleBall.createInstance("newBall");
+                      newBall.isVisible = true;
+                      newBall.position = new BABYLON.Vector3(0, 0, 11.58);
+                      wiffleBall.dispose();
+                      // Create physics impostor for newBall
+                      const physicsImpostor = new BABYLON.PhysicsImpostor(newBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                      newBall.physicsImpostor = physicsImpostor;
                       
-                //       if (handness === 'right') {
-                //           const newBall = wiffleBall.clone();
-                //           wiffleBall.dispose();
-                //           newBall.isVisible = true;
-                //           newBall.position = BABYLON.Vector3(0, 0, 11.58);
-                //       }
-                      
-                //   }
-                // });
+                  }
+                });
 
 
 
