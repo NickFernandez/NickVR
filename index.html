@@ -937,10 +937,12 @@
                       newBall = clonedBall;
                     }
                     if (newBall) {
-                      const clonedBall = newBall.clone();
+                      const clonedBall2 = newBall.clone();
                       // Dispose of the original wiffleBall
                       newBall.dispose();
-                      newBall = clonedBall;
+                      clonedBall2.position = new BABYLON.Vector3(0, 0.5, 11.58);
+                      clonedBall2.isVisible = true;
+                      newBall = clonedBall2;
                     }
                   }
                 });
