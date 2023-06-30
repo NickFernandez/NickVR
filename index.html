@@ -1118,7 +1118,8 @@
                                   if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                       xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                       observers[controller.uniqueId] = null;
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(3));
+                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
+                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
                                   }
                   
                               } else if (handness === 'right') {
@@ -1126,7 +1127,8 @@
                                   if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                       xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                       observers[controller.uniqueId] = null;
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(3));
+                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
+                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
                                   }
                               }
                           }
