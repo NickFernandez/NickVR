@@ -918,6 +918,7 @@
             tmpRay.direction = new BABYLON.Vector3();
             let lastTimestamp = 0;
             const oldPos = new BABYLON.Vector3();
+            let newBall = null;
 
 
             xr.input.onControllerAddedObservable.add((controller) => {
@@ -929,13 +930,19 @@
                 const yButtonComponent = motionController.getComponent('y-button');
                 yButtonComponent.onButtonStateChangedObservable.add(() => {
                   if (yButtonComponent.pressed) {
-                      const newBall = wiffleBall.createInstance("newBall");
-                      newBall.isVisible = true;
-                      newBall.position = new BABYLON.Vector3(0, 0, 11.58);
-                      wiffleBall.dispose();
-                      // Create physics impostor for newBall
-                      const physicsImpostor = new BABYLON.PhysicsImpostor(newBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
-                      newBall.physicsImpostor = physicsImpostor;
+                    if (newBall != null) {
+                        newBall.dispose();
+                      }
+                    else {
+                        wiffleBall.dispose();
+                      }
+                    const newBall = wiffleBall.createInstance("newBall");
+                    newBall.isVisible = true;
+                    newBall.position = new BABYLON.Vector3(0, 0, 11.58);
+                    
+                    // Create physics impostor for newBall
+                    const physicsImpostor = new BABYLON.PhysicsImpostor(newBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                    newBall.physicsImpostor = physicsImpostor;
                       
                   }
                 });
@@ -959,11 +966,9 @@
                             isMeshHeld = false; // No mesh item is being held when squeezing
                             return;
                         }
-                        // meshUnderPointer.setParent(controller.uniqueId.rootMesh);
+
                         if (handness === 'left') {
-                            // meshLeft = meshUnderPointer;
-                            // meshLeft.physicsImpostor.dispose();
-                            // meshLeft && meshLeft.setParent(motionController.rootMesh);
+
                             const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                 meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
                                 position.add(tmpRay.direction),
@@ -989,9 +994,7 @@
                                     })
                                 });
                         } else if (handness === 'right') {
-                            // meshRight = meshUnderPointer;
-                            // meshRight.physicsImpostor.dispose();   
-                            // meshRight && meshRight.setParent(motionController.rootMesh);
+
                             const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                 meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
                                 position.add(tmpRay.direction),
@@ -1027,6 +1030,14 @@
                                 if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                     xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                     observers[controller.uniqueId] = null;
+
+                                    var vectorRight = new BABYLON.Vector3(3,0,0);
+                                    var targetRotation = BABYLON.Quaternion.RotationAxis(vectorRight, Math.PI / 3);
+                                    var scalingFactor = 5; // Adjust the scaling factor as needed
+                                    targetRotation.scaleInPlace(scalingFactor);
+
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
+
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
                                 }
@@ -1036,13 +1047,14 @@
                                 if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                     xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                     observers[controller.uniqueId] = null;
-                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
-
+                            
                                     var vectorLeft = new BABYLON.Vector3(-3,0,0);
                                     var targetRotation = BABYLON.Quaternion.RotationAxis(vectorLeft, Math.PI / 3);
+                                    var scalingFactor = 5; // Adjust the scaling factor as needed
+                                    targetRotation.scaleInPlace(scalingFactor);
+
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
-
-
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
                                 }
                             }
