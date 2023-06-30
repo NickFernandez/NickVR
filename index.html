@@ -937,7 +937,7 @@
                     newBall = clonedBall;
                   }
                 });
-                
+
                 squeezeComponent.onButtonStateChangedObservable.add(() => {
                 if (squeezeComponent.changes.pressed) {
                     if (squeezeComponent.pressed) {
@@ -1019,7 +1019,9 @@
                                     var vectorRight = new BABYLON.Vector3(3,0,0);
                                     var targetRotation = BABYLON.Quaternion.RotationAxis(vectorRight, Math.PI / 3);
                                     var scalingFactor = 15; // Adjust the scaling factor as needed
-                                    targetRotation.scaleInPlace(scalingFactor);
+                                    // Scale the rotation axis
+                                    vectorRight.scaleInPlace(scalingFactor);
+                                    // targetRotation.scaleInPlace(scalingFactor);
 
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
 
@@ -1036,7 +1038,9 @@
                                     var vectorLeft = new BABYLON.Vector3(-3,0,0);
                                     var targetRotation = BABYLON.Quaternion.RotationAxis(vectorLeft, Math.PI / 3);
                                     var scalingFactor = 5; // Adjust the scaling factor as needed
-                                    targetRotation.scaleInPlace(scalingFactor);
+                                    // Scale the rotation axis
+                                    vectorLeft.scaleInPlace(scalingFactor);
+                                    // targetRotation.scaleInPlace(scalingFactor);
 
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
