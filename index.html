@@ -924,42 +924,27 @@
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
                 const handness = motionController.handness;
-                // const xr_ids = motionController.getComponentIds();
-                // const triggerComponent = motionController.getComponent(xr_ids[0]); // xr-standard-trigger
-                
-                // const yButtonComponent = motionController.getComponent('y-button');
-                // yButtonComponent.onButtonStateChangedObservable.add(() => {
-                //   if (yButtonComponent.pressed) {
-                //     if (newBall != null) {
-                //         newBall.dispose();
-                //       }
-                //     else {
-                //         wiffleBall.dispose();
-                //       }
-                //     const newBall = wiffleBall.createInstance("newBall");
-                //     newBall.isVisible = true;
-                //     newBall.position = new BABYLON.Vector3(0, 0, 11.58);
-                    
-                //     // Create physics impostor for newBall
-                //     const physicsImpostor = new BABYLON.PhysicsImpostor(newBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
-                //     newBall.physicsImpostor = physicsImpostor;
-                      
-                //   }
-                // });
-
-
-
-
-
-
+                const yButtonComponent = motionController.getComponent('y-button');
                 const squeezeComponent = motionController.getComponentOfType('squeeze');
+
+                yButtonComponent.onButtonStateChangedObservable.add(() => {
+                  if (yButtonComponent.pressed) {
+                    // Clone the wiffleBall object
+                    const clonedBall = wiffleBall.clone();
+                    // Dispose of the original wiffleBall
+                    wiffleBall.dispose();
+                    // Assign the cloned ball to the newBall variable
+                    newBall = clonedBall;
+                  }
+                });
+                
                 squeezeComponent.onButtonStateChangedObservable.add(() => {
                 if (squeezeComponent.changes.pressed) {
                     if (squeezeComponent.pressed) {
                         // animate position
                         controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                        const position = controller.grip.position;
                         
                         const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
@@ -981,7 +966,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(0.15);
-                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                                        const position = controller.grip.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1007,7 +992,7 @@
                                         lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                         controller.getWorldPointerRayToRef(tmpRay, true);
                                         tmpRay.direction.scaleInPlace(0.15);
-                                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                                        const position = controller.grip.position;
                                         tmpVec.copyFrom(position);
                                         tmpVec.addInPlace(tmpRay.direction);
                                         tmpVec.subtractToRef(oldPos, tmpVec);
