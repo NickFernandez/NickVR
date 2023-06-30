@@ -840,12 +840,14 @@
                 wiffleBall.physicsImpostor.forceUpdate = true;
                 wiffleBall.physicsImpostor.isPickable = false;
                 wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                
+
                 // Register a collision event handler
-                if (wiffleBall.intersectsMesh(strikeZone, true)) {
-                  newMaterialSZ.diffuseColor = collisionColor;
-                } else {
-                  newMaterialSZ.diffuseColor = newColorSZ;
-                }
+                // if (wiffleBall.intersectsMesh(strikeZone, true)) {
+                //   newMaterialSZ.diffuseColor = collisionColor;
+                // } else {
+                //   newMaterialSZ.diffuseColor = newColorSZ;
+                // }
 
             });
 
@@ -923,25 +925,26 @@
                 const handness = motionController.handness;
                 // const xr_ids = motionController.getComponentIds();
                 // const triggerComponent = motionController.getComponent(xr_ids[0]); // xr-standard-trigger
-                const yButtonComponent = motionController.getComponent('y-button');
-                yButtonComponent.onButtonStateChangedObservable.add(() => {
-                  if (yButtonComponent.pressed) {
-                      if (handness === 'left') {
-                        const newBall = wiffleBall.clone();
-                        wiffleBall.dispose();
-                        newBall.isVisible = true;
-                        newBall.position = BABYLON.Vector3(0, 0, 11.58);
-                      }
+                
+                // const yButtonComponent = motionController.getComponent('y-button');
+                // yButtonComponent.onButtonStateChangedObservable.add(() => {
+                //   if (yButtonComponent.pressed) {
+                //       if (handness === 'left') {
+                //         const newBall = wiffleBall.clone();
+                //         wiffleBall.dispose();
+                //         newBall.isVisible = true;
+                //         newBall.position = BABYLON.Vector3(0, 0, 11.58);
+                //       }
                       
-                      if (handness === 'right') {
-                          const newBall = wiffleBall.clone();
-                          wiffleBall.dispose();
-                          newBall.isVisible = true;
-                          newBall.position = BABYLON.Vector3(0, 0, 11.58);
-                      }
+                //       if (handness === 'right') {
+                //           const newBall = wiffleBall.clone();
+                //           wiffleBall.dispose();
+                //           newBall.isVisible = true;
+                //           newBall.position = BABYLON.Vector3(0, 0, 11.58);
+                //       }
                       
-                  }
-                });
+                //   }
+                // });
 
 
 
