@@ -928,7 +928,7 @@
                   if (yButtonComponent.pressed) {
                       const newBall = wiffleBall.clone();
                       wiffleBall.dispose();
-                      newball.isVisible = true;
+                      newBall.isVisible = true;
                       newBall.position = BABYLON.Vector3(0, 0, 11.58);
                       // if (handness === 'left') {
                       //     newBall.setParent(controller.pointer);
@@ -1038,6 +1038,12 @@
                                     xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                     observers[controller.uniqueId] = null;
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
+
+                                    var vectorLeft = new BABYLON.Vector3(-3,0,0);
+                                    var targetRotation = BABYLON.Quaternion.RotationAxis(vectorLeft, Math.PI / 3);
+                                    meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation
+
+
                                     meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
                                 }
                             }
