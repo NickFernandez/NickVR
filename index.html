@@ -1057,7 +1057,7 @@
                               // meshLeft && meshLeft.setParent(motionController.rootMesh);
                               const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                   meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
-                                  controller.pointer.position,
+                                  tmpRay.origin.clone(),
                                   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                                   new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                                       if (!meshUnderPointer) return;
@@ -1087,7 +1087,7 @@
                               // meshRight && meshRight.setParent(motionController.rootMesh);
                               const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                   meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
-                                  controller.pointer.position,
+                                  tmpRay.origin.clone(),
                                   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                                   new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                                       if (!meshUnderPointer) return;
