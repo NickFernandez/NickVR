@@ -926,17 +926,19 @@
                 const yButtonComponent = motionController.getComponent('y-button');
                 yButtonComponent.onButtonStateChangedObservable.add(() => {
                   if (yButtonComponent.pressed) {
-                      const newBall = wiffleBall.clone();
-                      wiffleBall.dispose();
-                      newBall.isVisible = true;
-                      newBall.position = BABYLON.Vector3(0, 0, 11.58);
-                      // if (handness === 'left') {
-                      //     newBall.setParent(controller.pointer);
-                      //     newBall.isVisible = true;
-                      //     newBall.position = BABYLON.Vector3.ZeroReadOnly;
-                      //     newBall.rotationQuaternion = BABYLON.Quaternion.Identity();
-                      //     newBall.locallyTranslate(new BABYLON.Vector3(0.3, -0.3, -0.3));
-                      // }
+                      if (handness === 'left') {
+                        const newBall = wiffleBall.clone();
+                        wiffleBall.dispose();
+                        newBall.isVisible = true;
+                        newBall.position = BABYLON.Vector3(0, 0, 11.58);
+                      }
+                      
+                      if (handness === 'right') {
+                          const newBall = wiffleBall.clone();
+                          wiffleBall.dispose();
+                          newBall.isVisible = true;
+                          newBall.position = BABYLON.Vector3(0, 0, 11.58);
+                      }
                       
                   }
                 });
