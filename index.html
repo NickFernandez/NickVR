@@ -927,17 +927,7 @@
                 const yButtonComponent = motionController.getComponent('y-button');
                 const squeezeComponent = motionController.getComponentOfType('squeeze');
 
-                yButtonComponent.onButtonStateChangedObservable.add(() => {
-                  if (yButtonComponent.pressed) {
-                    // Clone the wiffleBall object
-                    const clonedBall = sphere.clone();
-                    // Dispose of the original wiffleBall
-                    sphere.dispose();
-                    // Assign the cloned ball to the newBall variable
-                    newBall = clonedBall;
-                    newBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
-                  }
-                });
+
 
                 squeezeComponent.onButtonStateChangedObservable.add(() => {
                 if (squeezeComponent.changes.pressed) {
@@ -1053,7 +1043,27 @@
 
                     }
                 }
+
                 });
+                  yButtonComponent.onButtonStateChangedObservable.add(() => {
+                    if (yButtonComponent.pressed) {
+                      // Clone the wiffleBall object
+                      if (sphere) {
+                        const clonedBall = sphere.clone();
+                        // Dispose of the original wiffleBall
+                        sphere.dispose();
+                      }
+                      
+                      if (!sphere) {
+                        const clonedBall = newBall.clone();
+                        // Dispose of the original wiffleBall
+                        newBall.dispose();
+                      }
+                      // Assign the cloned ball to the newBall variable
+                      newBall = clonedBall;
+                      newBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
+                    }
+                  });
                 });
             }); 
             
