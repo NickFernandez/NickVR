@@ -75,8 +75,8 @@
             const physicsPlugin = new BABYLON.AmmoJSPlugin();
             scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            var physicsEngine = scene.getPhysicsEngine();
-            physicsEngine.setSubTimeStep(8);
+            // var physicsEngine = scene.getPhysicsEngine();
+            // physicsEngine.setSubTimeStep(8);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -907,18 +907,18 @@
                 // add options here
                 floorMeshes: [ground],
             });
-            const xrPhysics = xr.baseExperience.featuresManager.enableFeature(
-                BABYLON.WebXRFeatureName.PHYSICS_CONTROLLERS,
-                "latest",
-                {
-                    xrInput: xr.input,
-                    physicsProperties: {
-                        restitution: 0.5,
-                        impostorSize: 0.1,
-                        impostorType: BABYLON.PhysicsImpostor.NoImpostor
-                    },
-                }
-            ) 
+            // const xrPhysics = xr.baseExperience.featuresManager.enableFeature(
+            //     BABYLON.WebXRFeatureName.PHYSICS_CONTROLLERS,
+            //     "latest",
+            //     {
+            //         xrInput: xr.input,
+            //         physicsProperties: {
+            //             restitution: 0.5,
+            //             impostorSize: 0.1,
+            //             impostorType: BABYLON.PhysicsImpostor.NoImpostor
+            //         },
+            //     }
+            // ) 
 
             // let meshLeft;
             // let meshRight;
@@ -1057,7 +1057,7 @@
                               // meshLeft && meshLeft.setParent(motionController.rootMesh);
                               const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                   meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
-                                  tmpRay.origin.clone(),
+                                  position.add(tmpRay.direction),
                                   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                                   new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                                       if (!meshUnderPointer) return;
@@ -1066,10 +1066,8 @@
                                           const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
                                           lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                           controller.getWorldPointerRayToRef(tmpRay, true);
-                                          tmpRay.direction.scaleInPlace(1.5);
-                                          // const position = controller.grip ? controller.grip.position : controller.pointer.position;
-                                          const position = controller.grip;
-                                          // position.z = 0.25;
+                                          tmpRay.direction.scaleInPlace(0.15);
+                                          const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                           tmpVec.copyFrom(position);
                                           tmpVec.addInPlace(tmpRay.direction);
                                           tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1087,7 +1085,7 @@
                               // meshRight && meshRight.setParent(motionController.rootMesh);
                               const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                   meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
-                                  tmpRay.origin.clone(),
+                                  position.add(tmpRay.direction),
                                   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                                   new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                                       if (!meshUnderPointer) return;
@@ -1096,8 +1094,8 @@
                                           const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
                                           lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                                           controller.getWorldPointerRayToRef(tmpRay, true);
-                                          tmpRay.direction.scaleInPlace(1.5);
-                                          const position = controller.pointer;
+                                          tmpRay.direction.scaleInPlace(0.15);
+                                          const position = controller.grip ? controller.grip.position : controller.pointer.position;
                                           tmpVec.copyFrom(position);
                                           tmpVec.addInPlace(tmpRay.direction);
                                           tmpVec.subtractToRef(oldPos, tmpVec);
@@ -1120,7 +1118,7 @@
                                   if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                       xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                       observers[controller.uniqueId] = null;
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec);
+                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(3));
                                   }
                   
                               } else if (handness === 'right') {
@@ -1128,7 +1126,7 @@
                                   if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                       xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
                                       observers[controller.uniqueId] = null;
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec);
+                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(3));
                                   }
                               }
                           }
