@@ -920,33 +920,33 @@
             const oldPos = new BABYLON.Vector3();
             let newBall = null;
 
-            xr.input.onControllerAddedObservable.add((controller) => {
-              controller.onMotionControllerInitObservable.add((motionController) => {
+        //     xr.input.onControllerAddedObservable.add((controller) => {
+        //       controller.onMotionControllerInitObservable.add((motionController) => {
                 
-                  const yButtonComponent = motionController.getComponent('y-button');
-                  yButtonComponent.onButtonStateChangedObservable.add(() => {
-                    if (yButtonComponent.pressed) {
-                      // Clone the wiffleBall object
-                      if (wiffleBall) {
-                        const clonedBall = wiffleBall.clone();
-                        // Dispose of the original wiffleBall
-                        wiffleBall.dispose();
-                        clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
-                        clonedBall.isVisible = true;
-                        newBall = clonedBall;
-                      }
-                      if (newBall != null) {
-                        const clonedBall2 = newBall.clone();
-                        // Dispose of the original wiffleBall
-                        newBall.dispose();
-                        clonedBall2.position = new BABYLON.Vector3(0, 0.5, 11.58);
-                        clonedBall2.isVisible = true;
-                        newBall = clonedBall2;
-                      }
-                    }
-                  });
-              });
-        });
+        //           const yButtonComponent = motionController.getComponent('y-button');
+        //           yButtonComponent.onButtonStateChangedObservable.add(() => {
+        //             if (yButtonComponent.pressed) {
+        //               // Clone the wiffleBall object
+        //               if (wiffleBall) {
+        //                 const clonedBall = wiffleBall.clone();
+        //                 // Dispose of the original wiffleBall
+        //                 wiffleBall.dispose();
+        //                 clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
+        //                 clonedBall.isVisible = true;
+        //                 newBall = clonedBall;
+        //               }
+        //               if (newBall != null) {
+        //                 const clonedBall2 = newBall.clone();
+        //                 // Dispose of the original wiffleBall
+        //                 newBall.dispose();
+        //                 clonedBall2.position = new BABYLON.Vector3(0, 0.5, 11.58);
+        //                 clonedBall2.isVisible = true;
+        //                 newBall = clonedBall2;
+        //               }
+        //             }
+        //           });
+        //       });
+        // });
 
 
             xr.input.onControllerAddedObservable.add((controller) => {
