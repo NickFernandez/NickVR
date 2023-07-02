@@ -920,35 +920,11 @@
             const oldPos = new BABYLON.Vector3();
             let newBall = null;
 
-        //     xr.input.onControllerAddedObservable.add((controller) => {
-        //       controller.onMotionControllerInitObservable.add((motionController) => {
-                
-                  
-        //       });
-        // });
 
 
             xr.input.onControllerAddedObservable.add((controller) => {
                 controller.onMotionControllerInitObservable.add((motionController) => {
-                const handness = motionController.handness;
-                const squeezeComponent = motionController.getComponentOfType('squeeze');
-                squeezeComponent.onButtonStateChangedObservable.add(() => {
-                if (squeezeComponent.changes.pressed) {
-                    if (squeezeComponent.pressed) {
-                        // animate position
-                        controller.getWorldPointerRayToRef(tmpRay, true);
-                        tmpRay.direction.scaleInPlace(1.5);
-                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
-                        
-                        const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
-                        if (!meshUnderPointer) {
-                            isMeshHeld = false; // No mesh item is being held when squeezing
-                            return;
-                        }
-
-                        if (handness === 'left') {
-
-                          const yButtonComponent = motionController.getComponent('y-button');
+                    const yButtonComponent = motionController.getComponent('y-button');
                           yButtonComponent.onButtonStateChangedObservable.add(() => {
                             if (yButtonComponent.pressed) {
                               // Clone the wiffleBall object
@@ -970,6 +946,24 @@
                               }
                             }
                           });
+                const handness = motionController.handness;
+                const squeezeComponent = motionController.getComponentOfType('squeeze');
+                squeezeComponent.onButtonStateChangedObservable.add(() => {
+                if (squeezeComponent.changes.pressed) {
+                    if (squeezeComponent.pressed) {
+                        // animate position
+                        controller.getWorldPointerRayToRef(tmpRay, true);
+                        tmpRay.direction.scaleInPlace(1.5);
+                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
+                        
+                        const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
+                        if (!meshUnderPointer) {
+                            isMeshHeld = false; // No mesh item is being held when squeezing
+                            return;
+                        }
+
+                        if (handness === 'left') {
+
 
                             const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                                 meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
