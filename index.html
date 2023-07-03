@@ -859,7 +859,7 @@
             pitchingRubberMaterial.diffuseColor = BABYLON.Color3.White();
             pitchingRubber.material = pitchingRubberMaterial;
             pitchingRubber.position = new BABYLON.Vector3(0, 0.5, 11.58);
-
+            pitchingRubber.isPickable = false;
             // Set the scaling to make it one foot long (adjust the scale factor as needed)
             pitchingRubber.scaling = new BABYLON.Vector3(1, 1, 1);
 
@@ -928,16 +928,14 @@
                 yButtonComponent.onButtonStateChangedObservable.add(() => {
                   if (yButtonComponent.pressed) {
                     if (newBall) {
-                      // Dispose of the existing newBall
                       newBall.dispose();
                     }
-
+                    
                     if (wiffleBall) {
                       const clonedBall = wiffleBall.clone();
                       clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
                       clonedBall.isVisible = true;
                       newBall = clonedBall;
-                      wiffleBall.dispose();
                     }
                   }
                 });
