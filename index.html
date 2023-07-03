@@ -1069,8 +1069,26 @@
             var isIntersecting = false;
 
             scene.registerBeforeRender(function() {
-              if (wiffleBall && strikeZone || newBall && strikeZone) {
-                if (wiffleBall.intersectsMesh(strikeZone, true) || newBall.intersectsMesh(strikeZone, true)) {
+              if (wiffleBall && strikeZone) {
+                if (wiffleBall.intersectsMesh(strikeZone, true)) {
+                  // Set the flag to true if there is an intersection
+                  isIntersecting = true;
+
+                  // Set the color to red immediately upon intersection
+                  newMaterialSZ.diffuseColor = collisionColor;
+
+                  // Delay the color change back to the original after 3 seconds
+                  setTimeout(function() {
+                    isIntersecting = false;
+                    newMaterialSZ.diffuseColor = newColorSZ;
+                  }, 3000);
+                } else if (!isIntersecting) {
+                  // Only set the color to the original if no intersection and not waiting for the timeout
+                  newMaterialSZ.diffuseColor = newColorSZ;
+                }
+              }
+              if (newBall && strikeZone) {
+                if (newBall.intersectsMesh(strikeZone, true)) {
                   // Set the flag to true if there is an intersection
                   isIntersecting = true;
 
