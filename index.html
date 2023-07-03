@@ -935,6 +935,10 @@
                       const clonedBall = wiffleBall.clone();
                       clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
                       clonedBall.isVisible = true;
+                      clonedBall.physicsImpostor = new BABYLON.PhysicsImpostor(clonedBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                      clonedBall.physicsImpostor.forceUpdate = true;
+                      clonedBall.physicsImpostor.isPickable = false;
+                      clonedBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
                       newBall = clonedBall;
                     }
                   }
@@ -1065,8 +1069,8 @@
             var isIntersecting = false;
 
             scene.registerBeforeRender(function() {
-              if (wiffleBall && strikeZone) {
-                if (wiffleBall.intersectsMesh(strikeZone, true)) {
+              if (wiffleBall && strikeZone) || (newBall && strikeZone) {
+                if (wiffleBall.intersectsMesh(strikeZone, true)) || (newBall.intersectsMesh(strikeZone, true)) {
                   // Set the flag to true if there is an intersection
                   isIntersecting = true;
 
