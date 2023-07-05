@@ -975,8 +975,8 @@
                                       meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
                                       meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
                                       oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(BABYLON.Vector3.Zero());
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(BABYLON.Vector3.Zero());
                                   })
                               });
                       } else if (handness === 'right') {
@@ -1001,8 +1001,8 @@
                                       meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
                                       meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
                                       oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(BABYLON.Vector3.Zero());
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(BABYLON.Vector3.Zero());
                                   })
                               });
                       }
@@ -1024,10 +1024,10 @@
                                   vectorRight.scaleInPlace(scalingFactor);
                                   // targetRotation.scaleInPlace(scalingFactor);
 
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.rotationQuaternion = targetRotation;
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.rotationQuaternion = targetRotation;
 
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(tmpVec.scale(5));
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(tmpVec.scale(5));
                               }
               
                           } else if (handness === 'right') {
@@ -1043,9 +1043,9 @@
                                   vectorLeft.scaleInPlace(scalingFactor);
                                   // targetRotation.scaleInPlace(scalingFactor);
 
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.rotationQuaternion = targetRotation;
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(tmpVec.scale(5));
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.rotationQuaternion = targetRotation;
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(tmpVec.scale(5));
                               }
                           }
                       }
