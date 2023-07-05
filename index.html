@@ -953,7 +953,7 @@
                       }
 
                       if (handness === 'left') {
-
+                        const body = meshUnderPointer.aggregate.body;
 
                           const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                               meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
@@ -975,12 +975,12 @@
                                       meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
                                       meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
                                       oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(BABYLON.Vector3.Zero());
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(BABYLON.Vector3.Zero());
+                                      body.setLinearVelocity(BABYLON.Vector3.Zero());
+                                      body.setAngularVelocity(BABYLON.Vector3.Zero());
                                   })
                               });
                       } else if (handness === 'right') {
-
+                        const body = meshUnderPointer.aggregate.body;
                           const animatable = BABYLON.Animation.CreateAndStartAnimation('meshmove',
                               meshUnderPointer, 'position', 30, 15, meshUnderPointer.position.clone(),
                               position.add(tmpRay.direction),
@@ -1001,8 +1001,8 @@
                                       meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
                                       meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
                                       oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(BABYLON.Vector3.Zero());
-                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(BABYLON.Vector3.Zero());
+                                      body.setLinearVelocity(BABYLON.Vector3.Zero());
+                                      body.setAngularVelocity(BABYLON.Vector3.Zero());
                                   })
                               });
                       }
@@ -1011,7 +1011,7 @@
                   } else {
                       if (isMeshHeld) {
                           if (handness === 'left') {
-                              
+                              const body = meshUnderPointer.aggregate.body;
                               // throw the object
                               if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                   xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
@@ -1024,13 +1024,14 @@
                                   vectorRight.scaleInPlace(scalingFactor);
                                   // targetRotation.scaleInPlace(scalingFactor);
 
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.rotationQuaternion = targetRotation;
+                                  body.rotationQuaternion = targetRotation;
 
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(tmpVec.scale(5));
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(tmpVec.scale(5));
+                                  body.setLinearVelocity(tmpVec.scale(5));
+                                  body.setAngularVelocity(tmpVec.scale(5));
                               }
               
                           } else if (handness === 'right') {
+                            const body = meshUnderPointer.aggregate.body;
                               // throw the object
                               if (observers[controller.uniqueId] && meshesUnderPointer[controller.uniqueId]) {
                                   xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
@@ -1043,9 +1044,9 @@
                                   vectorLeft.scaleInPlace(scalingFactor);
                                   // targetRotation.scaleInPlace(scalingFactor);
 
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.rotationQuaternion = targetRotation;
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setLinearVelocity(tmpVec.scale(5));
-                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.setAngularVelocity(tmpVec.scale(5));
+                                  body.rotationQuaternion = targetRotation;
+                                  body.setLinearVelocity(tmpVec.scale(5));
+                                  body.setAngularVelocity(tmpVec.scale(5));
                               }
                           }
                       }
