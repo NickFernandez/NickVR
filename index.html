@@ -66,17 +66,17 @@
             // This creates a basic Babylon Scene object (non-mesh)
             var scene = new BABYLON.Scene(engine);
             // Enable Havok physics in the scene.
-            // const havokInstance = await HavokPhysics();
-            // const hk = new BABYLON.HavokPlugin(true, havokInstance);
-            // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+            const havokInstance = await HavokPhysics();
+            const hk = new BABYLON.HavokPlugin(true, havokInstance);
+            scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
             //  gravity using AmmoJS
-            const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-            const physicsPlugin = new BABYLON.AmmoJSPlugin();
-            scene.enablePhysics(gravityVector, physicsPlugin);
+            // const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+            // const physicsPlugin = new BABYLON.AmmoJSPlugin();
+            // scene.enablePhysics(gravityVector, physicsPlugin);
             // Once physics is enabled, you can access the physics engine instance through the physicsEngine property of the scene
-            var physicsEngine = scene.getPhysicsEngine();
-            physicsEngine.setSubTimeStep(5);
+            // var physicsEngine = scene.getPhysicsEngine();
+            // physicsEngine.setSubTimeStep(5);
 
             // Creates and positions a free camera
             var camera = new BABYLON.ArcRotateCamera(
@@ -107,7 +107,7 @@
             ground.checkCollisions = true;
             ground.position.y = 0;
             ground.isPickable = false;
-            ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.1 }, scene);
+            ground.physicsAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.8, restitution: 0.1 }, scene);
             
             // Create a new StandardMaterial for the ground
             var groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
@@ -185,588 +185,588 @@
             BABYLON.SceneLoader.ImportMesh("", "meshes/fence_vinyl/", "scene.gltf", scene, function (newMeshes){
                 fenceV = newMeshes[0];
                 fenceV.scaling = new BABYLON.Vector3(1, 1, 1);
-                fenceV.position = new BABYLON.Vector3(0, 0.5, 30.48);
+                fenceV.position = new BABYLON.Vector3(0, 0.5, -2);
                 fenceV.isPickable = false,
 
                 // Gotta do this on each mesh
                 fenceV.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                     mesh.isPickable = false;
                     });
 
-                fenceV.physicsImpostor = new BABYLON.PhysicsImpostor(
+                fenceV.physicsAggregate = new BABYLON.PhysicsAggregate(
                           fenceV,
-                          BABYLON.PhysicsImpostor.NoImpostor,
+                          BABYLON.PhysicsShapeType.BOX,
                           { mass: 0, friction: 0.4, restitution: 0.2},
                           scene
                         );
 
-                var clonedFenceVinyl = fenceV.clone("fenceV");
-                clonedFenceVinyl.position = new BABYLON.Vector3(2.8, 0.5, 30.48);
+                var clonedFenceVinyl = fenceV.clone("fenceV1");
+                clonedFenceVinyl.position = new BABYLON.Vector3(-1, 0.5, -2);
                 clonedFenceVinyl.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                     mesh.isPickable = false;
                     });
-                clonedFenceVinyl.physicsImpostor = new BABYLON.PhysicsImpostor(
+                clonedFenceVinyl.physicsAggregate = new BABYLON.PhysicsAggregate(
                     clonedFenceVinyl,
-                    BABYLON.PhysicsImpostor.NoImpostor,
+                    BABYLON.PhysicsShapeType.BOX,
                     { mass: 0, friction: 0.4, restitution: 0.2},
                     scene
                 );
                 var clonedFenceVinyl2 = fenceV.clone("fenceV2");
-                clonedFenceVinyl2.position = new BABYLON.Vector3(5.6, 0.5, 30.48);
+                clonedFenceVinyl2.position = new BABYLON.Vector3(1, 0.5, -2);
                 clonedFenceVinyl2.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                     mesh.isPickable = false;
                   });
-                clonedFenceVinyl2.physicsImpostor = new BABYLON.PhysicsImpostor(
+                clonedFenceVinyl2.physicsAggregate = new BABYLON.PhysicsAggregate(
                   clonedFenceVinyl2,
-                  BABYLON.PhysicsImpostor.NoImpostor,
+                  BABYLON.PhysicsShapeType.BOX,
                   { mass: 0, friction: 0.4, restitution: 0.2},
                   scene
                 );
                 
 
-                var clonedFenceVinyl3 = fenceV.clone("fenceV3");
-                clonedFenceVinyl3.position = new BABYLON.Vector3(8.4, 0.5, 30.48);
-                clonedFenceVinyl3.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl3.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl3,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+            //     var clonedFenceVinyl3 = fenceV.clone("fenceV3");
+            //     clonedFenceVinyl3.position = new BABYLON.Vector3(8.4, 0.5, 30.48);
+            //     clonedFenceVinyl3.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //       });
+            //     clonedFenceVinyl3.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFenceVinyl3,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
 
-                var clonedFenceVinyl4 = fenceV.clone("fenceV4");
-                clonedFenceVinyl4.position = new BABYLON.Vector3(11.2, 0.5, 30.48);
-                clonedFenceVinyl4.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl4.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl4,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+            //     var clonedFenceVinyl4 = fenceV.clone("fenceV4");
+            //     clonedFenceVinyl4.position = new BABYLON.Vector3(11.2, 0.5, 30.48);
+            //     clonedFenceVinyl4.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //       });
+            //     clonedFenceVinyl4.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFenceVinyl4,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
 
-                var clonedFenceVinyl5 = fenceV.clone("fenceV5");
-                clonedFenceVinyl5.position = new BABYLON.Vector3(-2.8, 0.5, 30.48);
-                clonedFenceVinyl5.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl5.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl5,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+            //     var clonedFenceVinyl5 = fenceV.clone("fenceV5");
+            //     clonedFenceVinyl5.position = new BABYLON.Vector3(-2.8, 0.5, 30.48);
+            //     clonedFenceVinyl5.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //       });
+            //     clonedFenceVinyl5.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFenceVinyl5,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
 
-                var clonedFenceVinyl6 = fenceV.clone("fenceV6");
-                clonedFenceVinyl6.position = new BABYLON.Vector3(-5.6, 0.5, 30.48);
-                clonedFenceVinyl6.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl6.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl6,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+            //     var clonedFenceVinyl6 = fenceV.clone("fenceV6");
+            //     clonedFenceVinyl6.position = new BABYLON.Vector3(-5.6, 0.5, 30.48);
+            //     clonedFenceVinyl6.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //       });
+            //     clonedFenceVinyl6.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFenceVinyl6,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
 
-                var clonedFenceVinyl7 = fenceV.clone("fenceVinyl7");
-                clonedFenceVinyl7.position = new BABYLON.Vector3(-8.4, 0.5, 30.48);
-                clonedFenceVinyl7.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl7.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl7,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+            //     var clonedFenceVinyl7 = fenceV.clone("fenceVinyl7");
+            //     clonedFenceVinyl7.position = new BABYLON.Vector3(-8.4, 0.5, 30.48);
+            //     clonedFenceVinyl7.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //       });
+            //     clonedFenceVinyl7.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFenceVinyl7,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
 
-                var clonedFenceVinyl8 = fenceV.clone("fenceVinyl8");
-                clonedFenceVinyl8.position = new BABYLON.Vector3(-11.2, 0.5, 30.48);
-                clonedFenceVinyl8.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl8.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl8,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+            //     var clonedFenceVinyl8 = fenceV.clone("fenceVinyl8");
+            //     clonedFenceVinyl8.position = new BABYLON.Vector3(-11.2, 0.5, 30.48);
+            //     clonedFenceVinyl8.getChildMeshes().forEach((mesh) => {
+            //         mesh.checkCollisions = true;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //         mesh.isPickable = false;
+            //       });
+            //     clonedFenceVinyl8.physicsImpostor = new BABYLON.PhysicsImpostor(
+            //       clonedFenceVinyl8,
+            //       BABYLON.PhysicsImpostor.NoImpostor,
+            //       { mass: 0, friction: 0.4, restitution: 0.2},
+            //       scene
+            //     );
 
-                var clonedFenceVinyl9 = fenceV.clone("fence9");
-                clonedFenceVinyl9.position = new BABYLON.Vector3(0, 0.5, -2);
-                clonedFenceVinyl9.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl9.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl9,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl9 = fenceV.clone("fence9");
+                // clonedFenceVinyl9.position = new BABYLON.Vector3(0, 0.5, -15);
+                // clonedFenceVinyl9.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl9.physicsAggregate = new BABYLON.PhysicsAggregate(
+                //   clonedFenceVinyl9,
+                //   BABYLON.PhysicsAggregate.BOX,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl10 = fenceV.clone("fenceV10");
-                clonedFenceVinyl10.position = new BABYLON.Vector3(-2.8, 0.5, -2);
-                clonedFenceVinyl10.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl10.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl10,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl10 = fenceV.clone("fenceV10");
+                // clonedFenceVinyl10.position = new BABYLON.Vector3(-2.8, 0.5, -2);
+                // clonedFenceVinyl10.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl10.physicsAggregate = new BABYLON.PhysicsAggregate(
+                //   clonedFenceVinyl10,
+                //   BABYLON.PhysicsAggregate.BOX,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl11 = fenceV.clone("fenceV11");
-                clonedFenceVinyl11.position = new BABYLON.Vector3(2.8, 0.5, -2);
-                clonedFenceVinyl11.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl11.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl11,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl11 = fenceV.clone("fenceV11");
+                // clonedFenceVinyl11.position = new BABYLON.Vector3(2.8, 0.5, -2);
+                // clonedFenceVinyl11.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl11.physicsAggregate = new BABYLON.PhysicsAggregate(
+                //   clonedFenceVinyl11,
+                //   BABYLON.PhysicsAggregate.BOX,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl16 = fenceV.clone("fenceV16");
-                // clonedFenceVinyl16.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl16.position = new BABYLON.Vector3(5.6, 0.5, -2);
-                clonedFenceVinyl16.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl16.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl16,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl16 = fenceV.clone("fenceV16");
+                // // clonedFenceVinyl16.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl16.position = new BABYLON.Vector3(5.6, 0.5, -2);
+                // clonedFenceVinyl16.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl16.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl16,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl17 = fenceV.clone("fenceV17");
-                // clonedFenceVinyl17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl17.position = new BABYLON.Vector3(-5.6, 0.5, -2);
-                clonedFenceVinyl17.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl17.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl17,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl17 = fenceV.clone("fenceV17");
+                // // clonedFenceVinyl17.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl17.position = new BABYLON.Vector3(-5.6, 0.5, -2);
+                // clonedFenceVinyl17.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl17.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl17,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl18 = fenceV.clone("fenceV18");
-                // clonedFenceVinyl18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl18.position = new BABYLON.Vector3(-8.4, 0.5, -2);
-                clonedFenceVinyl18.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl18.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl18,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl18 = fenceV.clone("fenceV18");
+                // // clonedFenceVinyl18.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl18.position = new BABYLON.Vector3(-8.4, 0.5, -2);
+                // clonedFenceVinyl18.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl18.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl18,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl19 = fenceV.clone("fenceVinyl19");
-                // clonedFenceVinyl19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl19.position = new BABYLON.Vector3(8.4, 0.5, -2);
-                clonedFenceVinyl19.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl19.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl19,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl19 = fenceV.clone("fenceVinyl19");
+                // // clonedFenceVinyl19.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl19.position = new BABYLON.Vector3(8.4, 0.5, -2);
+                // clonedFenceVinyl19.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl19.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl19,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl20 = fenceV.clone("fenceVinyl20");
-                // clonedFenceVinyl20.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl20.position = new BABYLON.Vector3(-11.2, 0.5, -2);
-                clonedFenceVinyl20.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl20.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl20,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl20 = fenceV.clone("fenceVinyl20");
+                // // clonedFenceVinyl20.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl20.position = new BABYLON.Vector3(-11.2, 0.5, -2);
+                // clonedFenceVinyl20.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl20.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl20,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl21 = fenceV.clone("fenceVinyl21");
-                // clonedFenceVinyl21.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl21.position = new BABYLON.Vector3(11.2, 0.5, -2);
-                clonedFenceVinyl21.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl21.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl21,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl21 = fenceV.clone("fenceVinyl21");
+                // // clonedFenceVinyl21.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl21.position = new BABYLON.Vector3(11.2, 0.5, -2);
+                // clonedFenceVinyl21.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl21.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl21,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl22 = fenceV.clone("fenceVinyl22");
-                clonedFenceVinyl22.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl22.position = new BABYLON.Vector3(-12.7, 0.5, -1);
-                clonedFenceVinyl22.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl22.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl22,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl22 = fenceV.clone("fenceVinyl22");
+                // clonedFenceVinyl22.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl22.position = new BABYLON.Vector3(-12.7, 0.5, -1);
+                // clonedFenceVinyl22.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl22.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl22,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl23 = fenceV.clone("fenceVinyl23");
-                clonedFenceVinyl23.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl23.position = new BABYLON.Vector3(-12.7, 0.5, 1.8);
-                clonedFenceVinyl23.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl23.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl23,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl23 = fenceV.clone("fenceVinyl23");
+                // clonedFenceVinyl23.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl23.position = new BABYLON.Vector3(-12.7, 0.5, 1.8);
+                // clonedFenceVinyl23.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl23.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl23,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl24 = fenceV.clone("fenceVinyl24");
-                clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl24.position = new BABYLON.Vector3(-12.7, 0.5, 4.6);
-                clonedFenceVinyl24.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl24.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl24,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl24 = fenceV.clone("fenceVinyl24");
+                // clonedFenceVinyl24.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl24.position = new BABYLON.Vector3(-12.7, 0.5, 4.6);
+                // clonedFenceVinyl24.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl24.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl24,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl25 = fenceV.clone("fenceVinyl25");
-                clonedFenceVinyl25.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl25.position = new BABYLON.Vector3(-12.7, 0.5, 7.4);
-                clonedFenceVinyl25.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl25.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl25,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl25 = fenceV.clone("fenceVinyl25");
+                // clonedFenceVinyl25.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl25.position = new BABYLON.Vector3(-12.7, 0.5, 7.4);
+                // clonedFenceVinyl25.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl25.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl25,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl32 = fenceV.clone("fenceVinyl32");
-                clonedFenceVinyl32.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl32.position = new BABYLON.Vector3(-12.7, 0.5, 10.2);
-                clonedFenceVinyl32.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl32.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl32,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl32 = fenceV.clone("fenceVinyl32");
+                // clonedFenceVinyl32.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl32.position = new BABYLON.Vector3(-12.7, 0.5, 10.2);
+                // clonedFenceVinyl32.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl32.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl32,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl33 = fenceV.clone("fenceVinyl33");
-                clonedFenceVinyl33.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl33.position = new BABYLON.Vector3(-12.7, 0.5, 13);
-                clonedFenceVinyl33.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl33.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl33,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl33 = fenceV.clone("fenceVinyl33");
+                // clonedFenceVinyl33.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl33.position = new BABYLON.Vector3(-12.7, 0.5, 13);
+                // clonedFenceVinyl33.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl33.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl33,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl34 = fenceV.clone("fenceVinyl34");
-                clonedFenceVinyl34.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl34.position = new BABYLON.Vector3(-12.7, 0.5, 15.8);
-                clonedFenceVinyl34.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl34.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl34,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl34 = fenceV.clone("fenceVinyl34");
+                // clonedFenceVinyl34.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl34.position = new BABYLON.Vector3(-12.7, 0.5, 15.8);
+                // clonedFenceVinyl34.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl34.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl34,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl35 = fenceV.clone("fenceVinyl35");
-                clonedFenceVinyl35.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl35.position = new BABYLON.Vector3(-12.7, 0.5, 18.6);
-                clonedFenceVinyl35.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl35.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl35,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl35 = fenceV.clone("fenceVinyl35");
+                // clonedFenceVinyl35.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl35.position = new BABYLON.Vector3(-12.7, 0.5, 18.6);
+                // clonedFenceVinyl35.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl35.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl35,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl36 = fenceV.clone("fenceVinyl36");
-                clonedFenceVinyl36.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl36.position = new BABYLON.Vector3(-12.7, 0.5, 21.4);
-                clonedFenceVinyl36.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl36.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl36,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl36 = fenceV.clone("fenceVinyl36");
+                // clonedFenceVinyl36.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl36.position = new BABYLON.Vector3(-12.7, 0.5, 21.4);
+                // clonedFenceVinyl36.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl36.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl36,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl37 = fenceV.clone("fenceVinyl37");
-                clonedFenceVinyl37.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl37.position = new BABYLON.Vector3(-12.7, 0.5, 24.2);
-                clonedFenceVinyl37.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl37.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl37,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl37 = fenceV.clone("fenceVinyl37");
+                // clonedFenceVinyl37.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl37.position = new BABYLON.Vector3(-12.7, 0.5, 24.2);
+                // clonedFenceVinyl37.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl37.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl37,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl38 = fenceV.clone("fenceVinyl38");
-                clonedFenceVinyl38.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl38.position = new BABYLON.Vector3(-12.7, 0.5, 27);
-                clonedFenceVinyl38.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl38.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl38,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl38 = fenceV.clone("fenceVinyl38");
+                // clonedFenceVinyl38.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl38.position = new BABYLON.Vector3(-12.7, 0.5, 27);
+                // clonedFenceVinyl38.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl38.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl38,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl39 = fenceV.clone("fenceVinyl39");
-                clonedFenceVinyl39.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl39.position = new BABYLON.Vector3(-12.7, 0.5, 28.6);
-                clonedFenceVinyl39.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl39.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl39,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl39 = fenceV.clone("fenceVinyl39");
+                // clonedFenceVinyl39.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl39.position = new BABYLON.Vector3(-12.7, 0.5, 28.6);
+                // clonedFenceVinyl39.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl39.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl39,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl40 = fenceV.clone("fenceVinyl40");
-                clonedFenceVinyl40.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl40.position = new BABYLON.Vector3(12.6, 0.5, -1);
-                clonedFenceVinyl40.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl40.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl40,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl40 = fenceV.clone("fenceVinyl40");
+                // clonedFenceVinyl40.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl40.position = new BABYLON.Vector3(12.6, 0.5, -1);
+                // clonedFenceVinyl40.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl40.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl40,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl41 = fenceV.clone("fenceVinyl41");
-                clonedFenceVinyl41.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl41.position = new BABYLON.Vector3(12.6, 0.5, 1.8);
-                clonedFenceVinyl41.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl41.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl41,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl41 = fenceV.clone("fenceVinyl41");
+                // clonedFenceVinyl41.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl41.position = new BABYLON.Vector3(12.6, 0.5, 1.8);
+                // clonedFenceVinyl41.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl41.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl41,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl42 = fenceV.clone("fenceVinyl42");
-                clonedFenceVinyl42.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl42.position = new BABYLON.Vector3(12.6, 0.5, 4.6);
-                clonedFenceVinyl42.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl42.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl42,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl42 = fenceV.clone("fenceVinyl42");
+                // clonedFenceVinyl42.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl42.position = new BABYLON.Vector3(12.6, 0.5, 4.6);
+                // clonedFenceVinyl42.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl42.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl42,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl43 = fenceV.clone("fenceVinyl43");
-                clonedFenceVinyl43.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl43.position = new BABYLON.Vector3(12.6, 0.5, 6.26);
-                clonedFenceVinyl43.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl43.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl43,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl43 = fenceV.clone("fenceVinyl43");
+                // clonedFenceVinyl43.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl43.position = new BABYLON.Vector3(12.6, 0.5, 6.26);
+                // clonedFenceVinyl43.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl43.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl43,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl44 = fenceV.clone("fenceVinyl44");
-                clonedFenceVinyl44.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl44.position = new BABYLON.Vector3(12.6, 0.5, 23.29);
-                clonedFenceVinyl44.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl44.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl44,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl44 = fenceV.clone("fenceVinyl44");
+                // clonedFenceVinyl44.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl44.position = new BABYLON.Vector3(12.6, 0.5, 23.29);
+                // clonedFenceVinyl44.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl44.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl44,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl45 = fenceV.clone("fenceVinyl45");
-                clonedFenceVinyl45.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl45.position = new BABYLON.Vector3(12.6, 0.5, 26.09);
-                clonedFenceVinyl45.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl45.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl45,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl45 = fenceV.clone("fenceVinyl45");
+                // clonedFenceVinyl45.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl45.position = new BABYLON.Vector3(12.6, 0.5, 26.09);
+                // clonedFenceVinyl45.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl45.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl45,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
 
-                var clonedFenceVinyl46 = fenceV.clone("fenceVinyl46");
-                clonedFenceVinyl46.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
-                clonedFenceVinyl46.position = new BABYLON.Vector3(12.6, 0.5, 28.65);
-                clonedFenceVinyl46.getChildMeshes().forEach((mesh) => {
-                    mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                    mesh.isPickable = false;
-                  });
-                clonedFenceVinyl46.physicsImpostor = new BABYLON.PhysicsImpostor(
-                  clonedFenceVinyl46,
-                  BABYLON.PhysicsImpostor.NoImpostor,
-                  { mass: 0, friction: 0.4, restitution: 0.2},
-                  scene
-                );
+                // var clonedFenceVinyl46 = fenceV.clone("fenceVinyl46");
+                // clonedFenceVinyl46.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(90), BABYLON.Space.WORLD);
+                // clonedFenceVinyl46.position = new BABYLON.Vector3(12.6, 0.5, 28.65);
+                // clonedFenceVinyl46.getChildMeshes().forEach((mesh) => {
+                //     mesh.checkCollisions = true;
+                //     mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                //     mesh.isPickable = false;
+                //   });
+                // clonedFenceVinyl46.physicsImpostor = new BABYLON.PhysicsImpostor(
+                //   clonedFenceVinyl46,
+                //   BABYLON.PhysicsImpostor.NoImpostor,
+                //   { mass: 0, friction: 0.4, restitution: 0.2},
+                //   scene
+                // );
             });
 
-            var home;
-            BABYLON.SceneLoader.ImportMesh("", "meshes/home/", "scene.gltf", scene, function (newMeshes) {
-                // The loaded mesh is returned as an array
-                home = newMeshes[0];
-                // Gotta do this on each mesh to make sure it isn't Pickable
-                home.getChildMeshes().forEach((mesh) => {
-                    mesh.isPickable = false;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
-                  });
-                home.isPickable = false;
-                home.scaling = new BABYLON.Vector3(0.0087, 0.0087, 0.0087);
-                home.position = new BABYLON.Vector3(17, 0.25, 15);
+            // var home;
+            // BABYLON.SceneLoader.ImportMesh("", "meshes/home/", "scene.gltf", scene, function (newMeshes) {
+            //     // The loaded mesh is returned as an array
+            //     home = newMeshes[0];
+            //     // Gotta do this on each mesh to make sure it isn't Pickable
+            //     home.getChildMeshes().forEach((mesh) => {
+            //         mesh.isPickable = false;
+            //         mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+            //       });
+            //     home.isPickable = false;
+            //     home.scaling = new BABYLON.Vector3(0.0087, 0.0087, 0.0087);
+            //     home.position = new BABYLON.Vector3(17, 0.25, 15);
                 
-                home.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
-                home.physicsImpostor.isPickable = false;
-                // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
-                home.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(270), BABYLON.Space.LOCAL);
-                });
+            //     home.physicsImpostor = new BABYLON.PhysicsImpostor(home, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction:0.4, restitution:0.1 }, scene);
+            //     home.physicsImpostor.isPickable = false;
+            //     // Alternatively, you can use the following line to spin the house 180 degrees around the Y-axis
+            //     home.rotate(BABYLON.Axis.Y, BABYLON.Tools.ToRadians(270), BABYLON.Space.LOCAL);
+            //     });
 
             // Our built-in 'sphere' shape.
-            var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-            const newColor = new BABYLON.Color3(0, 4, 1); //  blue
-            const newMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
-            newMaterial.diffuseColor = newColor;
-            sphere.material = newMaterial;
-            sphere.setParent(null);
-            sphere.isPickable = true;
-            // drop from a height
-            sphere.position.y = 15;
-            sphere.scaling = new BABYLON.Vector3(0.045, 0.045, 0.045);
-            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.2 }, scene);
-            sphere.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
-            sphere.physicsImpostor.isPickable = false;
+            // var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
+            // const newColor = new BABYLON.Color3(0, 4, 1); //  blue
+            // const newMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
+            // newMaterial.diffuseColor = newColor;
+            // sphere.material = newMaterial;
+            // sphere.setParent(null);
+            // sphere.isPickable = true;
+            // // drop from a height
+            // sphere.position.y = 15;
+            // sphere.scaling = new BABYLON.Vector3(0.045, 0.045, 0.045);
+            // sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.2 }, scene);
+            // sphere.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+            // sphere.physicsImpostor.isPickable = false;
 
-            // old strike-zone
+            // strike-zone
             var strikeZone = BABYLON.MeshBuilder.CreateBox("box", {}, scene);
             const newColorSZ = new BABYLON.Color3.FromHexString('#004fd8'); //  blue
             const newMaterialSZ = new BABYLON.StandardMaterial('szMaterial', scene);
@@ -776,8 +776,8 @@
             strikeZone.position = new BABYLON.Vector3(0, 1.4786, 0);
             strikeZone.setParent(null);
             strikeZone.isPickable = false;
-            strikeZone.physicsImpostor = new BABYLON.PhysicsImpostor(strikeZone, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
-            strikeZone.physicsImpostor.isPickable = false;
+            strikeZone.physicsAggregate = new BABYLON.PhysicsAggregate(strikeZone, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            strikeZone.physicsAggregate.isPickable = false;
 
             // strike-zone pole
             var szPole = BABYLON.MeshBuilder.CreateCapsule("szPole", {radius:0.04, capSubdivisions: 1, height:1.5, tessellation:4, topCapSubdivisions:12}, scene);
@@ -788,8 +788,8 @@
             szPole.position = new BABYLON.Vector3(0, 0.75, -0.35);
             szPole.setParent(null);
             szPole.isPickable = false;
-            szPole.physicsImpostor = new BABYLON.PhysicsImpostor(szPole, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
-            szPole.physicsImpostor.isPickable = false;
+            szPole.physicsAggregate = new BABYLON.PhysicsAggregate(szPole, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            szPole.physicsAggregate.isPickable = false;
 
             // strike-zone pole connector
             var szPole2 = BABYLON.MeshBuilder.CreateCapsule("szPole2", {radius:0.04, capSubdivisions: 1, height:0.4, tessellation:4, topCapSubdivisions:12}, scene);
@@ -802,15 +802,11 @@
             szPole2.position = new BABYLON.Vector3(0, 1.45, -0.18);
             szPole2.setParent(null);
             szPole2.isPickable = false;
-            szPole2.physicsImpostor = new BABYLON.PhysicsImpostor(szPole2, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
-            szPole2.physicsImpostor.isPickable = false;
+            szPole2.physicsAggregate = new BABYLON.PhysicsAggregate(szPole2, BABYLON.PhysicsShapeType.BOX, { mass: 0, friction: 0.2, restitution: 0.3 }, scene);
+            szPole2.physicsAggregate.isPickable = false;
 
-
-
-            // Create a material for the red color
+            // Create a material for the red color. Used on Strikezone if a strike.
             const collisionColor = new BABYLON.Color3.FromHexString('#ff010a'); // Red color
-            // const collisionMaterial = new BABYLON.StandardMaterial('collisionMaterial', scene);
-            // collisionMaterial.diffuseColor = collisionColor;
 
             var wiffleBall;
             BABYLON.SceneLoader.ImportMesh("", "meshes/wiffle_ball/", "scene.gltf", scene, function (newMeshes) {
@@ -825,29 +821,25 @@
                 newMaterial.diffuseColor = newColor;
 
                 wiffleBall.material = newMaterial;
-                // Gotta do this on each mesh to make it white/add impostors
+                // Gotta do this on each mesh to make it white/add aggregates
                 wiffleBall.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
                     mesh.material = newMaterial;
                     // mass: 0.01984165
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.SphereImpostor, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
-                    mesh.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                    mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.SPHERE, {  mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                    mesh.physicsAggregate.body = new BABYLON.PhysicsBody(mesh, mesh.physicsAggregate, { mass: 1, friction: 0.4, restitution: 0.5 });
+                    mesh.physicsAggregate.body.setLinearDamping(0.7);
+                    mesh.physicsAggregate.body.setAngularDamping(0.6);
                   });
 
                 wiffleBall.scaling = new BABYLON.Vector3(0.021, 0.021, 0.021);
                 wiffleBall.position = new BABYLON.Vector3(0, 0, 11.58);
-                wiffleBall.physicsImpostor = new BABYLON.PhysicsImpostor(wiffleBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
-                wiffleBall.physicsImpostor.forceUpdate = true;
-                wiffleBall.physicsImpostor.isPickable = false;
-                wiffleBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
-                
-
-                // Register a collision event handler
-                // if (wiffleBall.intersectsMesh(strikeZone, true)) {
-                //   newMaterialSZ.diffuseColor = collisionColor;
-                // } else {
-                //   newMaterialSZ.diffuseColor = newColorSZ;
-                // }
+                wiffleBall.physicsAggregate = new BABYLON.PhysicsAggregate(wiffleBall, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                wiffleBall.physicsAggregate.forceUpdate = true;
+                wiffleBall.physicsAggregate.isPickable = false;
+                wiffleBall.physicsAggregate.body = new BABYLON.PhysicsBody(wiffleBall, wiffleBall.physicsAggregate, { mass: 1, friction: 0.4, restitution: 0.5 });
+                wiffleBall.physicsAggregate.body.setLinearDamping(0.7);
+                wiffleBall.physicsAggregate.body.setAngularDamping(0.6);
 
             });
 
@@ -863,7 +855,6 @@
             // Set the scaling to make it one foot long (adjust the scale factor as needed)
             pitchingRubber.scaling = new BABYLON.Vector3(1, 1, 1);
 
-
             var homePlate;
             BABYLON.SceneLoader.ImportMesh("", "meshes/home_plate/", "scene.gltf", scene, function (newMeshes) {
                 // The loaded mesh is returned as an array
@@ -878,13 +869,13 @@
                 // Gotta do this on each mesh
                 homePlate.getChildMeshes().forEach((mesh) => {
                     mesh.checkCollisions = true;
-                    mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
+                    mesh.physicsAggregate= new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                     mesh.isPickable = false;
                     });
 
-                homePlate.physicsImpostor = new BABYLON.PhysicsImpostor(
+                homePlate.physicsAggregate = new BABYLON.PhysicsAggregate(
                           homePlate,
-                          BABYLON.PhysicsImpostor.NoImpostor,
+                          BABYLON.PhysicsShapeType.BOX,
                           { mass: 0, friction: 0.4, restitution: 0.2},
                           scene
                         );
@@ -935,9 +926,11 @@
                       const clonedBall = wiffleBall.clone();
                       clonedBall.position = new BABYLON.Vector3(0, 0.5, 11.58);
                       clonedBall.isVisible = true;
-                      clonedBall.physicsImpostor = new BABYLON.PhysicsImpostor(clonedBall, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
-                      clonedBall.physicsImpostor.isPickable = false;
-                      clonedBall.physicsImpostor.physicsBody.setDamping(0.7, 0.6);
+                      clonedBall.physicsAggregate = new BABYLON.PhysicsAggregate(clonedBall.mesh, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.4, restitution: 0.5 }, scene);
+                      clonedBall.physicsAggregate.body = new BABYLON.PhysicsBody(clonedBall, clonedBall.physicsAggregate, { mass: 1, friction: 0.4, restitution: 0.5 });
+                      clonedBall.physicsAggregate.body.setLinearDamping(0.7);
+                      clonedBall.physicsAggregate.body.setAngularDamping(0.6);
+                      clonedBall.physicsAggregate.isPickable = false;
                       newBall = clonedBall;
                     }
                   }
@@ -982,8 +975,8 @@
                                       meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
                                       meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
                                       oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(BABYLON.Vector3.Zero());
                                   })
                               });
                       } else if (handness === 'right') {
@@ -1008,8 +1001,8 @@
                                       meshesUnderPointer[controller.uniqueId].position.copyFrom(position);
                                       meshesUnderPointer[controller.uniqueId].position.addInPlace(tmpRay.direction);
                                       oldPos.copyFrom(meshesUnderPointer[controller.uniqueId].position);
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
-                                      meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(BABYLON.Vector3.Zero());
+                                      meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(BABYLON.Vector3.Zero());
                                   })
                               });
                       }
@@ -1031,10 +1024,10 @@
                                   vectorRight.scaleInPlace(scalingFactor);
                                   // targetRotation.scaleInPlace(scalingFactor);
 
-                                  meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.rotationQuaternion = targetRotation;
 
-                                  meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
-                                  meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(tmpVec.scale(5));
                               }
               
                           } else if (handness === 'right') {
@@ -1050,9 +1043,9 @@
                                   vectorLeft.scaleInPlace(scalingFactor);
                                   // targetRotation.scaleInPlace(scalingFactor);
 
-                                  meshesUnderPointer[controller.uniqueId].physicsImpostor.rotationQuaternion = targetRotation;
-                                  meshesUnderPointer[controller.uniqueId].physicsImpostor.setLinearVelocity(tmpVec.scale(5));
-                                  meshesUnderPointer[controller.uniqueId].physicsImpostor.setAngularVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.rotationQuaternion = targetRotation;
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setLinearVelocity(tmpVec.scale(5));
+                                  meshesUnderPointer[controller.uniqueId].physicsAggregate.body.setAngularVelocity(tmpVec.scale(5));
                               }
                           }
                       }
@@ -1111,7 +1104,7 @@
         };
 
                 window.initFunction = async function() {
-                    await Ammo();
+                    await HavokPhysics();
 
                     
                     
