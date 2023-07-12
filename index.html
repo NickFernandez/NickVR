@@ -933,9 +933,10 @@
             const oldPos = new BABYLON.Vector3();
             let newBall = null;
 
-            xr.input.onControllerAddedObservable.add((inputSource) => {
-                if (inputSource.handedness === 'left') {
-                    hand.isVisible = true;
+            xr.input.onControllerAddedObservable.add((controller) => {
+                hand.isVisible = true;
+                if (controller.inputSource.handedness === 'left') {
+                    // hand.isVisible = true;
                     hand.getChildMeshes().forEach((mesh) => {
                         mesh.isPickable = false;
                         mesh.isVisible = true;
@@ -943,7 +944,19 @@
                       });
                     
 
-                    hand.parent = inputSource.grip;
+                    hand.parent = controller.grip;
+
+                    const frameObserver = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
+                        controller.getWorldPointerRayToRef(tmpRay, true);
+                        hand.position.copyFrom(hand.absolutePosition);
+                        hand.position.addInPlace(tmpRay.direction.scaleInPlace(0.2));
+                        hand.rotationQuaternion.copyFrom(hand.parent.rotationQuaternion);
+                    });
+
+                    xr.input.onControllerRemovedObservable.add(() => {
+                        hand.isVisible = false;
+                        xr.baseExperience.sessionManager.onXRFrameObservable.remove(frameObserver);
+                    });
                     // const yButtonComponent = motionController.getComponent('y-button');
                     // yButtonComponent.onButtonStateChangedObservable.add(() => {
                     //     if (yButtonComponent.pressed) {
@@ -964,7 +977,7 @@
                     // });
                 }
 
-                inputSource.onMotionControllerInitObservable.add((motionController) => {
+                controller.onMotionControllerInitObservable.add((motionController) => {
                 const handness = motionController.handness;
                 
                 const squeezeComponent = motionController.getComponentOfType('squeeze');
@@ -972,11 +985,11 @@
                 if (squeezeComponent.changes.pressed) {
                     if (squeezeComponent.pressed) {
                         // animate position
-                        inputSource.getWorldPointerRayToRef(tmpRay, true);
+                        controller.getWorldPointerRayToRef(tmpRay, true);
                         tmpRay.direction.scaleInPlace(.15);
-                        const position = inputSource.grip ? inputSource.grip.position : inputSource.pointer.position;
+                        const position = controller.grip ? controller.grip.position : controller.pointer.position;
                         
-                        const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(inputSource.uniqueId);
+                        const meshUnderPointer = xr.pointerSelection.getMeshUnderPointer(controller.uniqueId);
                         if (!meshUnderPointer) {
                             isMeshHeld = false; // No mesh item is being held when squeezing
                             return;
@@ -990,7 +1003,7 @@
 
 
 
-                            meshLeft.setParent(inputSource.grip);
+                            meshLeft.setParent(controller.grip);
                             meshLeft.position = BABYLON.Vector3.ZeroReadOnly;
                             meshLeft.rotationQuaternion = BABYLON.Quaternion.Identity();
                             meshLeft.locallyTranslate(new BABYLON.Vector3(0.03, -0.03, 0));
@@ -1002,7 +1015,7 @@
                             //     new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                             if (!meshUnderPointer) return;
                          //   meshesUnderPointer[controller.uniqueId] = meshUnderPointer;
-                          observers[inputSource.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
+                          observers[controller.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
                           //      const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
                           //      lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                            //     controller.getWorldPointerRayToRef(tmpRay, true);
@@ -1030,7 +1043,7 @@
 
 
 
-                            meshRight.setParent(inputSource.grip);
+                            meshRight.setParent(controller.grip);
                             meshRight.position = BABYLON.Vector3.ZeroReadOnly;
                             meshRight.rotationQuaternion = BABYLON.Quaternion.Identity();
                             meshRight.locallyTranslate(new BABYLON.Vector3(-0.03, -0.03, 0));
@@ -1042,7 +1055,7 @@
                             //     new BABYLON.BezierCurveEase(0.3, -0.75, 0.7, 1.6), () => {
                             if (!meshUnderPointer) return;
                          //   meshesUnderPointer[controller.uniqueId] = meshUnderPointer;
-                          observers[inputSource.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
+                          observers[controller.uniqueId] = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
                           //      const delta = (xr.baseExperience.sessionManager.currentTimestamp - lastTimestamp);
                           //      lastTimestamp = xr.baseExperience.sessionManager.currentTimestamp;
                            //     controller.getWorldPointerRayToRef(tmpRay, true);
@@ -1067,8 +1080,7 @@
                     } else {
                         if (isMeshHeld) {
                             if (handness === 'left') {
-                                dontLoadControllerMeshes = false;
-                                xr.input.inputOptions.doNotLoadControllerMeshes = dontLoadControllerMeshes;
+
                                 meshLeft.setParent(null);
                                 meshLeft.aggregate.body.dispose();
                                 const newAggregate = new BABYLON.PhysicsAggregate(meshLeft, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, friction: 0.2, restitution: 0.2 }, scene);
@@ -1079,9 +1091,9 @@
                                 body.isPickable = false;
                                 
                                 // throw the object
-                                if (observers[inputSource.uniqueId]) {
-                                    xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[inputSource.uniqueId]);
-                                    observers[inputSource.uniqueId] = null;
+                                if (observers[controller.uniqueId]) {
+                                    xr.baseExperience.sessionManager.onXRFrameObservable.remove(observers[controller.uniqueId]);
+                                    observers[controller.uniqueId] = null;
 
                                   //  var vectorRight = new BABYLON.Vector3(3,0,0);
                                    // var targetRotation = BABYLON.Quaternion.RotationAxis(vectorRight, Math.PI / 3);
