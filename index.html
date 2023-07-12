@@ -893,7 +893,7 @@
                 //     mesh.physicsAggregate = new BABYLON.PhysicsAggregate(mesh, BABYLON.PhysicsShapeType.BOX, {  mass: 0, friction: 0.4, restitution: 0.2 }, scene);
                 //   });
                 hand.isPickable = false;
-                hand.isVisible = false;
+                // hand.isVisible = false;
                 hand.scaling = new BABYLON.Vector3(0.025, 0.025, 0.025);
                 // hand.position = new BABYLON.Vector3(0, 1, 10);
                 
@@ -944,7 +944,7 @@
                       });
                     
 
-                    hand.parent = controller.grip;
+                    hand.parent = controller.inputSource.grip;
 
                     const frameObserver = xr.baseExperience.sessionManager.onXRFrameObservable.add(() => {
                         controller.getWorldPointerRayToRef(tmpRay, true);
